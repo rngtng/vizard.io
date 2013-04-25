@@ -1,0 +1,6 @@
+#!/bin/bash
+export LEIN_HOME="vendor/lein/"
+
+ENV=$(cat .env)
+echo ${ENV}
+eval ${ENV} "${LEIN_HOME}/bin/lein" $@
