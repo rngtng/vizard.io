@@ -1,4 +1,4 @@
-(ns msc-generator-service.web
+(ns uml-generator.web
   (:require
     [cheshire.core     :as json]
     [compojure.core    :refer [defroutes GET PUT POST DELETE ANY]]

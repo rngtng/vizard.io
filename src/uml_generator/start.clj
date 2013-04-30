@@ -1,6 +1,6 @@
-(ns msc-generator-service.start
+(ns uml-generator.start
   (:require
-    [msc-generator-service.web        :as web]
+    [uml-generator.web        :as web]
     [ring.adapter.jetty :as jetty]
     [clojure.contrib.string :as string])
   (:gen-class))

@@ -1,1 +1,1 @@
-java -Dnewrelic.environment=$NEWRELIC_ENV -javaagent:vendor/newrelic/newrelic.jar -jar target/msc-generator-service-1.0.0-SNAPSHOT-standalone.jar
+web: java -jar target/uml-generator-1.0.0-SNAPSHOT-standalone.jar

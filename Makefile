@@ -19,18 +19,15 @@ package: compile
 repl:
 	${LEIN} repl
 
-migrate:
-	${LEIN} exec migrations/migrations.clj
-
 deploy:
 	git push bazooka master
 	./make/deploy.sh ${INSTANCES} ${PROCESS_TYPE}
 
 unit:
-	${LEIN} midje msc-generator-service.unit.*
+	${LEIN} midje uml-generator.unit.*
 
 integration:
-	${LEIN} midje msc-generator-service.integration.*
+	${LEIN} midje uml-generator.integration.*
 
-web:
-	${LEIN} ring server
+web: compile package
+	java -jar target/uml-generator-1.0.0-SNAPSHOT-standalone.jar
