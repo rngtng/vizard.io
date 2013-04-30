@@ -19,9 +19,6 @@ package: compile
 repl:
 	${LEIN} repl
 
-migrate:
-	${LEIN} exec migrations/migrations.clj
-
 deploy:
 	git push bazooka master
 	./make/deploy.sh ${INSTANCES} ${PROCESS_TYPE}
@@ -33,4 +30,4 @@ integration:
 	${LEIN} midje msc-generator-service.integration.*
 
 web:
-	${LEIN} ring server
+	${LEIN} trampoline run -m msc-generator-service.start
