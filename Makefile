@@ -19,9 +19,6 @@ package: compile
 repl:
 	${LEIN} repl
 
-migrate:
-	${LEIN} exec migrations/migrations.clj
-
 deploy:
 	git push bazooka master
 	./make/deploy.sh ${INSTANCES} ${PROCESS_TYPE}
