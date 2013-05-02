@@ -68,7 +68,9 @@ get '/render.:format' do
     params["c"]
   end
 
-  content_type 'image/png' if params["format"] == 'png'
+  content_type 'image/png'  if params["format"] == 'png'
+  content_type 'text/plain' if params["format"] == 'txt'
+  content_type 'text/plain' if params["format"] == 'utxt'
   render_dia(diagram_data, params["format"])
 end
 
