@@ -59,6 +59,10 @@ http://www.leonardoborges.com/writings/2009/07/01/jruby-on-rails-and-legacy-java
                cp target/UmlGenerator/WEB-INF/lib/*.jar lib
                rm -rf target/UmlGenerator*
                rm -rf src
+               for f in lib/*.jar
+               do
+                ln -s `basename $f` `echo $f | sed -e s/[0-9-]//g`
+               done
              </argument>
            </arguments>
          </configuration>
