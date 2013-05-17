@@ -1,0 +1,50 @@
+
+body {
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 400;
+  color: #666;
+}
+
+a {
+  color: #2879d0;
+}
+
+a:hover {
+  color: #2268b2;
+}
+
+h1, h2 {
+  display: inline;
+}
+
+#main {
+  padding: 10px;
+}
+
+.editor {
+  width: 450px;
+  height: 410px;
+  font-size: 12px;
+}
+
+.editor-wrapper {
+  width: 450px;
+  height: 410px;
+}
+
+.gh-forkme {
+  position: absolute; top: 0; right: 0; border: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+li
+{
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+}

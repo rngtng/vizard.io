@@ -14,10 +14,13 @@ GEM
       multi_json (~> 1.4)
       nokogiri (~> 1.5.2)
       oauth2
+    haml (4.0.2)
+      tilt
     hashie (2.0.4)
     httpauth (0.2.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
+    linecache (0.46-java)
     multi_json (1.7.2)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
@@ -46,6 +49,8 @@ GEM
     ruby-debug (0.10.4)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4)
+      linecache (>= 0.3)
     ruby-debug-base (0.10.4-java)
     sinatra (1.4.2)
       rack (~> 1.5, >= 1.5.2)
@@ -65,6 +70,7 @@ PLATFORMS
 
 DEPENDENCIES
   github_api
+  haml
   rspec
   ruby-debug
   sinatra

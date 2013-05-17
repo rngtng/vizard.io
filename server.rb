@@ -11,21 +11,26 @@ require "lib/plantuml_renderer"
 
 @@github_loader = GithubLoader.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], ENV['OAUTH_TOKEN'])
 
+CONTENT_TYPE_MAPPING = {
+  'png'  => 'image/png',
+  'txt'  => 'text/plain',
+  'utxt' => 'text/plain',
+}
+
 get '/render.:format' do
-  diagram_data = if extracts = @@github_loader.extract(params["f"])
+  diagram_data = if params["f"] && (extracts = @@github_loader.extract(params["f"]))
     @@github_loader.get_file(*extracts)
   else
     params["c"]
   end
 
-  content_type 'image/png'  if params["format"] == 'png'
-  content_type 'text/plain' if params["format"] == 'txt'
-  content_type 'text/plain' if params["format"] == 'utxt'
+  if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
+    content_type content_type_value
+  end
+
   PlantumlRenderer.render(diagram_data, params["format"])
 end
 
 get '/' do
-  <<-EOF
-  <img src="/render.png">
-  EOF
+  haml :index, :format => :html5
 end

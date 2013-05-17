@@ -13,7 +13,7 @@ class GithubLoader
   end
 
   def extract(url)
-    if m = url.match(PATTERN)
+    if m = url.to_s.match(PATTERN)
       return [m[:user], m[:repo], m[:file]]
     end
   end

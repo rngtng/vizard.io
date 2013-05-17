@@ -2,6 +2,7 @@
 source "https://rubygems.org"
 
 gem 'github_api'
+gem 'haml'
 gem 'sinatra'
 gem 'sinatra-contrib'
 
