@@ -17,18 +17,25 @@ CONTENT_TYPE_MAPPING = {
   'utxt' => 'text/plain',
 }
 
-get '/render.:format' do
-  diagram_data = if params["f"] && (extracts = @@github_loader.extract(params["f"]))
-    @@github_loader.get_file(*extracts)
-  else
-    params["c"]
-  end
-
+def render_diagram(data)
   if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
     content_type content_type_value
   end
 
-  PlantumlRenderer.render(diagram_data, params["format"])
+  PlantumlRenderer.render(data, params["format"])
+end
+
+get '/render.:format' do
+  data = if params["f"] && (extracts = @@github_loader.extract(params["f"]))
+    @@github_loader.get_file(*extracts)
+  end
+
+  render_diagram data
+end
+
+post '/render.:format' do
+  data = render_diagram(params["c"])
+  (params["base64"]) ? Base64.encode64(data) : data
 end
 
 get '/' do

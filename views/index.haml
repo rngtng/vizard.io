@@ -25,7 +25,7 @@
       %section#demo
         %table{align:"center", width:"100%"}
           %tr
-            %td{width:"450px"}
+            %td{width:"450px", valign:'top'}
               .editor-wrapper
                 .editor
                   :preserve
@@ -58,8 +58,9 @@
         var editor_div = div.find(".editor"),
         diagram_div = div.find(".diagram img"),
         on_change = function() {
-          image_url = '/render.png?c=' + encodeURIComponent(editor.getValue());
-          diagram_div.attr('src', image_url);
+          $.post('/render.png', {c:editor.getValue(), base64:true}, function(data) {
+            diagram_div.attr('src', 'data:image/png;base64,' + data);
+          });
         },
         editor = ace.edit(editor_div.get(0));
 
