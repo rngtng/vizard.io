@@ -1,6 +1,9 @@
 # encoding: utf-8
 
 require 'rubygems'
+require 'dotenv'
+Dotenv.load(ENV['ENV'].to_s, '.env.default')
+
 require 'bundler/setup'
 
 require "sinatra"

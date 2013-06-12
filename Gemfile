@@ -5,6 +5,7 @@ gem 'github_api'
 gem 'haml'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'dotenv'
 
 group :test do
   gem 'rspec'

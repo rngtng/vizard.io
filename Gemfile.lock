@@ -4,6 +4,7 @@ GEM
     backports (3.3.0)
     columnize (0.3.6)
     diff-lcs (1.2.4)
+    dotenv (0.8.0)
     eventmachine (1.0.3)
     eventmachine (1.0.3-java)
     faraday (0.8.7)
@@ -69,6 +70,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  dotenv
   github_api
   haml
   rspec
