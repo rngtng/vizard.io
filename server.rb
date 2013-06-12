@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'dotenv'
-Dotenv.load(ENV['ENV'].to_s, '.env.default')
+Dotenv.load(*[ENV['ENV'], '.env.default'].compact)
 
 require 'bundler/setup'
 
