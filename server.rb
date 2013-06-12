@@ -41,6 +41,13 @@ post '/render.:format' do
   (params["base64"]) ? Base64.encode64(data) : data
 end
 
+get '/browse' do
+  puts request.env['HTTP_REFERER']
+  puts request.referrer
+  "hi"
+  # haml :browse
+end
+
 get '/' do
   haml :index, :format => :html5
 end
