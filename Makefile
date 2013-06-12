@@ -13,6 +13,7 @@ $(JRUBY):
 	mkdir -p $(JRUBY_DIR)
 	curl -o $(JRUBY_DIR)/jruby-bin.tar.gz $(JRUBY_TARBALL)
 	cd $(JRUBY_DIR) && tar xzf jruby-bin.tar.gz --strip-components=1
+	touch $@
 
 BUNDLE_DIR=vendor/bundle
 BUNDLER_VERSION=~> 1.2.0
