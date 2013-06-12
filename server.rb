@@ -9,7 +9,8 @@ require 'bundler/setup'
 require "sinatra"
 require "sinatra/reloader" if development?
 
-require "lib/github_loader"
+require "base64"
+require "lib/github"
 require "lib/plantuml_renderer"
 
 CONTENT_TYPE_MAPPING = {
@@ -20,8 +21,10 @@ CONTENT_TYPE_MAPPING = {
 
 enable :sessions
 
+set :haml, :format => :html5
+
 def github
-  @github_loader ||= GithubLoader.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
+  @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
 end
 
 def render_diagram(data, format)
@@ -34,10 +37,15 @@ end
 
 get '/render.:format' do
   data = request.env["QUERY_STRING"]
-  if extracts = github.extract(data)
-    data = github.get_file(*extracts)
+  begin
+    if extracts = github.extract(data)
+      data = github.get_file(*extracts)
+    end
+    render_diagram(data, params["format"])
+  rescue Github::NotFound
+    session[:redirect_to] = "render.#{params["format"]}?#{data}"
+    haml :not_found, :locals => { :data => data }
   end
-  render_diagram(data, params["format"])
 end
 
 post '/render.:format' do
@@ -61,9 +69,9 @@ end
 
 get '/browse' do
 
-  haml :browse, :format => :html5
+  haml :browse
 end
 
 get '/' do
-  haml :index, :format => :html5
+  haml :index
 end

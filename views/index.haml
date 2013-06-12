@@ -1,87 +1,67 @@
-!!!
-%html{lang:"en"}
-  %head
-    %meta{charset:'utf-8'}
-    %meta{'http-equiv' => "X-UA-Compatible", :content => "chrome=1"}
-    %meta{name:"viewport", content:"width=device-width, initial-scale=1, maximum-scale=1"}
+%header
+  .inner
+    %h1 UML Generator
+    .sub
+      Graphs are generated with PlantUML - download
+      %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"}  Language Guide
 
-    /[if lt IE 9]
-      %script{src:"//html5shiv.googlecode.com/svn/trunk/html5.js"}
+  %a{href:"https://github.com/soundcloud/uml-generator"}
+    %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png", alt:"Fork me on GitHub"}
 
-    %link{rel:"stylesheet", type:"text/css", href:"css/style.css", media:"screen"}
+#main
+  %section#demo
+    %table{align:"center", width:"100%"}
+      %tr
+        %td{width:"450px", valign:'top'}
+          .editor-wrapper
+            .editor
+              :preserve
+                Andrew->China: Says Hello
+                Note right of China: China thinks\nabout it
+                China-->Andrew: How are you?
+                Andrew->>China: I am good thanks!
+          /
+            %ul
+              %li
+                %a Download as SVG
+              %li
+                %a Download as Text
 
-    %title UML Generator
+        %td.diagram{align:'left', valign:'top'}
+          %img{src:"#"}
 
-  %body
-    %header
-      .inner
-        %h1 UML Generator
+%script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
+%script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/ace.min.js", charset:"utf-8"}
+%script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/theme-crimson_editor.min.js", charset:"utf-8"}
+%script{src:"//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
 
-      %a{href:"https://github.com/soundcloud/uml-generator"}
-        %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png", alt:"Fork me on GitHub"}
-
-    #main
-      %section#demo
-        %table{align:"center", width:"100%"}
-          %tr
-            %td{width:"450px", valign:'top'}
-              .editor-wrapper
-                .editor
-                  :preserve
-                    Andrew->China: Says Hello
-                    Note right of China: China thinks\nabout it
-                    China-->Andrew: How are you?
-                    Andrew->>China: I am good thanks!
-              /
-                %ul
-                  %li
-                    %a Download as SVG
-                  %li
-                    %a Download as Text
-
-            %td.diagram{align:'left', valign:'top'}
-              %img{src:"#"}
-
-    %footer
-      %hr
-        .inner
-          Graphs are generated with help of PlantUML -
-          %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"} download Language Guide
-          | a SoundCloud 20% Project by Tobi -
-          %a{href:"https://github.com/rngtng/uml-generator"} get it from github
-
-    %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
-    %script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/ace.min.js", charset:"utf-8"}
-    %script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/theme-crimson_editor.min.js", charset:"utf-8"}
-    %script{src:"//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
-
-    :javascript
-      function setup_editor(div) {
-        var editor_div = div.find(".editor"),
-        diagram_div = div.find(".diagram img"),
-        on_change = function() {
-          $.ajax( {
-            url: '/render.png',
-            type: 'post',
-            data: editor.getSession().getValue(),
-            headers: {
-                'Accept': 'image/png;base64'
-            },
-            success: function( data ) {
-              diagram_div.attr('src', 'data:image/png;base64,' + data);
-            }
-          });
+:javascript
+  function setup_editor(div) {
+    var editor_div = div.find(".editor"),
+    diagram_div = div.find(".diagram img"),
+    on_change = function() {
+      $.ajax( {
+        url: '/render.png',
+        type: 'post',
+        data: editor.getSession().getValue(),
+        headers: {
+            'Accept': 'image/png;base64'
         },
-        editor = ace.edit(editor_div.get(0));
-
-        editor.setFontSize(10);
-        editor.setTheme("ace/theme/crimson_editor");
-        // editor.getSession().setMode("ace/mode/asciidoc");
-        editor.getSession().on('change', on_change);
-
-        on_change();
-      }
-
-      $(document).ready(function() {
-       setup_editor($('#demo'));
+        success: function( data ) {
+          diagram_div.attr('src', 'data:image/png;base64,' + data);
+        }
       });
+    },
+    editor = ace.edit(editor_div.get(0));
+
+    editor.setFontSize(10);
+    editor.setTheme("ace/theme/crimson_editor");
+    // editor.getSession().setMode("ace/mode/asciidoc");
+    editor.getSession().on('change', on_change);
+
+    on_change();
+  }
+
+  $(document).ready(function() {
+   setup_editor($('#demo'));
+  });
