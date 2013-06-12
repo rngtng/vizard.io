@@ -8,6 +8,7 @@ class GithubLoader
   def initialize(client_id, client_secret, oauth_token = nil)
     @client_id     = client_id
     @client_secret = client_secret
+    # @github = Octokit::Client.new(:login => "me", :oauth_token => oauth_token)
     @github = Github.new do |config|
       config.client_id     = @client_id
       config.client_secret = @client_secret
@@ -38,6 +39,7 @@ class GithubLoader
   end
 
   def get_file(user, repo, branch, file_path)
+    # @github.contents("#{user}/#{repo}", :path => file_path)
     Base64.decode64 @github.get_request("/repos/#{user}/#{repo}/contents/#{file_path}?ref=#{branch}").content
   end
 
