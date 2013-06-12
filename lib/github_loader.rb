@@ -1,15 +1,34 @@
 require 'github_api'
+require 'net/http'
 
 class GithubLoader
 
   PATTERN = /https?:\/\/github.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+)\/blob\/(?<branch>[^\/]+)\/(?<file>.+)/
 
-  def initialize(client_id, client_secret, oauth_token)
+  def initialize(client_id, client_secret, oauth_token = nil)
+    @client_id     = client_id
+    @client_secret = client_secret
     @github = Github.new do |config|
-      config.client_id     = client_id
-      config.client_secret = client_secret
+      config.client_id     = @client_id
+      config.client_secret = @client_secret
       config.oauth_token   = oauth_token
     end
+  end
+
+  def get_access_token(code)
+    response = post("https://github.com/login/oauth/access_token", {
+      'client_id'     => @client_id,
+      'client_secret' => @client_secret,
+      'code'          => code,
+    })
+    Rack::Utils.parse_nested_query(response.body)['access_token']
+  rescue => e
+    puts e.message
+    nil
+  end
+
+  def auth_url(scope = 'repo')
+    "https://github.com/login/oauth/authorize?client_id=#{@client_id}&scope=#{scope}"
   end
 
   def extract(url)
@@ -21,5 +40,12 @@ class GithubLoader
   def get_file(user, repo, branch, file_path)
     Base64.decode64 @github.get_request("/repos/#{user}/#{repo}/contents/#{file_path}?ref=#{branch}").content
   end
-end
 
+  private
+  def post(url, data)
+    uri = URI("https://github.com/login/oauth/access_token")
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+    https.post(uri.path, URI.encode_www_form(data))
+  end
+end

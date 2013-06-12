@@ -12,40 +12,56 @@ require "sinatra/reloader" if development?
 require "lib/github_loader"
 require "lib/plantuml_renderer"
 
-@@github_loader = GithubLoader.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], ENV['OAUTH_TOKEN'])
-
 CONTENT_TYPE_MAPPING = {
-  'png'  => 'image/png',
-  'txt'  => 'text/plain',
-  'utxt' => 'text/plain',
+  'png'        => 'image/png',
+  'txt'        => 'text/plain',
+  'utxt'       => 'text/plain',
 }
 
-def render_diagram(data)
-  if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
+enable :sessions
+
+def github
+  @github_loader ||= GithubLoader.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
+end
+
+def render_diagram(data, format)
+  if content_type_value = CONTENT_TYPE_MAPPING[format]
     content_type content_type_value
   end
 
-  PlantumlRenderer.render(data, params["format"])
+  PlantumlRenderer.render(data, format)
 end
 
 get '/render.:format' do
-  data = if params["f"] && (extracts = @@github_loader.extract(params["f"]))
-    @@github_loader.get_file(*extracts)
+  data = request.env["QUERY_STRING"]
+  if extracts = github.extract(data)
+    data = github.get_file(*extracts)
   end
-
-  render_diagram data
+  render_diagram(data, params["format"])
 end
 
 post '/render.:format' do
-  data = render_diagram(params["c"])
-  (params["base64"]) ? Base64.encode64(data) : data
+  diagram = render_diagram(request.body.string, params["format"])
+  (request.env["HTTP_ACCEPT"] =~ /base64/) ? Base64.encode64(diagram) : diagram
+end
+
+get '/auth' do
+  if code = params["code"]
+    session[:access_token] = github.get_access_token(code)
+  end
+
+  redirect_to = if session[:access_token]
+    session.delete(:redirect_to) || "/"
+  else
+    github.auth_url
+  end
+
+  redirect redirect_to
 end
 
 get '/browse' do
-  puts request.env['HTTP_REFERER']
-  puts request.referrer
-  "hi"
-  # haml :browse
+
+  haml :browse, :format => :html5
 end
 
 get '/' do

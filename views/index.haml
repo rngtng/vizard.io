@@ -60,8 +60,16 @@
         var editor_div = div.find(".editor"),
         diagram_div = div.find(".diagram img"),
         on_change = function() {
-          $.post('/render.png', {c:editor.getSession().getValue(), base64:true}, function(data) {
-            diagram_div.attr('src', 'data:image/png;base64,' + data);
+          $.ajax( {
+            url: '/render.png',
+            type: 'post',
+            data: editor.getSession().getValue(),
+            headers: {
+                'Accept': 'image/png;base64'
+            },
+            success: function( data ) {
+              diagram_div.attr('src', 'data:image/png;base64,' + data);
+            }
           });
         },
         editor = ace.edit(editor_div.get(0));
