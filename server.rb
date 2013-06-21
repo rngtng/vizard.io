@@ -14,9 +14,9 @@ require "lib/github"
 require "lib/plantuml_renderer"
 
 CONTENT_TYPE_MAPPING = {
-  'png'        => 'image/png',
-  'txt'        => 'text/plain',
-  'utxt'       => 'text/plain',
+  'png'  => 'image/png',
+  'txt'  => 'text/plain',
+  'utxt' => 'text/plain',
 }
 
 enable :sessions
@@ -73,5 +73,6 @@ get '/browse' do
 end
 
 get '/' do
-  haml :index
+  diagram = File.read('public/default.wsd')
+  haml :index, :locals => { :diagram => diagram }
 end

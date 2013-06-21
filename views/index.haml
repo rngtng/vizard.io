@@ -12,14 +12,10 @@
   %section#demo
     %table{align:"center", width:"100%"}
       %tr
-        %td{width:"450px", valign:'top'}
+        %td{valign:'top'}
           .editor-wrapper
-            .editor
-              :preserve
-                Andrew->China: Says Hello
-                Note right of China: China thinks\nabout it
-                China-->Andrew: How are you?
-                Andrew->>China: I am good thanks!
+            .editor= Rack::Utils.escape(diagram)
+
           /
             %ul
               %li
@@ -52,8 +48,13 @@
         }
       });
     },
-    editor = ace.edit(editor_div.get(0));
+    urldecode = function (url) {
+      return decodeURIComponent(url.replace(/\+/g, ' '));
+    },
+    editor = ace.edit(editor_div.get(0)),
+    defaultValue = editor.getSession().getValue();
 
+    editor.getSession().setValue(urldecode(defaultValue));
     editor.setFontSize(10);
     editor.setTheme("ace/theme/crimson_editor");
     // editor.getSession().setMode("ace/mode/asciidoc");
