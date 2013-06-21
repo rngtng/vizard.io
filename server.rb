@@ -73,6 +73,16 @@ get '/browse' do
 end
 
 get '/' do
-  diagram = File.read('public/default.wsd')
+  data = request.env["QUERY_STRING"]
+  begin
+    diagram = if extracts = github.extract(data)
+      github.get_file(*extracts)
+    else
+      File.read('public/default.wsd')
+    end
+  rescue Github::NotFound
+    session[:redirect_to] = "render.#{params["format"]}?#{data}"
+    haml :not_found, :locals => { :data => data }
+  end
   haml :index, :locals => { :diagram => diagram }
 end
