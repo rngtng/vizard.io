@@ -27,9 +27,7 @@
           %img{src:"#"}
 
 %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
-%script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/ace.min.js", charset:"utf-8"}
-%script{src:"//cdnjs.cloudflare.com/ajax/libs/ace/0.2.0/theme-crimson_editor.min.js", charset:"utf-8"}
-%script{src:"//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"}
+%script{src:"/javascript/ace/ace.js"}
 
 :javascript
   function setup_editor(div) {
@@ -56,9 +54,8 @@
 
     editor.getSession().setValue(urldecode(defaultValue));
     editor.setFontSize(10);
-    editor.setTheme("ace/theme/crimson_editor");
-    // editor.getSession().setMode("ace/mode/asciidoc");
     editor.getSession().on('change', on_change);
+    editor.setTheme("ace/theme/github");
 
     on_change();
   }
