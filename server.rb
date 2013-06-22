@@ -27,30 +27,40 @@ def github
   @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
 end
 
-def render_diagram(data, format)
-  if content_type_value = CONTENT_TYPE_MAPPING[format]
+# ---------------------------------------------------
+
+before do
+  data = request.env["QUERY_STRING"]
+  @diagram_data = if extracts = github.extract(data)
+    github.get_file(*extracts)
+  else
+   request.body.string
+  end
+
+  if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
     content_type content_type_value
   end
-
-  PlantumlRenderer.render(data, format)
 end
 
-get '/render.:format' do
-  data = request.env["QUERY_STRING"]
-  begin
-    if extracts = github.extract(data)
-      data = github.get_file(*extracts)
-    end
-    render_diagram(data, params["format"])
-  rescue Github::NotFound
-    session[:redirect_to] = "render.#{params["format"]}?#{data}"
-    haml :not_found, :locals => { :data => data }
+after do
+  if request.env["HTTP_ACCEPT"] =~ /base64/
+    body Base64.encode64(body.first)
   end
+end
+
+error Github::NotFound do
+  session[:redirect_to] = "/render.#{params["format"]}?#{data}"
+  haml :not_found, :locals => { :data => data }
+end
+
+# ---------------------------------------------------
+
+get '/render.:format' do
+  body PlantumlRenderer.render(@diagram_data, params["format"])
 end
 
 post '/render.:format' do
-  diagram = render_diagram(request.body.string, params["format"])
-  (request.env["HTTP_ACCEPT"] =~ /base64/) ? Base64.encode64(diagram) : diagram
+  body PlantumlRenderer.render(@diagram_data, params["format"])
 end
 
 get '/auth' do
@@ -73,16 +83,6 @@ get '/browse' do
 end
 
 get '/' do
-  data = request.env["QUERY_STRING"]
-  begin
-    diagram = if extracts = github.extract(data)
-      github.get_file(*extracts)
-    else
-      File.read('public/default.wsd')
-    end
-  rescue Github::NotFound
-    session[:redirect_to] = "render.#{params["format"]}?#{data}"
-    haml :not_found, :locals => { :data => data }
-  end
-  haml :index, :locals => { :diagram => diagram }
+  @diagram_data ||= File.read('public/default.wsd')
+  haml :edit, :locals => { :diagram => @diagram_data }
 end

@@ -16,6 +16,28 @@
           .editor-wrapper
             .editor= Rack::Utils.escape(diagram)
 
+
+            .bubble-contents
+              .merge-message
+
+                %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
+                %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update order_create.wsd", name:"message"}
+                %input.js-commit-message-fallback{type:"hidden", name:"placeholder_message", value:"Update order_create.wsd"}
+
+                %label.commit-message-label{for:"commit-description-textarea"}
+                  Extended description: <small>(optional)</small>
+                %textarea#commit-description-textarea.commit-message{name:"description"}
+
+                .author
+                  %img{height:"30", src:"https://secure.gravatar.com/avatar/b28a9e4acc2389914fd62dca939b5d2a?s=140&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png", width:"30"}
+                  %strong.author-name
+                    %a{href:"/rngtng"} rngtng
+                  %span.author-email tobi@soundcloud.com
+
+                .merge-branch-form-actions
+                  %button#submit-file.button.primary.js-blob-submit{type:"submit"}
+                    Commit Changes
+
           /
             %ul
               %li
@@ -24,7 +46,7 @@
                 %a Download as Text
 
         %td.diagram{align:'left', valign:'top'}
-          %img{src:"#", width:'100%', border:1}
+          %img{src:"#", border:1}
 
 %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
 %script{src:"/javascript/ace/ace.js"}
