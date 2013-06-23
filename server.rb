@@ -22,21 +22,32 @@ CONTENT_TYPE_MAPPING = {
 enable :sessions
 
 set :haml, :format => :html5
+# set :raise_errors, false
+set :show_exceptions, false
 
-def github
-  @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
+helpers do
+  def github
+    @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'], session[:access_token])
+  end
+
+  def user
+    session[:user]
+  end
+
+  def diagram_data
+    data = request.env["QUERY_STRING"]
+    if extracts = github.extract(data)
+      @github_file = data
+      github.get_file(*extracts)
+    elsif !request.body.string.empty?
+      request.body.string
+    end
+  end
 end
 
 # ---------------------------------------------------
 
 before do
-  data = request.env["QUERY_STRING"]
-  @diagram_data = if extracts = github.extract(data)
-    github.get_file(*extracts)
-  else
-   request.body.string
-  end
-
   if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
     content_type content_type_value
   end
@@ -49,23 +60,24 @@ after do
 end
 
 error Github::NotFound do
-  session[:redirect_to] = "/render.#{params["format"]}?#{data}"
-  haml :not_found, :locals => { :data => data }
+  session[:redirect_to] = request.url
+  haml :not_found, :locals => { :github_file => @github_file }
 end
 
 # ---------------------------------------------------
 
 get '/render.:format' do
-  body PlantumlRenderer.render(@diagram_data, params["format"])
+  body PlantumlRenderer.render(diagram_data, params["format"])
 end
 
 post '/render.:format' do
-  body PlantumlRenderer.render(@diagram_data, params["format"])
+  body PlantumlRenderer.render(diagram_data, params["format"])
 end
 
 get '/auth' do
   if code = params["code"]
     session[:access_token] = github.get_access_token(code)
+    session[:user] = github.get_user
   end
 
   redirect_to = if session[:access_token]
@@ -82,7 +94,12 @@ get '/browse' do
   haml :browse
 end
 
+get '/logout' do
+  session[:access_token] = nil
+  redirect '/'
+end
+
 get '/' do
-  @diagram_data ||= File.read('public/default.wsd')
-  haml :edit, :locals => { :diagram => @diagram_data }
+  diagram = diagram_data || File.read('public/default.wsd')
+  haml :edit, :locals => { :user => user, :github_file => @github_file, :diagram => diagram }
 end

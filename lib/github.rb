@@ -36,10 +36,19 @@ class Github
   end
 
   def get_file(user, repo, branch, file_path)
-    @github = Octokit::Client.new(:oauth_token => @oauth_token)
-    @github.contents "#{user}/#{repo}", :path => file_path, :accept => 'application/vnd.github.raw'
+    client.contents "#{user}/#{repo}", :path => file_path, :accept => 'application/vnd.github.raw'
   rescue Octokit::BadGateway, Octokit::NotFound
     raise NotFound
+  end
+
+  def get_user
+    user = client.user
+    {
+      :login      => user.login,
+      :url        => user.html_url,
+      :email      => user.email,
+      :avatar_url => user.avatar_url,
+    }
   end
 
   private
@@ -48,5 +57,9 @@ class Github
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
     https.post(uri.path, URI.encode_www_form(data))
+  end
+
+  def client
+    Octokit::Client.new(:oauth_token => @oauth_token)
   end
 end

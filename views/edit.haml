@@ -2,7 +2,7 @@
   .inner
     %h1 UML Generator
     .sub
-      Graphs are generated with PlantUML - download
+      Sequence Graphs generated with PlantUML - download
       %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"}  Language Guide
 
   %a{href:"https://github.com/soundcloud/uml-generator"}
@@ -15,46 +15,50 @@
         %td{valign:'top', width:"500px"}
           .editor-wrapper
             .editor= Rack::Utils.escape(diagram)
+        %td{align:'left', valign:'top'}
+          %ul
+            %li
+              %a Download as SVG
+            %li
+              %a Download as Text
+            %li
+              %a.fancybox{href:"#new-commit"} Save to GitHub
 
+          .diagram
+            %a.fancybox{href:"#"}
+              %img{src:"#", border:1}
 
-            .bubble-contents
-              .merge-message
+#new-commit.new-commit
+  .bubble
+    .bubble-contents
+      .merge-message
 
-                %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
-                %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update order_create.wsd", name:"message"}
-                %input.js-commit-message-fallback{type:"hidden", name:"placeholder_message", value:"Update order_create.wsd"}
+        %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
+        %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update order_create.wsd", name:"message"}
+        %input.js-commit-message-fallback{type:"hidden", name:"placeholder_message", value:"Update order_create.wsd"}
 
-                %label.commit-message-label{for:"commit-description-textarea"}
-                  Extended description: <small>(optional)</small>
-                %textarea#commit-description-textarea.commit-message{name:"description"}
+        %label.commit-message-label{for:"commit-description-textarea"}
+          Extended description: <small>(optional)</small>
+        %textarea#commit-description-textarea.commit-message{name:"description"}
 
-                .author
-                  %img{height:"30", src:"https://secure.gravatar.com/avatar/b28a9e4acc2389914fd62dca939b5d2a?s=140&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png", width:"30"}
-                  %strong.author-name
-                    %a{href:"/rngtng"} rngtng
-                  %span.author-email tobi@soundcloud.com
+        .author
+          %img{height:"30", src:user[:avatar_url], width:"30"}
+          %strong.author-name
+            %a{href:user[:url]}= user[:login]
+          %span.author-email= user[:email]
 
-                .merge-branch-form-actions
-                  %button#submit-file.button.primary.js-blob-submit{type:"submit"}
-                    Commit Changes
-
-          /
-            %ul
-              %li
-                %a Download as SVG
-              %li
-                %a Download as Text
-
-        %td.diagram{align:'left', valign:'top'}
-          %img{src:"#", border:1}
+        .merge-branch-form-actions
+          %button#submit-file.button.primary.js-blob-submit{type:"submit"}
+            Commit Changes
 
 %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
 %script{src:"/javascript/ace/ace.js"}
+%script{src:"/javascript/fancybox/jquery.fancybox.pack.js?v=2.1.5"}
 
 :javascript
   function setup_editor(div) {
     var editor_div = div.find(".editor"),
-    diagram_div = div.find(".diagram img"),
+    diagram_div = div.find(".diagram"),
     on_change = function() {
       $.ajax( {
         url: '/render.png',
@@ -64,7 +68,8 @@
             'Accept': 'image/png;base64'
         },
         success: function( data ) {
-          diagram_div.attr('src', 'data:image/png;base64,' + data);
+          diagram_div.find('a').attr('href', 'data:image/png;base64,' + data);
+          diagram_div.find('img').attr('src', 'data:image/png;base64,' + data);
         }
       });
     },
@@ -85,5 +90,6 @@
   }
 
   $(document).ready(function() {
-   setup_editor($('#demo'));
+    $(".fancybox").fancybox();
+    setup_editor($('#demo'));
   });

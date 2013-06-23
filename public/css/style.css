@@ -30,10 +30,6 @@ li
   max-width:100%;
 }
 
-#main {
-  padding: 10px;
-}
-
 .editor {
   width: 500px;
   height: 600px;
@@ -49,10 +45,6 @@ li
   position: absolute; top: 0; right: 0; border: 0;
 }
 
-.center {
-  text-align: center;
-}
-
 .github-auth {
   margin-top: 50px;
 }
@@ -61,3 +53,40 @@ li
   margin-left: 20px;
   display: inline;
 }
+
+#new-commit {
+  display: none;
+}
+
+.bubble{padding:3px;background:#eee;border-radius:3px}
+.bubble .comment-form{margin:0}
+.bubble .action-bar{width:100%;padding:2px 3px 5px 3px;text-align:right;margin-left:-3px;border-bottom:1px solid #ccc;min-height:26px}
+.bubble .action-bar .minibutton:last-child{margin-right:2px}
+.bubble .action-bar h3{margin:5px 0 0 5px;float:left;font-size:10px;font-weight:bold}
+.bubble .file-box{margin-bottom:0}
+.button.dark-grey,.button.dark-grey:hover,.minibutton.dark-grey,.minibutton.dark-grey:hover{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background-color:#6d6d6d;background-image:-moz-linear-gradient(#8c8c8c, #6d6d6d);background-image:-webkit-linear-gradient(#8c8c8c, #6d6d6d);background-image:linear-gradient(#8c8c8c, #6d6d6d);background-repeat:repeat-x;border:1px solid #707070;border-bottom-color:#595959}
+.merge-branch,.new-commit{padding-left:60px}
+.merge-status-icon,.new-commit-icon{float:left;margin-left:-60px;width:48px;height:48px;color:#fff;text-align:center;text-shadow:0 1px 0 rgba(0,0,0,0.1);border-radius:3px;background-color:#999;box-shadow:inset 0 1px 1px rgba(0,0,0,0.1)}
+.merge-status-icon .mega-octicon,.new-commit-icon .mega-octicon{margin-top:8px}
+.merge-status-icon .octicon-git-merge{display:none}
+.merge-branch .bubble,.new-commit .bubble{position:relative}
+.merge-branch .bubble:after,.new-commit .bubble:after{position:absolute;top:15px;right:100%;content:" ";height:0;width:0;pointer-events:none;border:solid transparent;border-right-color:#eee;border-width:10px}
+.merge-branch .mergeable,.new-commit .bubble-contents{padding:15px 11px;background-color:#fff;border:1px solid #c5c5c5;border-radius:1px}
+
+.commit-message-summary-label,.commit-message-label{color:#666}
+.commit-message-summary,.commit-message{margin:5px 0 10px;width:100%;font-family:Monaco, "Liberation Mono", Courier, monospace;font-size:16px}
+.commit-message{min-height:100px}
+.author{float:left;padding:2px 0 0 36px;font-size:12px;line-height:15px;color:#999}
+.author img{float:left;margin-left:-36px;border-radius:3px}
+.author .author-email{display:block}
+.merge-branch-form-actions{text-align:right}
+.button{position:relative;display:inline-block;padding:7px 15px;font-size:13px;font-weight:bold;color:#333;text-shadow:0 1px 0 rgba(255,255,255,0.9);white-space:nowrap;background-color:#eaeaea;background-image:-moz-linear-gradient(#fafafa, #eaeaea);background-image:-webkit-linear-gradient(#fafafa, #eaeaea);background-image:linear-gradient(#fafafa, #eaeaea);background-repeat:repeat-x;border-radius:3px;border:1px solid #ddd;border-bottom-color:#c5c5c5;box-shadow:0 1px 3px rgba(0,0,0,0.05);vertical-align:middle;cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-appearance:none}
+.button:hover,.button:active,.minibutton:hover,.minibutton:active{text-decoration:none;background-color:#dadada;background-image:-moz-linear-gradient(#eaeaea, #dadada);background-image:-webkit-linear-gradient(#eaeaea, #dadada);background-image:linear-gradient(#eaeaea, #dadada);background-repeat:repeat-x;border-color:#ccc #ccc #b5b5b5}
+.button:active,.minibutton:active{background-color:#dadada;background-image:none;border-color:#b5b5b5;box-shadow:inset 0 3px 5px rgba(0,0,0,0.15)}
+.button:disabled,.button:disabled:hover,.button.disabled,.button.disabled:hover,.minibutton:disabled,.minibutton:disabled:hover,.minibutton.disabled,.minibutton.disabled:hover{opacity:.5;color:#666;text-shadow:0 1px 0 rgba(255,255,255,0.9);background-image:none;background-color:#e5e5e5;border-color:#c5c5c5;cursor:default;box-shadow:none}
+.button.primary,.minibutton.primary{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background-color:#60b044;background-image:-moz-linear-gradient(#8add6d, #60b044);background-image:-webkit-linear-gradient(#8add6d, #60b044);background-image:linear-gradient(#8add6d, #60b044);background-repeat:repeat-x;border-color:#5ca941}
+.button.primary:hover,.minibutton.primary:hover{color:#fff;background-color:#569e3d;background-image:-moz-linear-gradient(#79d858, #569e3d);background-image:-webkit-linear-gradient(#79d858, #569e3d);background-image:linear-gradient(#79d858, #569e3d);background-repeat:repeat-x;border-color:#4a993e}
+.button.primary:active,.minibutton.primary:active{background-color:#569e3d;background-image:none;border-color:#418737}
+.button.primary:disabled,.button.primary:disabled:hover,.button.primary.disabled,.button.primary.disabled:hover,.minibutton.primary:disabled,.minibutton.primary:disabled:hover,.minibutton.primary.disabled,.minibutton.primary.disabled:hover{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background-color:#60b044;background-image:-moz-linear-gradient(#8add6d, #60b044);background-image:-webkit-linear-gradient(#8add6d, #60b044);background-image:linear-gradient(#8add6d, #60b044);background-repeat:repeat-x;border-color:#74bb5a #74bb5a #509338}
+.button img{position:relative;top:-1px;margin-right:3px;vertical-align:middle}
+
