@@ -2,17 +2,17 @@
   .inner
     %h1 UML Generator
     .sub
-      Sequence Graphs generated with PlantUML - download
-      %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"}  Language Guide
+      Graphs generated with PlantUML - download
+      %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"} Language Guide
 
   %a{href:"https://github.com/soundcloud/uml-generator"}
-    %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png", alt:"Fork me on GitHub"}
+    %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png", alt:"Fork me on GitHub"}
 
 #main
   %section#demo
     %table{align:"center", width:"100%"}
       %tr
-        %td{valign:'top', width:"500px"}
+        %td{valign:'top', width:"600px"}
           .editor-wrapper
             .editor= Rack::Utils.escape(diagram)
         %td{align:'left', valign:'top'}

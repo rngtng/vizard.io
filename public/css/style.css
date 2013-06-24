@@ -31,18 +31,22 @@ li
 }
 
 .editor {
-  width: 500px;
+  width: 600px;
   height: 600px;
   font-size: 10px;
 }
 
 .editor-wrapper {
-  width: 500px;
+  width: 600px;
   height: 600px;
 }
 
 .gh-forkme {
-  position: absolute; top: 0; right: 0; border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  width: 120px;
 }
 
 .github-auth {

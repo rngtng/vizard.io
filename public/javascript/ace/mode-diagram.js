@@ -77,8 +77,7 @@ var DiagramHighlightRules = function() {
     );
 
     var keywordMapper = this.createKeywordMapper({
-        "support.function": builtinFunctions,
-        "keyword": keywords,
+        "support.function": keywords + "|" + builtinFunctions,
         "constant.language": builtinConstants
     }, "identifier", true);
 
