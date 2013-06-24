@@ -21,8 +21,9 @@
               %a Download as SVG
             %li
               %a Download as Text
-            %li
-              %a.fancybox{href:"#new-commit"} Save to GitHub
+            - unless github_file.empty?
+              %li
+                %a.js-save.fancybox{href:"#new-commit"} Save to GitHub
 
           .diagram
             %a.fancybox{href:"#"}
@@ -32,24 +33,25 @@
   .bubble
     .bubble-contents
       .merge-message
+        %form{action:"/update?#{github_file}", method:"POST"}
+          %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
+          %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update #{File.basename(github_file)}", name:"message"}
+          %input{type:"hidden", name:"placeholder_message", value:"Update #{File.basename(github_file)}"}
+          %input{type:"hidden", name:"content"}
 
-        %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
-        %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update order_create.wsd", name:"message"}
-        %input.js-commit-message-fallback{type:"hidden", name:"placeholder_message", value:"Update order_create.wsd"}
+          %label.commit-message-label{for:"commit-description-textarea"}
+            Extended description: <small>(optional)</small>
+          %textarea#commit-description-textarea.commit-message{name:"description"}
 
-        %label.commit-message-label{for:"commit-description-textarea"}
-          Extended description: <small>(optional)</small>
-        %textarea#commit-description-textarea.commit-message{name:"description"}
+          .author
+            %img{height:"30", src:user[:avatar_url], width:"30"}
+            %strong.author-name
+              %a{href:user[:url]}= user[:login]
+            %span.author-email= user[:email]
 
-        .author
-          %img{height:"30", src:user[:avatar_url], width:"30"}
-          %strong.author-name
-            %a{href:user[:url]}= user[:login]
-          %span.author-email= user[:email]
-
-        .merge-branch-form-actions
-          %button#submit-file.button.primary.js-blob-submit{type:"submit"}
-            Commit Changes
+          .merge-branch-form-actions
+            %button#submit-file.button.primary.js-blob-submit{type:"submit"}
+              Commit Changes
 
 %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
 %script{src:"/javascript/ace/ace.js"}
@@ -60,6 +62,7 @@
     var editor_div = div.find(".editor"),
     diagram_div = div.find(".diagram"),
     on_change = function() {
+      $('input[name="content"]').val(editor.getSession().getValue());
       $.ajax( {
         url: '/render.png',
         type: 'post',
@@ -83,6 +86,13 @@
     editor.getSession().setValue(urldecode(defaultValue));
     editor.setFontSize(10);
     editor.setTheme("ace/theme/github");
+    editor.commands.addCommand({
+      name: 'save',
+      bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+      exec: function(editor) {
+        $('a.js-save').click();
+      }
+    })
 
     editor.getSession().setMode('ace/mode/diagram');
     editor.getSession().on('change', on_change);

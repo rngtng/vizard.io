@@ -34,11 +34,14 @@ helpers do
     session[:user]
   end
 
-  def diagram_data
+  def github_file
     data = request.env["QUERY_STRING"]
-    if extracts = github.extract(data)
-      @github_file = data
-      github.get_file(*extracts)
+    github.valid_file?(data) ? data : nil
+  end
+
+  def diagram_data
+    if github_file
+      github.get_file(github_file)
     elsif !request.body.string.empty?
       request.body.string
     end
@@ -61,7 +64,7 @@ end
 
 error Github::NotFound do
   session[:redirect_to] = request.url
-  haml :not_found, :locals => { :github_file => @github_file }
+  haml :not_found, :locals => { :github_file => github_file.to_s }
 end
 
 # ---------------------------------------------------
@@ -99,7 +102,18 @@ get '/logout' do
   redirect '/'
 end
 
+post '/update' do
+  commit_message = params[:message].empty? ? params[:placeholder_message] : params[:message]
+  unless params[:description].empty?
+    commit_message += "\n\n#{params[:description]}"
+  end
+
+  github.update_file(github_file, commit_message, params[:content])
+
+  redirect "/?#{github_file}"
+end
+
 get '/' do
   diagram = diagram_data || File.read('public/default.wsd')
-  haml :edit, :locals => { :user => user, :github_file => @github_file, :diagram => diagram }
+  haml :edit, :locals => { :user => user, :github_file => github_file.to_s, :diagram => diagram }
 end

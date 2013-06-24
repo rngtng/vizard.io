@@ -1,7 +1,7 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem 'octokit'
+gem 'octokit', :git => 'https://github.com/octokit/octokit.rb.git', :branch => "master"
 gem 'haml'
 gem 'sinatra'
 gem 'sinatra-contrib'

@@ -69,8 +69,6 @@ li
 .bubble .action-bar h3{margin:5px 0 0 5px;float:left;font-size:10px;font-weight:bold}
 .bubble .file-box{margin-bottom:0}
 .button.dark-grey,.button.dark-grey:hover,.minibutton.dark-grey,.minibutton.dark-grey:hover{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background-color:#6d6d6d;background-image:-moz-linear-gradient(#8c8c8c, #6d6d6d);background-image:-webkit-linear-gradient(#8c8c8c, #6d6d6d);background-image:linear-gradient(#8c8c8c, #6d6d6d);background-repeat:repeat-x;border:1px solid #707070;border-bottom-color:#595959}
-.merge-branch,.new-commit{padding-left:60px}
-.merge-status-icon,.new-commit-icon{float:left;margin-left:-60px;width:48px;height:48px;color:#fff;text-align:center;text-shadow:0 1px 0 rgba(0,0,0,0.1);border-radius:3px;background-color:#999;box-shadow:inset 0 1px 1px rgba(0,0,0,0.1)}
 .merge-status-icon .mega-octicon,.new-commit-icon .mega-octicon{margin-top:8px}
 .merge-status-icon .octicon-git-merge{display:none}
 .merge-branch .bubble,.new-commit .bubble{position:relative}
