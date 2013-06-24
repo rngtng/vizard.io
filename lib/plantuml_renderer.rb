@@ -8,6 +8,26 @@ java_import 'net.sourceforge.plantuml.FileFormat'
 java_import 'java.io.ByteArrayOutputStream'
 java_import 'java.io.FileOutputStream'
 
+DEFAULTS = <<-EOF
+
+skinparam sequenceArrowColor #FF3300
+skinparam sequenceLifeLineBorderColor #FF3300
+skinparam sequenceLifeLineBackgroundColor #FF3300
+
+skinparam sequenceParticipantBorderColor #CCCCCC
+skinparam sequenceParticipantBackgroundColor #CCCCCC
+
+skinparam sequenceActorBorderColor #CCCCCC
+skinparam sequenceActorBackgroundColor #CCCCCC
+
+skinparam sequenceBoxBorderColor #00AAFF
+skinparam sequenceBoxBackgroundColor #00AAFF
+
+skinparam noteBorderColor #F2F2F2
+skinparam noteBackgroundColor #F2F2F2
+
+EOF
+
 module PlantumlRenderer
   extend self
 
@@ -23,7 +43,7 @@ module PlantumlRenderer
 
   def decorate(string)
     return string if string =~ /@startuml/
-    "@startuml\n #{string}\n @enduml"
+    "@startuml\n #{DEFAULTS} #{string}\n @enduml"
   end
 
   def render(diagram_data, format = 'svg')

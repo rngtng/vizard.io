@@ -3,7 +3,7 @@
 title Creator Gifts v2 - Order Show
 
 participant SoundCloud as C
-box "MotherShip" #LightBlue
+box "MotherShip"
   participant PublicApi as API
   participant PaymentService as PS
 end box

@@ -34,14 +34,14 @@ helpers do
     session[:user]
   end
 
-  def github_file
+  def github_path
     data = request.env["QUERY_STRING"]
-    github.valid_file?(data) ? data : nil
+    github.valid?(data) ? data : nil
   end
 
   def diagram_data
-    if github_file
-      github.get_file(github_file)
+    if github_path
+      github.get_content(github_path)
     elsif !request.body.string.empty?
       request.body.string
     end
@@ -64,7 +64,7 @@ end
 
 error Github::NotFound do
   session[:redirect_to] = request.url
-  haml :not_found, :locals => { :github_file => github_file.to_s }
+  haml :not_found, :locals => { :github_path => github_path.to_s }
 end
 
 # ---------------------------------------------------
@@ -92,11 +92,6 @@ get '/auth' do
   redirect redirect_to
 end
 
-get '/browse' do
-
-  haml :browse
-end
-
 get '/logout' do
   session[:access_token] = nil
   redirect '/'
@@ -108,12 +103,20 @@ post '/update' do
     commit_message += "\n\n#{params[:description]}"
   end
 
-  github.update_file(github_file, commit_message, params[:content])
+  github.update_file(github_path, commit_message, params[:content])
 
-  redirect "/?#{github_file}"
+  redirect "/?#{github_path}"
+end
+
+get '/edit' do
+  diagram = diagram_data || File.read('public/default.wsd')
+  haml :edit, :locals => { :user => user, :github_path => github_path.to_s, :diagram => diagram }
+end
+
+get '/content' do
+  github.get_content(github_path).to_json
 end
 
 get '/' do
-  diagram = diagram_data || File.read('public/default.wsd')
-  haml :edit, :locals => { :user => user, :github_file => github_file.to_s, :diagram => diagram }
+  haml :index
 end

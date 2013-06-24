@@ -7,7 +7,7 @@ class Github
   class NotFound < StandardError; end
   class Invalid < StandardError; end
 
-  PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/blob\/(?<branch>[^\/]+)\/(?<file>.+)/
+  PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/(blob|tree)\/(?<branch>[^\/]+)\/(?<file>.+)/
 
   def initialize(client_id, client_secret, oauth_token = nil)
     @client_id     = client_id
@@ -31,21 +31,32 @@ class Github
     "https://github.com/login/oauth/authorize?client_id=#{@client_id}&scope=#{scope}"
   end
 
-  def valid_file?(github_file)
-    extract(github_file)
+  def valid?(github_path)
+    extract(github_path)
   rescue Invalid
     false
   end
 
-  def get_file(github_file)
-    user_repo, branch, file_path = extract(github_file)
+  def get_content(github_path)
+    user_repo, branch, file_path = extract(github_path)
     client.contents(user_repo, :path => file_path, :ref => branch, :accept => 'application/vnd.github.raw')
   rescue Octokit::BadGateway, Octokit::NotFound
     raise NotFound
   end
 
-  def get_raw_file(github_file)
-    user_repo, branch, file_path = extract(github_file)
+  # def get_dir(github_path)
+  #   get_file(github_path).inject({}) do |hash, dir|
+  #     # url._links.inspect
+  #     puts dir.html_url
+  #     hash[dir.name] =  (dir.type == 'dir') ? get_dir(dir.html_url) : dir.html_url
+  #     hash
+  #   end
+  # rescue NoMethodError
+  #   {}
+  # end
+
+  def get_raw_file(github_path)
+    user_repo, branch, file_path = extract(github_path)
     client.contents(user_repo, :path => file_path, :ref => branch)
   rescue Octokit::BadGateway, Octokit::NotFound
     raise NotFound
@@ -61,9 +72,9 @@ class Github
     }
   end
 
-  def update_file(github_file, commit_message, content)
-    if file = get_raw_file(github_file)
-      user_repo, branch, file_path = extract(github_file)
+  def update_file(github_path, commit_message, content)
+    if file = get_raw_file(github_path)
+      user_repo, branch, file_path = extract(github_path)
       r = client.update_contents(user_repo, file_path, commit_message, file.sha, content, :branch => branch)
       puts r.inspect
     end

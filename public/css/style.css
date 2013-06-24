@@ -19,7 +19,11 @@ h1 {
   display: inline;
 }
 
-li
+img.preview {
+  max-width:100%;
+}
+
+.menu
 {
   display: inline;
   list-style-type: none;
