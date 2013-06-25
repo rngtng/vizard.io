@@ -1,6 +1,6 @@
 %header
   .inner
-    %h1 UML Generator
+    %h1 Visulazr
     .sub
       Graphs generated with PlantUML - download
       %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"} Language Guide
@@ -9,16 +9,13 @@
     %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png", alt:"Fork me on GitHub"}
 
 #main
-  #leftCol
-    %section#navigation
-      %ul
+  #editor
+    .editor-wrapper
+      .editor
 
-    %section#editor
-      .editor-wrapper
-        .editor
+  #navigation
 
-  #rightCol
-    %section#view
+  #view
 
 #new-commit.new-commit
   .bubble
@@ -26,8 +23,8 @@
       .merge-message
         %form{action:"/update?#{github_path}", method:"POST"}
           %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
-          %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update #{File.basename(github_path)}", name:"message"}
-          %input{type:"hidden", name:"placeholder_message", value:"Update #{File.basename(github_path)}"}
+          %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update", name:"message"}
+          %input{type:"hidden", name:"placeholder_message", value:"Update"}
           %input{type:"hidden", name:"content"}
 
           %label.commit-message-label{for:"commit-description-textarea"}
@@ -51,7 +48,7 @@
 :javascript
 
   $(document).ready(function() {
-    loadContent($('ul'), '/content' + window.location.search);
+    loadContent($('#navigation'), $('#view'), '/content' + window.location.search);
     $(".fancybox").fancybox();
     setup_editor($('#editor'));
   });

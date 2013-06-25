@@ -1,12 +1,12 @@
 html, body, * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 html {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 body {
@@ -17,25 +17,35 @@ body {
   color: #666;
 }
 
-#leftCol {
-    background: #ddd;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 75%;
-    overflow: hidden;
-    padding: 2em;
+header {
+  position:fixed;
+  top: 0px;
+  margin: auto;
+  z-index:100000;
+  width:100%;
+  background-color: #E2E2E2;
 }
-#rightCol {
-    background: #bbb;
-    position: absolute;
-    left: 25%;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    overflow-y: auto;
-    padding: 2em;
+
+#navigation {
+  background: #ddd;
+  position: absolute;
+  left: 0;
+  top: 30px;
+  bottom: 0;
+  width: 500px;
+  overflow: hidden;
+  padding: 2em;
+}
+
+#view {
+  background: #bbb;
+  position: absolute;
+  left: 500px;
+  top: 30px;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  padding: 2em;
 }
 
 
@@ -56,12 +66,6 @@ h1 {
   display: inline;
 }
 
-section {
-  position:relative;
-  float: left;
-  overflow: hidden;
-}
-
 #editor {
   display: none;
 }
@@ -71,15 +75,6 @@ section {
   margin-bottom: 20px;
   max-width: 100%;
 }
-
-
-.menu
-{
-  display: inline;
-  list-style-type: none;
-  padding-right: 20px;
-}
-
 
 .editor {
   width: 600px;
@@ -93,7 +88,7 @@ section {
 }
 
 .gh-forkme {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   border: 0;
@@ -103,8 +98,6 @@ section {
 .github-auth {
   margin-top: 50px;
 }
-
-
 
 #new-commit {
   display: none;

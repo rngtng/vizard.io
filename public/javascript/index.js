@@ -1,24 +1,25 @@
-  var loadFileHandler = function(event) {
-    event.preventDefault();
-    var elem = $(this);
-    $('#view a').attr('href', elem.attr('href'));
-    $('#view img').attr('src', elem.attr('href'));
-  },
-  loadContent = function(parent, url) {
+  var loadContent = function(parent, image, url) {
+    parent = $('<ul></ul>').appendTo(parent);
+    image = $('<ul></ul>').appendTo(image);
     $.ajax({
       url: url,
       dataType: 'json',
       success: function(data) {
         $.each(data, function(index, dir) {
           if (dir.type == 'dir') {
-            elem = $('<li>' + dir.name + '<ul></ul></li>').appendTo(parent);
-            loadContent(elem.find("ul"), '/content?' + dir.html_url);
+            elem = $('<li>' + dir.name + '</li>').appendTo(parent);
+            elem_image = $('<li></li>').appendTo(image);
+            loadContent(elem, elem_image, '/content?' + dir.html_url);
           }
-          else if (/.wsd/.test(dir.name)) {
-            $('<li><a href="/edit?' + dir.html_url + '">(e)</a> <a class="show" href="/render.png?' + dir.html_url + '">' + dir.name + '</a></li>')
-              .appendTo(parent)
-              .find('a.show').click(loadFileHandler);
-            $('#view').append('<a><img src="/render.png?' + dir.html_url + '"></a><br>');
+          else if (/.wsd$/.test(dir.name)) {
+            var myImage = $('<li class="' + dir.name +'"><a><img src="/render.png?' + dir.html_url + '"></a></li>').appendTo(image),
+            myNav = $('<li><a href="/edit?' + dir.html_url + '">(e)</a> </li>').appendTo(parent);
+            $('<a class="show" href="/render.png?' + dir.html_url + '">' + dir.name + '</a>')
+              .appendTo(myNav)
+              .click(function(event) {
+                event.preventDefault();
+                $('#view').scrollTo( myImage, 800, {easing:'swing'} );
+              });
           }
         });
       }
