@@ -1,14 +1,8 @@
-  var loadDirHandler = function(event) {
-    var elem = $(this);
+  var loadFileHandler = function(event) {
     event.preventDefault();
-    if (elem.hasClass("js-loaded")) {
-      elem.parent().find("ul").empty();
-      elem.removeClass("js-loaded");
-    }
-    else {
-      loadContent(elem.parent().find("ul"), elem.attr('href'));
-      elem.addClass("js-loaded");
-    }
+    var elem = $(this);
+    $('#view a').attr('href', elem.attr('href'));
+    $('#view img').attr('src', elem.attr('href'));
   },
   loadContent = function(parent, url) {
     $.ajax({
@@ -17,14 +11,14 @@
       success: function(data) {
         $.each(data, function(index, dir) {
           if (dir.type == 'dir') {
-            $('<li><a href="/content?' + dir.html_url + '">' + dir.name + '</a><ul></ul></li>')
-              .appendTo(parent)
-              .find('a').click(loadDirHandler);
+            elem = $('<li>' + dir.name + '<ul></ul></li>').appendTo(parent);
+            loadContent(elem.find("ul"), '/content?' + dir.html_url);
           }
           else if (/.wsd/.test(dir.name)) {
-            $('<li><a href="/edit?' + dir.html_url + '">' + dir.name + '</a></li>')
+            $('<li><a href="/edit?' + dir.html_url + '">(e)</a> <a class="show" href="/render.png?' + dir.html_url + '">' + dir.name + '</a></li>')
               .appendTo(parent)
-              .find('a').click(loadFileHandler);
+              .find('a.show').click(loadFileHandler);
+            $('#view').append('<a><img src="/render.png?' + dir.html_url + '"></a><br>');
           }
         });
       }
@@ -68,9 +62,3 @@
     editor.getSession().on('change', on_change);
     on_change();
   };
-
-  $(document).ready(function() {
-    loadContent($('ul.parent'), '/content' + window.location.search);
-    $(".fancybox").fancybox();
-    setup_editor($('#demo'));
-  });

@@ -46,15 +46,15 @@ helpers do
       request.body.string
     end
   end
+
+  def set_content_type(format)
+    if content_type_value = CONTENT_TYPE_MAPPING[format]
+      content_type content_type_value
+    end
+  end
 end
 
 # ---------------------------------------------------
-
-before do
-  if content_type_value = CONTENT_TYPE_MAPPING[params["format"]]
-    content_type content_type_value
-  end
-end
 
 after do
   if request.env["HTTP_ACCEPT"] =~ /base64/
@@ -70,10 +70,12 @@ end
 # ---------------------------------------------------
 
 get '/render.:format' do
+  set_content_type params["format"]
   body PlantumlRenderer.render(diagram_data, params["format"])
 end
 
 post '/render.:format' do
+  set_content_type params["format"]
   body PlantumlRenderer.render(diagram_data, params["format"])
 end
 

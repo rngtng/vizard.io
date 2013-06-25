@@ -21,7 +21,7 @@ skinparam sequenceActorBorderColor #CCCCCC
 skinparam sequenceActorBackgroundColor #CCCCCC
 
 skinparam sequenceBoxBorderColor #00AAFF
-skinparam sequenceBoxBackgroundColor #00AAFF
+skinparam sequenceBoxBackgroundColor #LightBlue
 
 skinparam noteBorderColor #F2F2F2
 skinparam noteBackgroundColor #F2F2F2

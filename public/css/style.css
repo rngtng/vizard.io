@@ -1,3 +1,13 @@
+html, body, * {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
 
 body {
   font-size: 15px;
@@ -6,6 +16,28 @@ body {
   font-weight: 400;
   color: #666;
 }
+
+#leftCol {
+    background: #ddd;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 75%;
+    overflow: hidden;
+    padding: 2em;
+}
+#rightCol {
+    background: #bbb;
+    position: absolute;
+    left: 25%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    padding: 2em;
+}
+
 
 a {
   color: #2879d0;
@@ -19,9 +51,27 @@ h1 {
   display: inline;
 }
 
-img.preview {
-  max-width:100%;
+.sub {
+  margin-left: 20px;
+  display: inline;
 }
+
+section {
+  position:relative;
+  float: left;
+  overflow: hidden;
+}
+
+#editor {
+  display: none;
+}
+
+#view img {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
 
 .menu
 {
@@ -30,9 +80,6 @@ img.preview {
   padding-right: 20px;
 }
 
-.diagram img {
-  max-width:100%;
-}
 
 .editor {
   width: 600px;
@@ -57,10 +104,7 @@ img.preview {
   margin-top: 50px;
 }
 
-.sub {
-  margin-left: 20px;
-  display: inline;
-}
+
 
 #new-commit {
   display: none;
