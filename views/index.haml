@@ -1,45 +1,8 @@
-%header
-  .inner
-    %h1 Visulazr
-    .sub
-      Graphs generated with PlantUML - download
-      %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"} Language Guide
+#editor
 
-  %a{href:"https://github.com/soundcloud/uml-generator"}
-    %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png", alt:"Fork me on GitHub"}
+#navigation
 
-#main
-  #editor
-    .editor-wrapper
-      .editor
-
-  #navigation
-
-  #view
-
-#new-commit.new-commit
-  .bubble
-    .bubble-contents
-      .merge-message
-        %form{action:"/update?#{github_path}", method:"POST"}
-          %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
-          %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update", name:"message"}
-          %input{type:"hidden", name:"placeholder_message", value:"Update"}
-          %input{type:"hidden", name:"content"}
-
-          %label.commit-message-label{for:"commit-description-textarea"}
-            Extended description: <small>(optional)</small>
-          %textarea#commit-description-textarea.commit-message{name:"description"}
-
-          .author
-            %img{height:"30", src:user[:avatar_url], width:"30"}
-            %strong.author-name
-              %a{href:user[:url]}= user[:login]
-            %span.author-email= user[:email]
-
-          .merge-branch-form-actions
-            %button#submit-file.button.primary.js-blob-submit{type:"submit"}
-              Commit Changes
+#view
 
 %script{src:"/javascript/ace/ace.js"}
 %script{src:"/javascript/fancybox/jquery.fancybox.pack.js?v=2.1.5"}
@@ -50,5 +13,6 @@
   $(document).ready(function() {
     loadContent($('#navigation'), $('#view'), '/content' + window.location.search);
     $(".fancybox").fancybox();
-    setup_editor($('#editor'));
+    setup_editor('editor');
+    setup_nav($('body'), $("#navigation"))
   });

@@ -7,30 +7,41 @@
       success: function(data) {
         $.each(data, function(index, dir) {
           if (dir.type == 'dir') {
-            elem = $('<li>' + dir.name + '</li>').appendTo(parent);
-            elem_image = $('<li></li>').appendTo(image);
-            loadContent(elem, elem_image, '/content?' + dir.html_url);
+            var elemImage = $('<li>' + dir.name + '</li>')
+              .appendTo(image),
+            elem = $('<li>' + dir.name + '</li>')
+              .appendTo(parent);
+
+            loadContent(elem, elemImage, '/content?' + dir.html_url);
           }
           else if (/.wsd$/.test(dir.name)) {
-            var myImage = $('<li class="' + dir.name +'"><a><img src="/render.png?' + dir.html_url + '"></a></li>').appendTo(image),
-            myNav = $('<li><a href="/edit?' + dir.html_url + '">(e)</a> </li>').appendTo(parent);
+            var elemImage2 = $('<li><a href="/edit?' + dir.html_url + '"><img src="/render.png?' + dir.html_url + '"></a></li>')
+              .appendTo(image)
+              .find('a').click(function(event) {
+                event.preventDefault();
+              })
+              .dblclick(function(event) {
+                $('#editor').toggle();
+                $('#navigation').toggle();
+                $('#view').scrollTo( elemImage2, 800, {easing:'swing'} );
+              });
+            elem2 = $('<li></li>').appendTo(parent);
             $('<a class="show" href="/render.png?' + dir.html_url + '">' + dir.name + '</a>')
-              .appendTo(myNav)
+              .appendTo(elem2)
               .click(function(event) {
                 event.preventDefault();
-                $('#view').scrollTo( myImage, 800, {easing:'swing'} );
+                $('#view').scrollTo( elemImage2, 800, {easing:'swing'} );
               });
           }
         });
       }
     });
   },
-  setup_editor = function (div) {
-    var editor_div = div.find(".editor"),
-    diagram_div = div.find(".diagram"),
-    editor = ace.edit(editor_div.get(0)),
-    defaultValue = editor.getSession().getValue(),
-    on_change = function() {
+  setup_editor = function(div) {
+    var diagram_div = $(".diagram"),
+    editor          = ace.edit(div),
+    defaultValue    = editor.getSession().getValue(),
+    on_change       = function() {
       $('input[name="content"]').val(editor.getSession().getValue());
       $.ajax( {
         url: '/render.png',
@@ -62,4 +73,12 @@
     editor.getSession().setMode('ace/mode/diagram');
     editor.getSession().on('change', on_change);
     on_change();
+  },
+  setup_nav = function(element, target) {
+   console.log("hi");
+   element.mousewheel(function(event, delta, deltaX, deltaY) {
+      console.log(deltaX);
+      if (deltaX > 50 ) { target.hide("drop"); }
+      if (deltaX < -50 ) { target.show("drop"); }
+    });
   };
