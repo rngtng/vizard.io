@@ -22,6 +22,7 @@ CONTENT_TYPE_MAPPING = {
 
 enable :sessions
 
+set :session_secret, "everybody-loves-uml"
 set :haml, :format => :html5
 set :show_exceptions, :after_handler
 
