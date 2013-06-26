@@ -2,13 +2,14 @@
 
 require 'rubygems'
 require 'dotenv'
-Dotenv.load(*[ENV['ENV'], '.env.default'].compact)
+Dotenv.load(ENV['ENV'] || '.env')
 
 require 'bundler/setup'
 
 require "sinatra"
 require "sinatra/reloader" if development?
 
+require 'haml'
 require "base64"
 require "lib/github"
 require "lib/plantuml_renderer"
@@ -22,8 +23,7 @@ CONTENT_TYPE_MAPPING = {
 enable :sessions
 
 set :haml, :format => :html5
-# set :raise_errors, false
-set :show_exceptions, false
+set :show_exceptions, :after_handler
 
 helpers do
   def github
@@ -64,7 +64,7 @@ end
 
 error Github::NotFound do
   session[:redirect_to] = request.url
-  haml :not_found, :locals => { :github_path => github_path.to_s }
+  haml(:not_found, :locals => { :github_path => "" })
 end
 
 # ---------------------------------------------------
@@ -120,5 +120,6 @@ get '/content' do
 end
 
 get '/' do
+  diagram_data
   haml :index
 end

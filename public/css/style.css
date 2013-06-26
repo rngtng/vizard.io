@@ -88,8 +88,13 @@ h1 {
   max-width: 100%;
 }
 
+#main {
+  with: 300px;
+  margin: 50px;
+}
+
 .github-auth {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .bubble{padding:3px;background:#eee;border-radius:3px}
