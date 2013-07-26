@@ -1,4 +1,42 @@
-  var loadContent = function(parent, image, url) {
+  var  setup_editor = function(div) {
+    var diagram_div = $(".diagram"),
+    editor          = ace.edit(div),
+    defaultValue    = editor.getSession().getValue(),
+    on_change       = function() {
+      $('input[name="content"]').val(editor.getSession().getValue());
+      $.ajax( {
+        url: '/render.png',
+        type: 'post',
+        data: editor.getSession().getValue(),
+        headers: {
+            'Accept': 'image/png;base64'
+        },
+        success: function( data ) {
+          diagram_div.find('a').attr('href', 'data:image/png;base64,' + data);
+          diagram_div.find('img').attr('src', 'data:image/png;base64,' + data);
+        }
+      });
+    },
+    urldecode = function (url) {
+      return decodeURIComponent(url.replace(/\+/g, ' '));
+    };
+
+    editor.getSession().setValue(urldecode(defaultValue));
+    editor.setFontSize(10);
+    editor.setTheme("ace/theme/github");
+    editor.getSession().setMode('ace/mode/diagram');
+    editor.commands.addCommand({
+      name: 'save',
+      bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+      exec: function(editor) {
+        $('a.js-save').click();
+      }
+    });
+    // editor.getSession().on('change', on_change);
+    // on_change();
+  },
+
+  loadContent = function(parent, image, url) {
     parent = $('<ul></ul>').appendTo(parent);
     image = $('<ul></ul>').appendTo(image);
     $.ajax({
@@ -37,45 +75,7 @@
       }
     });
   },
-  setup_editor = function(div) {
-    var diagram_div = $(".diagram"),
-    editor          = ace.edit(div),
-    defaultValue    = editor.getSession().getValue(),
-    on_change       = function() {
-      $('input[name="content"]').val(editor.getSession().getValue());
-      $.ajax( {
-        url: '/render.png',
-        type: 'post',
-        data: editor.getSession().getValue(),
-        headers: {
-            'Accept': 'image/png;base64'
-        },
-        success: function( data ) {
-          diagram_div.find('a').attr('href', 'data:image/png;base64,' + data);
-          diagram_div.find('img').attr('src', 'data:image/png;base64,' + data);
-        }
-      });
-    },
-    urldecode = function (url) {
-      return decodeURIComponent(url.replace(/\+/g, ' '));
-    };
-
-    editor.getSession().setValue(urldecode(defaultValue));
-    editor.setFontSize(10);
-    editor.setTheme("ace/theme/github");
-    editor.commands.addCommand({
-      name: 'save',
-      bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-      exec: function(editor) {
-        $('a.js-save').click();
-      }
-    });
-    editor.getSession().setMode('ace/mode/diagram');
-    editor.getSession().on('change', on_change);
-    on_change();
-  },
   setup_nav = function(element, target) {
-   console.log("hi");
    element.mousewheel(function(event, delta, deltaX, deltaY) {
       console.log(deltaX);
       if (deltaX > 50 ) { target.hide("drop"); }

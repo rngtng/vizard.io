@@ -6,11 +6,12 @@ Dotenv.load(ENV['ENV'] || '.env')
 
 require 'bundler/setup'
 
-require "sinatra"
-require "sinatra/reloader" if development?
+require 'sinatra'
+require 'sinatra/reloader' if development?
 
 require 'haml'
-require "base64"
+require 'less'
+require 'base64'
 require "lib/github"
 require "lib/plantuml_renderer"
 
@@ -69,6 +70,9 @@ error Github::NotFound do
 end
 
 # ---------------------------------------------------
+get '/css/style.css' do
+  less :'style.css'
+end
 
 get '/render.:format' do
   set_content_type params["format"]

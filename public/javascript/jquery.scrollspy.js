@@ -9,7 +9,7 @@
  */
 (function($) {
 
-	var jWindow = $('#browse');
+	var jWindow = $('.browse .content');
 	var elements = [];
 	var elementsInView = [];
 	var isSpying = false;
