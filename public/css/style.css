@@ -3,7 +3,7 @@ html, body, * {
   margin: 0;
 }
 
-html, body, .wrap {
+html, body {
   width: 100%;
   height: 100%;
 }
@@ -14,88 +14,81 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
   font-weight: 400;
   color: #666;
+  overflow: hidden;
+  width: 200%;
 }
 
 header {
+  position: fixed;
+  height: 40px;
   width: 100%;
-  height: 50px;
   background-color: #E2E2E2;
 }
 
-.gh-forkme {
-  position: fixed;
-  top: 0;
-  right: 0;
-  border: 0;
-  width: 120px;
+/*------------------------------- */
+
+.edit {
+  float: left;
+  width: 100%;
+  height: 100%;
+  margin-left: -100%;
 }
 
-#editor {
-  float: left;
+.edit .editor, .edit .view {
+  padding-top: 60px;
+  height: 100%;
+}
+
+.edit .editor {
+  float:left;
   width: 500px;
-  height: 100%;
-  overflow: hidden;
-  display: none;
 }
 
-#navigation {
-  float: left;
-  width: 200px;
-  height: 100%;
-  overflow: hidden;
-  padding: 10px;
-  display: none;
+.edit .view {
+  width: 100%;
 }
 
-#view {
-  background-color: #fefefe;
+/*------------------------------- */
+
+.browse {
+  width: 50%;
   height: 100%;
   overflow-y: scroll;
-  padding: 10px;
+}
+
+.browse .navigation {
+  position: fixed;
+  margin-left: 0;
+  z-index: 999;
+}
+
+.browse .navigation .menu {
+  margin: 60px;
+  width: 100px;
+}
+
+.browse .view {
+  padding: 20px;
+  padding-top: 60px;
   text-align: center;
 }
 
-a {
-  color: #2879d0;
+.browse .view img {
+  height: 500px;
+  width: 500px;
 }
 
-a:hover {
-  color: #2268b2;
-}
+/*------------------------------- */
 
-h1 {
-  display: inline;
-}
+.green  { background-color: green; }
+.red    { background-color: red; }
+.blue   { background-color: blue; }
+.yellow { background-color: yellow; }
+.gray   { background-color: gray; }
 
-.sub {
-  margin-left: 20px;
-  display: inline;
-}
+/*------------------------------- */
 
-#new-commit {
-  display: none;
-}
-
-#view ul {
-  margin-bottom: 50px;
-}
-
-#view li {
-  margin-bottom: 50px;
-}
-
-#view img {
-  max-width: 100%;
-}
-
-#main {
-  with: 300px;
-  margin: 50px;
-}
-
-.github-auth {
-  margin-top: 20px;
-}
+.github-auth { margin-top: 20px; }
 
 .bubble{padding:3px;background:#eee;border-radius:3px}
 .bubble .comment-form{margin:0}

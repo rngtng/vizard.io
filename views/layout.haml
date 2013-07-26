@@ -8,28 +8,78 @@
     /[if lt IE 9]
       %script{src:"//html5shiv.googlecode.com/svn/trunk/html5.js"}
 
-    %script{src:"//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"}
-    %script{src:"//code.jquery.com/ui/1.10.3/jquery-ui.js"}
-    %script{src:"//demos.flesler.com/jquery/scrollTo/js/jquery.scrollTo-min.js"}
-    %script{src:"//brandonaaron.github.io/jquery-mousewheel/jquery.mousewheel.js"}
-
     %link{rel:"stylesheet", type:"text/css", href:"css/auth-buttons.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"css/style.css", media:"screen"}
-
     %link{rel:"stylesheet", type:"text/css", href:"javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
     %title UML Generator - Graphs generated with PlantUML
 
   %body
-    / .wrap
-    /   %header
-    /     .inner
-    /       %h1 Visulazr
-    /       .sub
-    /         Graphs generated with PlantUML - download
-    /         %a{href:"http://sourceforge.net/projects/plantuml/files/PlantUML%20Language%20Reference%20Guide.pdf/download"} Language Guide
+    %header
+      UML Generator - Graphs generated with PlantUML
 
-    /     %a{href:"https://github.com/soundcloud/uml-generator"}
-    /       %img.gh-forkme{src:"//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png", alt:"Fork me on GitHub"}
+    .edit.green
+      .editor.blue
+        #editor
+          test test
 
-    = yield
+      .view.red
+        %a{href:""} done
+
+    .browse.blue
+      .navigation
+        .menu.yellow
+          %ul
+            %li
+              %a{href:'#view1'} 1
+            %li
+              %a{href:'#view2'} 2
+            %li
+              %a{href:'#view3'} 3
+
+      .view.red
+        %ul
+          %li#view1
+            %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
+          %li#view2
+            %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
+          %li#view3
+            %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
+
+    %script{src:"/javascript/jquery.min.js"}
+    %script{src:"/javascript/jquery.scrollTo-min.js"}
+    %script{src:"/javascript/jquery.scrollspy.js"}
+    / %script{src:"//brandonaaron.github.io/jquery-mousewheel/jquery.mousewheel.js"}
+    %script{src:"/javascript/ace/ace.js"}
+    %script{src:"/javascript/fancybox/jquery.fancybox.pack.js?v=2.1.5"}
+    %script{src:"/javascript/index.js"}
+
+    :javascript
+      $(document).ready(function() {
+
+        $('.browse .navigation a').click(function(event) {
+          event.preventDefault();
+          element_id = $(this).attr('href');
+          $('.browse').scrollTo( $('.browse .view ' + element_id), 800, {easing:'swing'} );
+        });
+
+        $('.browse .view li').on('scrollSpy:enter', function() {
+            // console.log('enter:', $(this).attr('id'));
+        }).on('scrollSpy:exit', function() {
+            // console.log('exit:', $(this).attr('id'));
+        }).dblclick(function(event) {
+          $('.edit').animate({'margin-left':'0'}, 500);
+          $('.navigation').animate({'margin-left':'100%'}, 500);
+        }).scrollSpy();
+
+        $('.edit .view a').click(function(event) {
+          $('.edit').animate({'margin-left':'-100%'}, 500);
+          $('.navigation').animate({'margin-left':'0'}, 500);
+        });
+
+        // loadContent($('#navigation'), $('#view'), '/content' + window.location.search);
+        //$(".fancybox").fancybox();
+        //setup_editor('editor');
+        //setup_nav($('body'), $("#navigation"))
+      });
+
