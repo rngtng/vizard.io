@@ -42,7 +42,7 @@ module PlantumlRenderer
   }
 
   def decorate(string)
-    return string if string =~ /@startuml/
+    return string if string =~ /@start/
     "@startuml\n #{DEFAULTS} #{string}\n @enduml"
   end
 

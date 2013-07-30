@@ -104,27 +104,28 @@ get '/logout' do
   redirect '/'
 end
 
-post '/update' do
-  commit_message = params[:message].empty? ? params[:placeholder_message] : params[:message]
-  unless params[:description].empty?
-    commit_message += "\n\n#{params[:description]}"
-  end
-
-  github.update_file(github_path, commit_message, params[:content])
-
-  redirect "/?#{github_path}"
-end
-
-get '/edit' do
-  diagram = diagram_data || File.read('public/default.wsd')
-  haml :edit, :locals => { :user => user, :github_path => github_path.to_s, :diagram => diagram }
-end
-
-get '/content' do
-  github.get_content(github_path).to_json
-end
-
 get '/' do
-  diagram_data
   haml :index
 end
+
+
+# post '/update' do
+#   commit_message = params[:message].empty? ? params[:placeholder_message] : params[:message]
+#   unless params[:description].empty?
+#     commit_message += "\n\n#{params[:description]}"
+#   end
+
+#   github.update_file(github_path, commit_message, params[:content])
+
+#   redirect "/?#{github_path}"
+# end
+
+# get '/edit' do
+#   diagram = diagram_data || File.read('public/default.wsd')
+#   haml :edit, :locals => { :user => user, :github_path => github_path.to_s, :diagram => diagram }
+# end
+
+# get '/content' do
+#   github.get_content(github_path).to_json
+# end
+
