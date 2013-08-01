@@ -1,6 +1,6 @@
 build: .make.bundle
 
-JRUBY_VERSION=1.7.1
+JRUBY_VERSION=1.7.3
 JRUBY_TARBALL=http://files.int.s-cloud.net/jruby/jruby-bin-$(JRUBY_VERSION).tar.gz
 JRUBY_DIR=vendor/jruby-$(JRUBY_VERSION)
 JRUBY=$(JRUBY_DIR)/bin/jruby

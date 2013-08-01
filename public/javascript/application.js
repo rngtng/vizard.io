@@ -36,8 +36,18 @@ var setup_editor = function(div, diagramDiv) {
 };
 
 $(document).ready(function() {
-  setup_editor('editor', $(".edit .content"));
+
+  // setup_editor('editor', $(".edit .content"));
   $(".fancybox").fancybox();
+
+  $('.content a').click(function(event){
+      event.preventDefault();
+      var width = 1010,
+      height = 590,
+      leftPosition = (screen.width) ? (screen.width - width) / 2 : 0;
+      topPosition = (screen.height) ? (screen.height - height) / 2 : 0;
+      window.open(this.href, "Github Login", 'width='+width+',height='+height+',top='+topPosition+',left='+leftPosition);
+  });
 });
 
   // $('.browse .navigation a').click(function(event) {
