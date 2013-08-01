@@ -15,18 +15,20 @@
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
-  %body
+  %body.flex
     %header
-      .header
-        %h1
-          UML Generator - Graphs generated with PlantUML
-        .content
-          %a{href:'/auth'} login
+      %h1
+        UML Generator - Graphs generated with PlantUML
+      .content
+        .login
+          %a{href:'/login'} login
 
-    .edit.green
-      .editor.blue
+        .logout
+          %a{href:'#'} logout
+
+    .edit.flex.green
+      .editor.flex1.blue
         #editor A -> B A -> B
-
 
       .view.red
         .content.yellow
@@ -58,7 +60,10 @@
     %script{src:"/javascript/jquery.min.js"}
     %script{src:"/javascript/jquery.scrollTo-min.js"}
     %script{src:"/javascript/jquery.scrollspy.js"}
+    %script{src:"/javascript/jquery.cookie.js"}
     / %script{src:"//brandonaaron.github.io/jquery-mousewheel/jquery.mousewheel.js"}
-    %script{src:"/javascript/ace/ace.js"}
     %script{src:"/javascript/fancybox/jquery.fancybox.pack.js?v=2.1.5"}
+    %script{src:"/javascript/ace/ace.js"}
+    %script{src:"/javascript/underscore-min.js"}
+    %script{src:"/javascript/github.js"}
     %script{src:"/javascript/application.js"}

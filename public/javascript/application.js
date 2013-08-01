@@ -1,3 +1,17 @@
+window.login = function(token) {
+  $.cookie('github_token', token, { expires: 7 });
+  window.github = new Github({
+    token: token,
+    auth: "oauth"
+  });
+  window.github.getUser().show(null, function(err, user) {
+    // update_user(user);
+  });
+  if ((githubUrl = window.location.href.split("?")[1])) {
+    load_repo(githubUrl);
+  }
+};
+
 var setup_editor = function(div, diagramDiv) {
   var editor   = ace.edit(div),
   defaultValue = editor.getSession().getValue(),
@@ -33,21 +47,44 @@ var setup_editor = function(div, diagramDiv) {
   });
   editor.getSession().on('change', on_change);
   on_change();
+},
+start_login = function(url) {
+  var width = 1010,
+  height = 590,
+  leftPosition = (screen.width) ? (screen.width - width) / 2 : 0;
+  topPosition = (screen.height) ? (screen.height - height) / 2 : 0;
+  window.open(url, "Github Login", 'width='+width+',height='+height+',top='+topPosition+',left='+leftPosition);
+},
+load_repo = function(url) {
+  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)\/(.+)"),
+  extracts = pattern.exec(url),
+  repo = window.github.getRepo(extracts[1], extracts[2]);
+
+  console.log(extracts);
+  console.log(repo);
+
+  repo.read(extracts[4], extracts[5], function(err, data) {
+    console.log(data);
+  });
 };
 
 $(document).ready(function() {
-
-  // setup_editor('editor', $(".edit .content"));
+  setup_editor('editor', $(".edit .content"));
   $(".fancybox").fancybox();
 
-  $('.content a').click(function(event){
-      event.preventDefault();
-      var width = 1010,
-      height = 590,
-      leftPosition = (screen.width) ? (screen.width - width) / 2 : 0;
-      topPosition = (screen.height) ? (screen.height - height) / 2 : 0;
-      window.open(this.href, "Github Login", 'width='+width+',height='+height+',top='+topPosition+',left='+leftPosition);
+  $('.login a').click(function(event){
+    event.preventDefault();
+    start_login(this.href);
   });
+
+  $('.logout a').click(function(event){
+    event.preventDefault();
+    window.github = null;
+  });
+
+  if ((token = $.cookie('github_token'))) {
+    login(token);
+  }
 });
 
   // $('.browse .navigation a').click(function(event) {

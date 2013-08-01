@@ -84,24 +84,12 @@ post '/render.:format' do
   body PlantumlRenderer.render(diagram_data, params["format"])
 end
 
-get '/auth' do
+get '/login' do
   if code = params["code"]
-    session[:access_token] = github.get_access_token(code)
-    session[:user] = github.get_user
-  end
-
-  redirect_to = if session[:access_token]
-    session.delete(:redirect_to) || "/"
+    haml :login, :locals => { :access_token => github.get_access_token(code) }
   else
-    github.auth_url
+    redirect github.auth_url
   end
-
-  redirect redirect_to
-end
-
-get '/logout' do
-  session[:access_token] = nil
-  redirect '/'
 end
 
 get '/' do
