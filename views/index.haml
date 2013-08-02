@@ -15,19 +15,21 @@
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
-  %body.browsing.flex
+  %body.browsing
     %header.gradient
       %h1
         UML Generator - Graphs generated with PlantUML
       .content
+        .save
+          %a.fancybox{href:"#new-commit"} Save to GitHub
         .login
           %a{href:'/login'} login
 
         .logout
           %a{href:'#'} logout
 
-    .edit.flex.green
-      .editor.flex1.blue
+    .edit.green
+      .editor.blue
         #editor A -> B A -> B
 
       .view.red
@@ -44,6 +46,28 @@
       .view.red
         .content
           %ul
+
+    #new-commit.new-commit.hidden
+      .bubble
+        .bubble-contents
+          .merge-message
+            %form{action:"/update", method:"POST"}
+              %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
+              %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update", name:"message"}
+
+              %label.commit-message-label{for:"commit-description-textarea"}
+                Extended description: <small>(optional)</small>
+              %textarea#commit-description-textarea.commit-message{name:"description"}
+
+              .author
+                %img{height:"30", src:'', width:"30"}
+                %strong.author-name
+                  %a{href:''}
+                %span.author-email
+
+              .merge-branch-form-actions
+                %button#submit-file.button.primary.js-blob-submit{type:"submit"}
+                  Commit Changes
 
     %script{src:"/javascript/jquery.min.js"}
     %script{src:"/javascript/jquery.scrollTo-min.js"}

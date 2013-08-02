@@ -34,6 +34,7 @@ var setup_editor = function(div, diagramDiv) {
   urldecode = function (url) {
     return decodeURIComponent(url.replace(/\+/g, ' '));
   };
+  window.editor = editor;
 
   editor.getSession().setValue(urldecode(defaultValue));
   editor.setFontSize(10);
@@ -43,7 +44,7 @@ var setup_editor = function(div, diagramDiv) {
     name: 'save',
     bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
     exec: function(editor) {
-      $('a.js-save').click();
+      $('.save a').click();
     }
   });
   editor.getSession().on('change', on_change);
@@ -90,7 +91,17 @@ add_file = function(file) {
   params      = $.param(file.github_info);
 
   $('<li id=' + id + '><a href="#' + id + '">' +  name + '</a></li>').appendTo(nav_node);
-  $('<li id=' + id + '><div>' + file.path + '<br><a href=""><img class="diagram" src="/render.png?' + params + '"></a></div></li>').appendTo(view_node);
+  $('<li id=' + id + '><div>' + file.path + '<br><a href=""><img class="diagram" src="/render.png?' + params + '"></a></div></li>')
+    .appendTo(view_node)
+    .find('a').click(function(event) {
+      event.preventDefault();
+    }).dblclick(function(event) {
+      event.preventDefault();
+      window.github.getRepo(file.github_info.user, file.github_info.repo)
+        .read(file.github_info.branch, file.github_info.path, function(err, contents) {
+          show_editor(contents);
+        });
+    });
 },
 
 find_or_create_folder = function(parent, folders) {
@@ -106,46 +117,61 @@ find_or_create_folder = function(parent, folders) {
     }
     return find_or_create_folder(node, folders);
   }
+},
+
+load_editor = function(path) {
+  window.repo.read('master', path, function(err, contents) {
+    console.log(contents);
+    window.editor.getSession().setValue(contents);
+    show_editor();
+  });
+},
+
+show_editor = function(contents) {
+  if (contents) {
+    window.editor.getSession().setValue(contents);
+  }
+  $('.edit').animate({'margin-left':'0'}, 500);
+  $('.navigation').animate({'margin-left':'100%'}, 500);
+},
+
+show_browser = function() {
+  $('.edit').animate({'margin-left':'-100%'}, 500);
+  $('.navigation').animate({'margin-left':'0'}, 500);
 };
 
 
-$(document).on('click', '.browse .navigation a', function(event) {
-  event.preventDefault();
-  var id = $(this).attr('href');
-  console.log($('.browse .content ' + id));
-  $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
-}).on('click', '.login a', function(event) {
-  event.preventDefault();
-  start_login(this.href);
-}).on('click', '.logout a', function(event){
-  event.preventDefault();
-  window.github = null;
-}).on('scrollSpy:enter', '.browse .content li', function() {
-      // console.log('enter:', $(this).attr('id'));
-}).on('scrollSpy:exit', '.browse .content li', function() {
-    // console.log('exit:', $(this).attr('id'));
-}).on('click', '.browse .content li a', function(event) {
-  event.preventDefault();
-}).on('dblclick', '.browse .content li a', function(event) {
-  event.preventDefault();
-  $('.edit').animate({'margin-left':'0'}, 500);
-  $('.navigation').animate({'margin-left':'100%'}, 500);
-});
+$(document)
+  .on('click', '.browse .navigation a', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href');
+    console.log($('.browse .content ' + id));
+    $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
+  }).on('click', '.login a', function(event) {
+    event.preventDefault();
+    start_login(this.href);
+  }).on('click', '.logout a', function(event){
+    event.preventDefault();
+    window.github = null;
+  }).on('scrollSpy:enter', '.browse .content li', function() {
+        // console.log('enter:', $(this).attr('id'));
+  }).on('scrollSpy:exit', '.browse .content li', function() {
+      // console.log('exit:', $(this).attr('id'));
+  })
+  .keyup(function(e) {
+    if (e.keyCode == 27) {
+      show_browser();
+    }
+  })
+  .ready(function() {
+    setup_editor('editor', $(".edit .content"));
+
+    $(".fancybox").fancybox();
+
+    if ((token = $.cookie('github_token'))) {
+      login(token);
+    }
+  });
+
 
 // .scrollSpy();
-
-$('.edit .view a').dblclick(function(event) {
-  $('.edit').animate({'margin-left':'-100%'}, 500);
-  $('.navigation').animate({'margin-left':'0'}, 500);
-});
-
-
-$(document).ready(function() {
-  setup_editor('editor', $(".edit .content"));
-
-  $(".fancybox").fancybox();
-
-  if ((token = $.cookie('github_token'))) {
-    login(token);
-  }
-});
