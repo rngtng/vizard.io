@@ -1,0 +1,12 @@
+!!!
+%html{lang:"en"}
+  %head
+    %meta{charset:'utf-8'}
+
+    %title UML Generator - Login
+
+  %body
+    :javascript
+      window.opener.login('#{access_token}');
+      close();
+

@@ -1,5 +1,6 @@
 window.login = function(token) {
   $.cookie('github_token', token, { expires: 7 });
+  window.token = token;
   window.github = new Github({
     token: token,
     auth: "oauth"
@@ -48,66 +49,103 @@ var setup_editor = function(div, diagramDiv) {
   editor.getSession().on('change', on_change);
   on_change();
 },
+
 start_login = function(url) {
-  var width = 1010,
-  height = 590,
+  var width    = 1010,
+  height       = 590,
   leftPosition = (screen.width) ? (screen.width - width) / 2 : 0;
-  topPosition = (screen.height) ? (screen.height - height) / 2 : 0;
+  topPosition  = (screen.height) ? (screen.height - height) / 2 : 0;
   window.open(url, "Github Login", 'width='+width+',height='+height+',top='+topPosition+',left='+leftPosition);
 },
+
 load_repo = function(url) {
-  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)\/(.+)"),
+  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)(\/(.+))?"),
   extracts = pattern.exec(url),
   repo = window.github.getRepo(extracts[1], extracts[2]);
 
-  console.log(extracts);
-  console.log(repo);
-
-  repo.read(extracts[4], extracts[5], function(err, data) {
-    console.log(data);
+  repo.getTree(extracts[4] + '?recursive=true', function(err, data) {
+    $.each(data, function(index, sha) {
+      var parent = extracts[6],
+      file_pattern = new RegExp("^" + parent + ".+\\.wsd$");
+      if (sha.type == "blob" && file_pattern.test(sha.path)) {
+        sha.github_info = {
+          token: window.token,
+          user: extracts[1],
+          repo: extracts[2],
+          branch: extracts[4],
+          path: sha.path
+        };
+        add_file(sha);
+      }
+    });
   });
+},
+
+add_file = function(file) {
+  var folders = file.path.split("/"),
+  id          = 'file' + file.sha,
+  name        = folders.pop().split(".").shift(),
+  nav_node    = find_or_create_folder($('.browse .menu ul'), folders.slice()),
+  view_node   = find_or_create_folder($('.browse .content ul'), folders.slice()),
+  params      = $.param(file.github_info);
+
+  $('<li id=' + id + '><a href="#' + id + '">' +  name + '</a></li>').appendTo(nav_node);
+  $('<li id=' + id + '><div>' + file.path + '<br><a href=""><img class="diagram" src="/render.png?' + params + '"></a></div></li>').appendTo(view_node);
+},
+
+find_or_create_folder = function(parent, folders) {
+  if (folders.length === 0) {
+    return parent;
+  }
+  else {
+    var name = folders.shift(),
+    node     = parent.find("#" + name + " ul").first();
+
+    if (node.length === 0) {
+      node = $('<li id=' + name + '><span>' + name + '</span><ul></ul></li>').appendTo(parent).find('ul').first();
+    }
+    return find_or_create_folder(node, folders);
+  }
 };
+
+
+$(document).on('click', '.browse .navigation a', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href');
+  console.log($('.browse .content ' + id));
+  $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
+}).on('click', '.login a', function(event) {
+  event.preventDefault();
+  start_login(this.href);
+}).on('click', '.logout a', function(event){
+  event.preventDefault();
+  window.github = null;
+}).on('scrollSpy:enter', '.browse .content li', function() {
+      // console.log('enter:', $(this).attr('id'));
+}).on('scrollSpy:exit', '.browse .content li', function() {
+    // console.log('exit:', $(this).attr('id'));
+}).on('click', '.browse .content li a', function(event) {
+  event.preventDefault();
+}).on('dblclick', '.browse .content li a', function(event) {
+  event.preventDefault();
+  $('.edit').animate({'margin-left':'0'}, 500);
+  $('.navigation').animate({'margin-left':'100%'}, 500);
+});
+
+// .scrollSpy();
+
+$('.edit .view a').dblclick(function(event) {
+  $('.edit').animate({'margin-left':'-100%'}, 500);
+  $('.navigation').animate({'margin-left':'0'}, 500);
+});
+
 
 $(document).ready(function() {
   setup_editor('editor', $(".edit .content"));
+
   $(".fancybox").fancybox();
-
-  $('.login a').click(function(event){
-    event.preventDefault();
-    start_login(this.href);
-  });
-
-  $('.logout a').click(function(event){
-    event.preventDefault();
-    window.github = null;
-  });
 
   if ((token = $.cookie('github_token'))) {
     login(token);
   }
 });
-
-  // $('.browse .navigation a').click(function(event) {
-  //   event.preventDefault();
-  //   element_id = $(this).attr('href');
-  //   $('.browse .content').scrollTo( $('.browse .content ' + element_id), 800, {easing:'swing'} );
-  // });
-
-  // $('.browse .content li').on('scrollSpy:enter', function() {
-  //     // console.log('enter:', $(this).attr('id'));
-  // }).on('scrollSpy:exit', function() {
-  //     // console.log('exit:', $(this).attr('id'));
-  // }).dblclick(function(event) {
-  //   $('.edit').animate({'margin-left':'0'}, 500);
-  //   $('.navigation').animate({'margin-left':'100%'}, 500);
-  // }).scrollSpy();
-
-  // $('.edit .view a').dblclick(function(event) {
-  //   $('.edit').animate({'margin-left':'-100%'}, 500);
-  //   $('.navigation').animate({'margin-left':'0'}, 500);
-  // });
-
-  // loadContent($('#navigation'), $('#view'), '/content' + window.location.search);
-  //
-
-  //setup_nav($('body'), $("#navigation"))

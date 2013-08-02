@@ -24,7 +24,6 @@ body {
 header {
   height: 40px;
   width: 50%;
-  background-color: #E2E2E2;
   padding: 2px;
 
   h1 {
@@ -40,18 +39,6 @@ header {
     }
   }
 }
-
-// .flex {
-//   display: flex;
-//   display: -webkit-flex;
-//   flex-direction: column;
-//   -webkit-flex-direction: column;
-// }
-
-// .flex1 {
-//   flex: 1;
-//   -webkit-flex: 1;
-// }
 
 /*------------------------------- */
 
@@ -91,14 +78,6 @@ header {
       a {
         border-style: none;
       }
-
-      img {
-        border-color: #FFF;
-        border-style: solid;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        max-width: 100%;
-      }
     }
   }
 }
@@ -108,6 +87,7 @@ header {
 .browse {
   width: 50%;
   height: 100%;
+  padding-bottom: 40px;
 
   .navigation {
     position: fixed;
@@ -116,8 +96,11 @@ header {
     margin-left: 100%;
 
     .menu {
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      padding: 5px;
       margin: 20px;
-      width: 100px;
+      border: 1px solid #aaa;
     }
   }
 
@@ -125,14 +108,17 @@ header {
     height: 100%;
 
     .content {
-      padding: 20px;
       height: 100%;
       text-align: center;
       overflow-y: auto;
 
-      img {
-        height: 500px;
-        width: 500px;
+      span {
+        display: none;
+      }
+
+      div {
+        color: black;
+        padding: 30px;
       }
     }
   }
@@ -159,10 +145,36 @@ body {
 }
 
 
+li {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.diagram {
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  max-width: 100%;
+  padding: 5px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.gradient{
+    background: -moz-linear-gradient(top, #fff, #aaa);
+    background: -webkit-linear-gradient(top, #fff, #aaa);
+    background: -o-linear-gradient(top, #fff,#aaa);
+    background: linear-gradient(top, #fff, #aaa);
+    border-bottom: 1px solid #aaa;
+    /* versions of IE use these */
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff',EndColorStr='#aaaaaa');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#aaaaaa)";
+}
+
 /*------------------------------- */
 
-.green  { background-color: green; }
-.red    { background-color: red; }
-.blue   { background-color: blue; }
-.yellow { background-color: yellow; }
-.gray   { background-color: gray; }
+.white  { background-color: white; }
+// .green  { background-color: green; }
+// .red    { background-color: red; }
+// .blue   { background-color: blue; }
+// .yellow { background-color: yellow; }
+// .gray   { background-color: gray; }

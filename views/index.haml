@@ -15,8 +15,8 @@
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
-  %body.flex
-    %header
+  %body.browsing.flex
+    %header.gradient
       %h1
         UML Generator - Graphs generated with PlantUML
       .content
@@ -33,29 +33,17 @@
       .view.red
         .content.yellow
           %a.fancybox{href:'#'}
-            %img{src:'#'}
+            %img.diagram{src:'#'}
 
 
     .browse.yellow
       .navigation
-        .menu.yellow
+        .menu.white
           %ul
-            %li
-              %a{href:'#view1'} 1
-            %li
-              %a{href:'#view2'} 2
-            %li
-              %a{href:'#view3'} 3
 
       .view.red
         .content
           %ul
-            %li#view1
-              %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
-            %li#view2
-              %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
-            %li#view3
-              %img{src:'http://planet-terre.ens-lyon.fr/objets/Images/Img122/122-source-du-lison.jpg'}
 
     %script{src:"/javascript/jquery.min.js"}
     %script{src:"/javascript/jquery.scrollTo-min.js"}
