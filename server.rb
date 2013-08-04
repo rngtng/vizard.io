@@ -13,10 +13,10 @@ require 'sinatra/reloader' if development?
 require 'haml'
 require 'less'
 require 'base64'
-require 'octokit'
-require 'net/http'
 
 require 'lib/cache_helper'
+
+require 'lib/github'
 require 'lib/plantuml_renderer'
 
 CONTENT_TYPE_MAPPING = {
@@ -25,49 +25,15 @@ CONTENT_TYPE_MAPPING = {
   'utxt' => 'text/plain',
 }
 
-PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/(blob|tree)\/(?<branch>[^\/]+)\/(?<path>.+)/
-
 set :haml, :format => :html5
 
 helpers do
-  def render_diagram(content, format)
-    cache(content, format) { PlantumlRenderer.render(content, format) }
+  def github
+    @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'])
   end
 
-  def get_access_token(code)
-    response = post("https://github.com/login/oauth/access_token", {
-      'client_id'     => ENV['GITHUB_ID'],
-      'client_secret' => ENV['GITHUB_SECRET'],
-      'code'          => code,
-    })
-    Rack::Utils.parse_nested_query(response.body)['access_token']
-  end
-
-  def post(url, data)
-    uri = URI(url)
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    https.post(uri.path, URI.encode_www_form(data))
-  end
-
-  def get_content(url, token)
-    user_repo, branch, path = extract(url)
-    Octokit::Client.new(:oauth_token => token).contents(user_repo, {
-      :path   => path,
-      :ref    => branch,
-      :accept => 'application/vnd.github.raw'
-    })
-  end
-
-  def extract(url)
-    if m = url.to_s.match(PATTERN)
-      return [m[:user_repo], m[:branch], m[:path]]
-    end
-    raise Invalid
-  end
-
-  def auth_url(scope = 'repo')
-    "https://github.com/login/oauth/authorize?client_id=#{ENV['GITHUB_ID']}&scope=#{scope}"
+  def format
+    params["format"]
   end
 
   def set_content_type(format)
@@ -88,14 +54,20 @@ end
 # ---------------------------------------------------
 
 get '/render.:format' do
-  set_content_type params["format"]
-  diagram_data = get_content(request.env["QUERY_STRING"], cookies[:github_token])
-  body render_diagram(diagram_data, params["format"])
+  set_content_type(format)
+
+  url = request.env["QUERY_STRING"]
+  cache_file = './cache/' + Digest::SHA1.hexdigest(url) + '.' + format
+
+  cache(cache_file) do
+    diagram_data = github.get_content(url, cookies[:github_token])
+    PlantumlRenderer.render(diagram_data, format)
+  end
 end
 
 post '/render.:format' do
-  set_content_type params["format"]
-  body render_diagram(request.body.string, params["format"])
+  set_content_type(format)
+  PlantumlRenderer.render(request.body.string, format)
 end
 
 # ---------------------------------------------------
@@ -106,9 +78,9 @@ end
 
 get '/login' do
   if code = params["code"]
-    haml :login, :locals => { :access_token => get_access_token(code) }
+    haml :login, :locals => { :access_token => github.get_access_token(code) }
   else
-    redirect auth_url
+    redirect github.auth_url
   end
 end
 

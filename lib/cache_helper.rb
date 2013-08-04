@@ -6,8 +6,7 @@ require 'digest/sha1'
 class CacheHelper
   module Sinatra
     module Helpers
-      def cache(content, format, options = {}, &block)
-        cache_file = './cache/' + Digest::SHA1.hexdigest(content) + '.' + format
+      def cache(cache_file, options = {}, &block)
         read_fragment(cache_file, options) || write_fragment(cache_file, block.call)
       end
 
