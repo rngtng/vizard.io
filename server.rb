@@ -7,6 +7,7 @@ Dotenv.load(ENV['ENV'] || '.env')
 require 'bundler/setup'
 
 require 'sinatra'
+require 'sinatra/cookies'
 require 'sinatra/reloader' if development?
 
 require 'haml'
@@ -15,6 +16,7 @@ require 'base64'
 require 'octokit'
 require 'net/http'
 
+require 'lib/cache_helper'
 require 'lib/plantuml_renderer'
 
 CONTENT_TYPE_MAPPING = {
@@ -23,9 +25,15 @@ CONTENT_TYPE_MAPPING = {
   'utxt' => 'text/plain',
 }
 
+PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/(blob|tree)\/(?<branch>[^\/]+)\/(?<path>.+)/
+
 set :haml, :format => :html5
 
 helpers do
+  def render_diagram(content, format)
+    cache(content, format) { PlantumlRenderer.render(content, format) }
+  end
+
   def get_access_token(code)
     response = post("https://github.com/login/oauth/access_token", {
       'client_id'     => ENV['GITHUB_ID'],
@@ -42,13 +50,20 @@ helpers do
     https.post(uri.path, URI.encode_www_form(data))
   end
 
-  def get_content(user, repo, token, path, branch = 'master')
-    user_repo = "#{user}/#{repo}"
+  def get_content(url, token)
+    user_repo, branch, path = extract(url)
     Octokit::Client.new(:oauth_token => token).contents(user_repo, {
       :path   => path,
       :ref    => branch,
       :accept => 'application/vnd.github.raw'
     })
+  end
+
+  def extract(url)
+    if m = url.to_s.match(PATTERN)
+      return [m[:user_repo], m[:branch], m[:path]]
+    end
+    raise Invalid
   end
 
   def auth_url(scope = 'repo')
@@ -74,13 +89,13 @@ end
 
 get '/render.:format' do
   set_content_type params["format"]
-  diagram_data = get_content(params[:user], params[:repo], params[:token], params[:path], params[:branch])
-  body PlantumlRenderer.render(diagram_data, params["format"])
+  diagram_data = get_content(request.env["QUERY_STRING"], cookies[:github_token])
+  body render_diagram(diagram_data, params["format"])
 end
 
 post '/render.:format' do
   set_content_type params["format"]
-  body PlantumlRenderer.render(request.body.string, params["format"])
+  body render_diagram(request.body.string, params["format"])
 end
 
 # ---------------------------------------------------
@@ -97,28 +112,6 @@ get '/login' do
   end
 end
 
-get '/' do
+get %r{(edit)?} do
   haml :index
 end
-
-
-# post '/update' do
-#   commit_message = params[:message].empty? ? params[:placeholder_message] : params[:message]
-#   unless params[:description].empty?
-#     commit_message += "\n\n#{params[:description]}"
-#   end
-
-#   github.update_file(github_path, commit_message, params[:content])
-
-#   redirect "/?#{github_path}"
-# end
-
-# get '/edit' do
-#   diagram = diagram_data || File.read('public/default.wsd')
-#   haml :edit, :locals => { :user => user, :github_path => github_path.to_s, :diagram => diagram }
-# end
-
-# get '/content' do
-#   github.get_content(github_path).to_json
-# end
-

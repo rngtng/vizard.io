@@ -13,73 +13,81 @@ window.login = function(token) {
   }
 };
 
-var setup_editor = function(div, diagramDiv) {
-  var editor   = ace.edit(div),
-  defaultValue = editor.getSession().getValue(),
-  on_change    = function() {
+var extractParams = function(url) {
+  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)(\/(.+))?"),
+  ex = pattern.exec(url);
+
+  return {
+    url:    url,
+    user:   ex[1],
+    repo:   ex[2],
+    branch: ex[4],
+    path:   ex[6]
+  };
+},
+
+render_diagram = function(content, success){
+  $.ajax({
+    url: '/render.png',
+    type: 'post',
+    data: content,
+    headers: {
+      'Accept': 'image/png;base64'
+    },
+    success: success
+  });
+},
+
+setup_editor = function(div, diagramDiv) {
+  var editor = ace.edit(div),
+  on_change  = function() {
     $('input[name="content"]').val(editor.getSession().getValue());
-    $.ajax( {
-      url: '/render.png',
-      type: 'post',
-      data: editor.getSession().getValue(),
-      headers: {
-        'Accept': 'image/png;base64'
-      },
-      success: function( data ) {
-        diagramDiv.find('a').attr('href', 'data:image/png;base64,' + data);
-        diagramDiv.find('img').attr('src', 'data:image/png;base64,' + data);
-      }
+    render_diagram(editor.getSession().getValue(), function(data) {
+      diagramDiv.find('a').attr('href', 'data:image/png;base64,' + data);
+      diagramDiv.find('img').attr('src', 'data:image/png;base64,' + data);
     });
-  },
-  urldecode = function (url) {
-    return decodeURIComponent(url.replace(/\+/g, ' '));
   };
   window.editor = editor;
 
-  editor.getSession().setValue(urldecode(defaultValue));
   editor.setFontSize(10);
   editor.setTheme("ace/theme/github");
   editor.getSession().setMode('ace/mode/diagram');
-  editor.commands.addCommand({
-    name: 'save',
-    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-    exec: function(editor) {
-      $('.save a').click();
-    }
-  });
+  editor.commands
+    .addCommand({
+      name: 'save',
+      bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+      exec: function(editor) {
+        $('.save a').click();
+      }
+    });
   editor.getSession().on('change', on_change);
   on_change();
 },
 
 start_login = function(url) {
-  var width    = 1010,
-  height       = 590,
-  leftPosition = (screen.width) ? (screen.width - width) / 2 : 0;
-  topPosition  = (screen.height) ? (screen.height - height) / 2 : 0;
-  window.open(url, "Github Login", 'width='+width+',height='+height+',top='+topPosition+',left='+leftPosition);
+  var width = 1010,
+  height    = 590,
+  leftPos   = (screen.width) ? (screen.width - width) / 2 : 0,
+  topPos    = (screen.height) ? (screen.height - height) / 2 : 0,
+  options   = 'width=' + width + ',height=' + height + ',top=' + topPos + ',left=' + leftPos;
+
+  window.open(url, "Github Login", options);
 },
 
 load_repo = function(url) {
-  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)(\/(.+))?"),
-  extracts = pattern.exec(url),
-  repo = window.github.getRepo(extracts[1], extracts[2]);
+  var github = extractParams(url);
 
-  repo.getTree(extracts[4] + '?recursive=true', function(err, data) {
-    $.each(data, function(index, sha) {
-      var parent = extracts[6],
-      file_pattern = new RegExp("^" + parent + ".+\\.wsd$");
-      if (sha.type == "blob" && file_pattern.test(sha.path)) {
-        sha.github_info = {
-          token: window.token,
-          user: extracts[1],
-          repo: extracts[2],
-          branch: extracts[4],
-          path: sha.path
-        };
-        add_file(sha);
-      }
+  window.github.getRepo(github.user, github.repo)
+    .getTree(github.branch + '?recursive=true', function(err, data) {
+      $.each(data, function(index, blob) {
+        var filePattern = new RegExp("^" + github.path + ".+\\.wsd$");
+
+        if (blob.type == "blob" && filePattern.test(blob.path)) {
+          blob.githubUrl = 'https://github.com/' + github.user + '/' + github.repo + '/tree/' + github.branch + '/' + blob.path;
+          add_file(blob);
+        }
+      });
     });
-  });
 },
 
 add_file = function(file) {
@@ -87,21 +95,34 @@ add_file = function(file) {
   id          = 'file' + file.sha,
   name        = folders.pop().split(".").shift(),
   nav_node    = find_or_create_folder($('.browse .menu ul'), folders.slice()),
-  view_node   = find_or_create_folder($('.browse .content ul'), folders.slice()),
-  params      = $.param(file.github_info);
+  view_node   = find_or_create_folder($('.browse .content ul'), folders.slice());
 
-  $('<li id=' + id + '><a href="#' + id + '">' +  name + '</a></li>').appendTo(nav_node);
-  $('<li id=' + id + '><div>' + file.path + '<br><a href=""><img class="diagram" src="/render.png?' + params + '"></a></div></li>')
+  $('<li id=' + id + '>' +
+      '<a href="#' + id + '">' +  name + '</a>' +
+    '</li>').appendTo(nav_node);
+
+  $('<li id=' + id + '>' +
+      '<div>' +
+        file.path + '<br>' +
+        '<a href="/edit?' + file.githubUrl +'">' +
+          '<img class="diagram" src="/render.png?' + file.githubUrl + '">' +
+        '</a>' +
+      '</div>' +
+    '</li>')
     .appendTo(view_node)
-    .find('a').click(function(event) {
-      event.preventDefault();
-    }).dblclick(function(event) {
-      event.preventDefault();
-      window.github.getRepo(file.github_info.user, file.github_info.repo)
-        .read(file.github_info.branch, file.github_info.path, function(err, contents) {
-          show_editor(contents);
-        });
-    });
+    .find('img')
+      .error(function(event) {
+        console.log(event);
+      })
+      .end()
+    .find('a')
+      .click(function(event) {
+        event.preventDefault();
+      }).dblclick(function(event) {
+        event.preventDefault();
+        window.history.pushState({}, '', this.href);
+        load_editor();
+      });
 },
 
 find_or_create_folder = function(parent, folders) {
@@ -119,11 +140,11 @@ find_or_create_folder = function(parent, folders) {
   }
 },
 
-load_editor = function(path) {
-  window.repo.read('master', path, function(err, contents) {
-    console.log(contents);
-    window.editor.getSession().setValue(contents);
-    show_editor();
+load_editor = function() {
+  var github = extractParams(window.location.href);
+  window.github.getRepo(github.user, github.repo)
+    .read(github.branch, github.path, function(err, contents) {
+      show_editor(contents);
   });
 },
 
@@ -143,10 +164,9 @@ show_browser = function() {
 
 $(document)
   .on('click', '.browse .navigation a', function(event) {
-    event.preventDefault();
     var id = $(this).attr('href');
-    console.log($('.browse .content ' + id));
     $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
+    event.preventDefault();
   }).on('click', '.login a', function(event) {
     event.preventDefault();
     start_login(this.href);
@@ -164,13 +184,13 @@ $(document)
     }
   })
   .ready(function() {
-    setup_editor('editor', $(".edit .content"));
-
-    $(".fancybox").fancybox();
-
     if ((token = $.cookie('github_token'))) {
       login(token);
     }
+
+    setup_editor('editor', $(".edit .content"));
+
+    $(".fancybox").fancybox();
   });
 
 
