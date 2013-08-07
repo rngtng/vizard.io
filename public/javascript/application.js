@@ -15,32 +15,25 @@ login = function(token) {
     token: token,
     auth: "oauth"
   });
-  window.github.getUser().show(null, function(err, user) {
-    // update_user(user);
-  });
-  loadBrowser(window.location.href);
-
-  if (/\/edit\/?/.test(window.location.href)) {
-    if (/\.wsd/.test(window.location.href)) {
-      loadEditor(window.location.href);
-    }
-    else {
-      window.history.replaceState({}, '', window.location.href.replace('/edit', ''));
-    }
-  }
+  $('#login').addClass('collapsed');
+  // window.github.getUser().show(null, function(err, user) {
+  //   // update_user(user);
+  // });
+  loadBrowser(window.location.href) || loadEditor();
 },
 
 extractParams = function(url) {
-  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)(\/(.+))?"),
-  ex = pattern.exec(url);
-
-  return {
-    url:    url,
-    user:   ex[1],
-    repo:   ex[2],
-    branch: ex[4],
-    path:   ex[6]
-  };
+  var pattern = new RegExp("https?:\/\/github.com\/([^\/]+)\/([^\/]+)\/(blob|tree)\/([^\/]+)(\/(.+))?");
+  if ((ex = pattern.exec(url))) {
+    return {
+      url:    url,
+      user:   ex[1],
+      repo:   ex[2],
+      branch: ex[4],
+      path:   ex[6]
+    };
+  }
+  return false;
 },
 
 render_diagram = function(content, successCb){
@@ -97,12 +90,15 @@ find_or_create_folder = function(parent, folders) {
 },
 
 loadEditor = function(url) {
-  var github = extractParams(url);
   if (!editor) { setupEditor('editor', $(".edit .content")); }
-  window.github.getRepo(github.user, github.repo)
-    .read(github.branch, github.path, function(err, contents) {
-      showEditor(contents);
-  });
+  if ((github = extractParams(url))) {
+    window.github.getRepo(github.user, github.repo)
+      .read(github.branch, github.path, function(err, contents) {
+        showEditor(contents);
+    });
+  } else {
+    showEditor();
+  }
 },
 
 setupEditor = function(div, diagramDiv) {
@@ -138,20 +134,37 @@ showEditor = function(contents) {
 },
 
 loadBrowser = function(url) {
-  var github = extractParams(url);
+  if ((params = extractParams(url))) {
+    if (window.github) {
+      window.github.getRepo(params.user, params.repo)
+        .getTree(params.branch + '?recursive=true', function(err, data) {
+          $.each(data, function(index, blob) {
+            var filePattern = new RegExp("^" + params.path);
 
-  window.github.getRepo(github.user, github.repo)
-    .getTree(github.branch + '?recursive=true', function(err, data) {
-      $.each(data, function(index, blob) {
-        var filePattern = new RegExp("^" + github.path);
+            if (blob.type == "blob" && /\.wsd$/.test(blob.path) && filePattern.test(blob.path)) {
+              blob.githubUrl = 'https://github.com/' + params.user + '/' + params.repo + '/tree/' + params.branch + '/' + blob.path;
+              add_file(blob);
+            }
+          });
+        });
+      showBrowser();
 
-        if (blob.type == "blob" && /\.wsd$/.test(blob.path) && filePattern.test(blob.path)) {
-          blob.githubUrl = 'https://github.com/' + github.user + '/' + github.repo + '/tree/' + github.branch + '/' + blob.path;
-          add_file(blob);
+      if (/\/edit\/?/.test(url)) {
+        if (/\.wsd/.test(url)) {
+          loadEditor(url);
         }
-      });
-    });
-  showBrowser();
+        else {
+          window.history.replaceState({}, '', url.replace('/edit', ''));
+        }
+      }
+
+    }
+    else {
+      $('#login').removeClass('collapsed');
+      return true;
+    }
+  }
+  return false;
 },
 
 showBrowser = function() {
@@ -166,7 +179,7 @@ $(document)
     $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
     event.preventDefault();
   })
-  .on('click', '.login a', function(event) {
+  .on('click', 'a[href="/login"]', function(event) {
     event.preventDefault();
     startLogin(this.href);
   })

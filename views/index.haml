@@ -15,15 +15,22 @@
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
-  %body.browsing
-    %header.gradient
+  %body
+    #login.collapsed.white.blue
+      .view
+        .github-auth
+          For shiny rendered diagrams, please first
+
+        %a.btn-auth.btn-github.large{href:"/login"}
+          sign in with <b>Github</b>
+
+    / .editing
+    %header.gradient.hidden
       %h1
         UML Generator - Graphs generated with PlantUML
       .content
         .save
           %a.fancybox{href:"#new-commit"} Save to GitHub
-        .login
-          %a{href:'/login'} login
 
         .logout
           %a{href:'#'} logout
