@@ -18,11 +18,15 @@ login = function(token) {
   window.github.getUser().show(null, function(err, user) {
     // update_user(user);
   });
+  loadBrowser(window.location.href);
+
   if (/\/edit\/?/.test(window.location.href)) {
-    loadEditor(window.location.href);
-  }
-  else {
-    loadBrowser(window.location.href);
+    if (/\.wsd/.test(window.location.href)) {
+      loadEditor(window.location.href);
+    }
+    else {
+      window.history.replaceState({}, '', window.location.href.replace('/edit', ''));
+    }
   }
 },
 
@@ -104,8 +108,8 @@ loadEditor = function(url) {
 setupEditor = function(div, diagramDiv) {
   var on_change  = function() {
     render_diagram(editor.getSession().getValue(), function(data) {
-      diagramDiv.find('a').attr('href', 'data:image/png;base64,' + data);
-      diagramDiv.find('img').attr('src', 'data:image/png;base64,' + data);
+      diagramDiv.find('a').attr('href', 'data:image/png;base64,' + data).show();
+      diagramDiv.find('img').attr('src', 'data:image/png;base64,' + data).show();
     });
   };
 
@@ -187,9 +191,8 @@ $(document)
   })
   .keyup(function(event) {
     if (event.keyCode == 27) {
-      url = window.location.href.replace('/edit', '')
-      window.history.pushState({}, '', url);
-      loadBrowser(url);
+      window.history.back();
+      showBrowser();
     }
   })
 
