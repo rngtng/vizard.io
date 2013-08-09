@@ -1,4 +1,6 @@
 build: .make.bundle
+	rm -rf ./cache # for Airbrake
+	ln -sf /tmp ./cache
 
 JRUBY_VERSION=1.7.3
 JRUBY_TARBALL=http://files.int.s-cloud.net/jruby/jruby-bin-$(JRUBY_VERSION).tar.gz
