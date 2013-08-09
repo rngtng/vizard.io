@@ -71,14 +71,18 @@ loadBrowser = function(content) {
       '</li>').appendTo(nav_node);
 
     $('<li id=' + id + '>' +
-        '<div>' +
+        '<div class="loading">' +
           file.path + '<br>' +
           '<a href="/edit?' + file.githubUrl +'">' +
+            '<img class="hidden" src="/images/loading.gif">' +
             '<img class="diagram" src="/render.png?' + file.githubUrl + '?' + file.sha + '">' +
           '</a>' +
         '</div>' +
       '</li>')
-      .appendTo(view_node);
+      .appendTo(view_node)
+      .find('.diagram').load( function(event) {
+        $(this).parents('.loading').removeClass();
+      });
 
     if (content.edit) {
       view_node.find('a').dblclick();
