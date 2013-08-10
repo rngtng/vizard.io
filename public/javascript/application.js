@@ -79,7 +79,14 @@ loadBrowser = function(content) {
             '<img class="diagram" src="/render.png?' + file.githubUrl + '?' + file.sha + '">' +
           '</a>' +
         '</div>' +
-      '</li>').appendTo(view_node)
+      '</li>')
+      .appendTo(view_node)
+      .on('scrollSpy:enter', function() {
+        var id = $(this).attr('id');
+        $('.menu li').removeClass('selected');
+        $('.menu #' + id).addClass('selected');
+      })
+      .scrollSpy()
       .find('.diagram')
       .on('load', function(event) {
         $(this).parents('.loading').removeClass();
@@ -190,12 +197,6 @@ $(document)
     event.preventDefault();
     logout();
   })
-  .on('scrollSpy:enter', '.browse .content li', function() {
-    console.log('enter:', $(this).attr('id'));
-  })
-  .on('scrollSpy:exit', '.browse .content li', function() {
-    console.log('exit:', $(this).attr('id'));
-  })
   .on('click', '.browse .content a', function(event) {
     event.preventDefault();
   })
@@ -236,8 +237,16 @@ $(document)
       loadEditor($(preview));
     }
 
-    $(".fancybox").fancybox();
+    $('.fancybox')
+      .fancybox();
+
+    $('.browse .content')
+      .on('scroll', function(event) {
+        $('.menu').addClass('show');
+      })
+      .on('scroll', function(event) {
+        $('.menu').removeClass('show');
+      }, 100);
   });
 
 
-// .scrollSpy();

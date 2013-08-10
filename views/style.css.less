@@ -111,11 +111,15 @@ header {
       -webkit-transition: opacity 1s ease-out;
       transition: opacity 1s ease-out;
 
-      &:hover {
+      &:hover, &.show {
         -webkit-transition: opacity 0.1s ease-out;
         transition: opacity 0.1s ease-out;
         opacity: 1;
         filter:alpha(opacity=100); /* For IE8 and earlier */
+      }
+
+      .selected {
+        background-color: red;
       }
     }
   }

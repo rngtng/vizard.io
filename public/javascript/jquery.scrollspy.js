@@ -24,12 +24,16 @@
 	 * @return {jQuery}		A collection of elements
 	 */
 	function findElements(top, right, bottom, left) {
-		var hits = $();
+		var hits = $(),
+		lastHeight = 0;
+		// TODO maybe sort by top
 		$.each(elements, function(i, element) {
-			var elTop = element.offset().top,
-				elLeft = element.offset().left,
-				elRight = elLeft + element.width(),
+			var elTop  = lastHeight,
+				elLeft   = element.offset().left,
+				elRight  = elLeft + element.width(),
 				elBottom = elTop + element.height();
+
+				lastHeight = elBottom;
 
 			var isIntersect = !(elLeft > right ||
 				elRight < left ||
@@ -55,7 +59,7 @@
 		var top = jWindow.scrollTop(),
 			left = jWindow.scrollLeft(),
 			right = left + jWindow.width(),
-			bottom = top + jWindow.height();
+			bottom = top + (jWindow.height() / 2);
 
 		// console.log(top + ' ' + left  + ' ' + right  + ' ' + bottom);
 
