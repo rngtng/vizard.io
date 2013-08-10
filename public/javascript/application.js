@@ -1,6 +1,7 @@
 var githubTokenName = 'githubToken',
-githubClient = null,
-editor = null,
+preview             = ".edit .preview",
+githubClient        = null,
+editor              = null,
 extractParams = function(url) {
   var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\.wsd)?)?$");
   if ((ex = pattern.exec(url))) {
@@ -63,7 +64,7 @@ loadBrowser = function(content) {
         return findOrCreateFolder(node, folders);
       }
     },
-    nav_node    = findOrCreateFolder($('.browse .menu').show().find('ul'), folders.slice()),
+    nav_node    = findOrCreateFolder($('.browse .menu ul'), folders.slice()),
     view_node   = findOrCreateFolder($('.browse .content ul'), folders.slice());
 
     $('<li id=' + id + '>' +
@@ -74,15 +75,18 @@ loadBrowser = function(content) {
         '<div class="loading">' +
           file.path + '<br>' +
           '<a href="/edit?' + file.githubUrl +'">' +
-            '<img class="hidden" src="/images/loading.gif">' +
+            '<img class="loader hidden" src="/images/loading.gif">' +
             '<img class="diagram" src="/render.png?' + file.githubUrl + '?' + file.sha + '">' +
           '</a>' +
         '</div>' +
-      '</li>')
-      .appendTo(view_node)
-      .find('.diagram').load( function(event) {
+      '</li>').appendTo(view_node)
+      .find('.diagram')
+      .on('load', function(event) {
         $(this).parents('.loading').removeClass();
+        $(preview).attr('src', $(this).attr('src'));
       });
+
+    nav_node.parents('.menu').show();
 
     if (content.edit) {
       view_node.find('a').dblclick();
@@ -108,29 +112,10 @@ showBrowser = function() {
   $('.navigation').animate({'margin-left':'0'}, 500);
 },
 
-render_diagram = function(content, successCb){
-  $.ajax({
-    url: '/render.png',
-    type: 'post',
-    data: content,
-    headers: {
-      'Accept': 'image/png;base64'
-    },
-    success: successCb
-  });
-},
-
-loadEditor = function(url) {
+loadEditor = function(target, url) {
   var pattern = new RegExp(url),
-  setupEditor = function(div, diagramDiv) {
-    var on_change  = function() {
-      render_diagram(editor.getSession().getValue(), function(data) {
-        diagramDiv.find('a').attr('href', 'data:image/png;base64,' + data).show();
-        diagramDiv.find('img').attr('src', 'data:image/png;base64,' + data).show();
-      });
-    };
-
-    editor = ace.edit(div);
+  setup = function(div) {
+    var editor = ace.edit(div);
     editor.setFontSize(10);
     editor.setTheme("ace/theme/github");
     editor.commands
@@ -142,30 +127,46 @@ loadEditor = function(url) {
         }
       });
     editor.getSession().setMode('ace/mode/diagram');
-    editor.getSession().on('change', on_change);
-    on_change();
-  };
+    editor.on('change', function(event) {
+      $.ajax({
+        url: '/render.png',
+        type: 'post',
+        data: editor.getSession().getValue(),
+        headers: {
+          'Accept': 'image/png;base64'
+        },
+        success: function(data) {
+          editor.target.attr('src', 'data:image/png;base64,' + data);
+        }
+      });
+    });
+    return editor;
+  },
+  getEditor = function() {
+    if (!window.editor) {
+      window.editor = setup('editor');
+    }
+    return window.editor;
+  },
+  editor = getEditor();
 
+  editor.target = target;
   if(!pattern.test(window.location.href)) {
     window.history.pushState({}, '', url);
-  }
-  if (!editor) {
-    setupEditor('editor', $(".edit .content"));
   }
   if ((content = extractParams(url))) {
     githubClient.getRepo(content.user, content.repo)
       .read(content.branch, content.path, function(err, contents) {
-        showEditor(contents);
+        editor.getSession().setValue(contents);
     });
-  } else {
-    showEditor();
   }
+  else {
+    editor.getSession().setValue('A -> B');
+  }
+  showEditor();
 },
 
-showEditor = function(contents) {
-  if (contents) {
-    editor.getSession().setValue(contents);
-  }
+showEditor = function() {
   $('.edit').animate({'margin-left':'0'}, 500);
   $('.navigation').animate({'margin-left':'100%'}, 500);
 };
@@ -173,8 +174,8 @@ showEditor = function(contents) {
 $(document)
   .on('click', '.browse .navigation a', function(event) {
     var id = $(this).attr('href');
-    $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
     event.preventDefault();
+    $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
   })
   .on('click', 'a[href="/login"]', function(event) {
     var width = 1010,
@@ -182,7 +183,6 @@ $(document)
     leftPos   = (screen.width) ? (screen.width - width) / 2 : 0,
     topPos    = (screen.height) ? (screen.height - height) / 2 : 0,
     options   = 'width=' + width + ',height=' + height + ',top=' + topPos + ',left=' + leftPos;
-
     event.preventDefault();
     window.open(this.href, "Github Login", options);
   })
@@ -191,25 +191,37 @@ $(document)
     logout();
   })
   .on('scrollSpy:enter', '.browse .content li', function() {
-    // console.log('enter:', $(this).attr('id'));
+    console.log('enter:', $(this).attr('id'));
   })
   .on('scrollSpy:exit', '.browse .content li', function() {
-    // console.log('exit:', $(this).attr('id'));
+    console.log('exit:', $(this).attr('id'));
   })
   .on('click', '.browse .content a', function(event) {
     event.preventDefault();
   })
   .on('dblclick', '.browse .content a', function(event) {
+    var target = $(this).find(".diagram");
     event.preventDefault();
-    loadEditor(this.href);
+    $(preview).parent().find('.loader').attr('src', target.attr('src'));
+    $(preview).parents('div').addClass('loading');
+    loadEditor(target, this.href);
   })
   .keyup(function(event) {
     if (event.keyCode == 27) {
+      // TODO dont do when in non git mode
       window.history.back();
       showBrowser();
     }
   })
   .ready(function() {
+    $(preview).on('load', function(event) {
+      var preview = $(this);
+      preview.parents('a').attr('href', preview.attr('src'));
+      setTimeout(function(){
+        preview.parents('div').removeClass('loading');
+      }, 1000);
+    });
+
     if ((content = extractParams(window.location.href))) {
       if (content.edit && !content.file) {
         window.history.replaceState({}, '', content.url.replace('/edit', ''));
@@ -221,7 +233,7 @@ $(document)
     }
     else {
       window.history.replaceState({}, '', '/edit');
-      loadEditor();
+      loadEditor($(preview));
     }
 
     $(".fancybox").fancybox();

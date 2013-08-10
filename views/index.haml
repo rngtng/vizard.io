@@ -37,12 +37,13 @@
 
     .edit.green
       .editor.blue
-        #editor A -> B A -> B
+        #editor
 
       .view.red
-        .content.yellow
-          %a.fancybox.hidden{href:'#'}
-            %img.diagram{src:'/images/loading.gif'}
+        .content.loading.yellow
+          %a.fancybox{href:'#'}
+            %img.loader.diagram.hidden{src:'/images/loading.gif'}
+            %img.preview.diagram{src:'/images/loading.gif'}
 
 
     .browse.yellow
