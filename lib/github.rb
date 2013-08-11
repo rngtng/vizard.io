@@ -3,7 +3,7 @@ require 'octokit'
 require 'net/http'
 
 class Github
-  PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/(blob|tree)\/(?<branch>[^\/]+)\/(?<path>.+)/
+  PATTERN = /https?:\/\/github.com\/(?<user_repo>[^\/]+\/[^\/]+)\/(blob|tree)\/(?<branch>[^\/]+)\/(?<path>[^?]+)/
 
   def initialize(id, secret)
     @id, @secret = id, secret
@@ -20,7 +20,7 @@ class Github
 
   def get_content(url, token)
     user_repo, branch, path = extract(url)
-    Octokit::Client.new(:oauth_token => token).contents(user_repo, {
+    Octokit::Client.new(:login => "me", :access_token => token).contents(user_repo, {
       :path   => path,
       :ref    => branch,
       :accept => 'application/vnd.github.raw'
