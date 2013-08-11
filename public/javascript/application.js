@@ -3,7 +3,7 @@ preview             = ".edit .preview",
 githubClient        = null,
 editor              = null,
 extractParams = function(url) {
-  var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\.wsd)?)?$");
+  var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\.(wsd|dot))?)?$");
   if ((ex = pattern.exec(url))) {
     return {
       url:    url,
@@ -86,6 +86,10 @@ loadBrowser = function(content) {
         $('.menu li').removeClass('selected');
         $('.menu #' + id).addClass('selected');
       })
+      // .on('scrollSpy:exit', function() {
+      //   var id = $(this).attr('id');
+      //   $('.menu #' + id).removeClass('selected');
+      // })
       .scrollSpy()
       .find('.diagram')
       .on('load', function(event) {
@@ -105,7 +109,7 @@ loadBrowser = function(content) {
       $.each(data, function(index, blob) {
         var filePattern = new RegExp("^" + content.path);
 
-        if (blob.type == "blob" && /\.wsd$/.test(blob.path) && filePattern.test(blob.path)) {
+        if (blob.type == "blob" && /\.(wsd|dot)$/.test(blob.path) && filePattern.test(blob.path)) {
           blob.githubUrl = 'https://github.com/' + content.user + '/' + content.repo + '/tree/' + content.branch + '/' + blob.path;
           addFile(blob);
         }
