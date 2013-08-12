@@ -11,7 +11,7 @@ extractParams = function(url) {
       user:   ex[1],
       repo:   ex[2],
       branch: ex[4],
-      path:   (ex[5] || '').substring(1),
+      path:   (ex[5] || '').substring(1), //github expects no root slash
       file:   ex[6],
       edit:   new RegExp("/edit/?\\?http").test(url)
     };
@@ -212,8 +212,7 @@ $(document)
     loadEditor(target, this.href);
   })
   .keyup(function(event) {
-    if (event.keyCode == 27) {
-      // TODO dont do when in non git mode
+    if (event.keyCode == 27 && ($('.browse .content li').length > 0) ) {
       window.history.back();
       showBrowser();
     }
