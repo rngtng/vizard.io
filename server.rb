@@ -60,7 +60,7 @@ get '/render.:format' do
   cache_file = './cache/' + Digest::SHA1.hexdigest(url) + '.' + format
 
   cache(cache_file) do
-    diagram_data = github.get_content(url, cookies[:github_token])
+    diagram_data = github.get_content(url, cookies[:githubToken])
     PlantumlRenderer.render(diagram_data, format)
   end
 end

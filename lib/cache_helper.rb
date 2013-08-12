@@ -25,6 +25,7 @@ class CacheHelper
       end
 
       def write_fragment(cache_file, content)
+        FileUtils.mkdir_p File.dirname(cache_file)
         File.open(cache_file, "w") { |f| f.write(content) }
         puts "Fragment written for '#{cache_file}'"
         content
