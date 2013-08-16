@@ -2,6 +2,12 @@ var githubTokenName = 'githubToken',
 preview             = ".edit .preview",
 githubClient        = null,
 editor              = null,
+defaultGraphContent = "" +
+"' Welcome to vizard\n" +
+"' \n" +
+"' \n" +
+"\n" +
+"A -> B",
 extractParams = function(url) {
   var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\.(wsd|dot))?)?$");
   if ((ex = pattern.exec(url))) {
@@ -26,14 +32,14 @@ login = function(token, successCb) {
       token: token,
       auth: "oauth"
     });
-    $('#login').addClass('collapsed');
+    $('#modal').removeClass('login').addClass('collapsed');
     successCb();
   }
   else {
     window.loginCb = function(token) {
       login(token, successCb);
     };
-    $('#login').removeClass('collapsed');
+    $('#modal').addClass('login').removeClass('collapsed');
   }
 },
 
@@ -53,10 +59,11 @@ loadBrowser = function(content) {
       }
       else {
         var name = folders.shift(),
-        node     = parent.find("#" + name + " ul").first();
+        node     = parent.find("#" + name + " ul").first(),
+        url = content.github.split(name)[0];
 
         if (node.length === 0) {
-          node = $('<li id=' + name + '><span>' + name + '</span><ul></ul></li>')
+          node = $('<li id=' + name + '><a href="/?' + url + name + '" class="folder">' + name + '</a><ul></ul></li>')
             .appendTo(parent)
             .find('ul')
             .first();
@@ -172,7 +179,7 @@ loadEditor = function(target, url) {
     });
   }
   else {
-    editor.getSession().setValue('A -> B');
+    editor.getSession().setValue(defaultGraphContent);
   }
   showEditor();
 },
@@ -183,7 +190,7 @@ showEditor = function() {
 };
 
 $(document)
-  .on('click', '.browse .navigation a', function(event) {
+  .on('click', '.browse .navigation a:not(.folder)', function(event) {
     var id = $(this).attr('href');
     event.preventDefault();
     $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
@@ -218,13 +225,6 @@ $(document)
     }
   })
   .ready(function() {
-    $(preview).on('load', function(event) {
-      var preview = $(this);
-      preview.parents('a').attr('href', preview.attr('src'));
-      setTimeout(function(){
-        preview.parents('div').removeClass('loading');
-      }, 1000);
-    });
 
     if ((content = extractParams(window.location.href))) {
       if (content.edit && !content.file) {
@@ -250,6 +250,15 @@ $(document)
       .on('scroll', function(event) {
         $('.menu').removeClass('show');
       }, 100);
+
+    $(preview)
+      .on('load', function(event) {
+        var preview = $(this);
+        preview.parents('a').attr('href', preview.attr('src'));
+        setTimeout(function(){
+          preview.parents('div').removeClass('loading');
+        }, 1000);
+      });
   });
 
 

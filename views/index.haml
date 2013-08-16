@@ -16,13 +16,20 @@
     %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
 
   %body
-    #login.collapsed.white
-      .view
+    #modal.collapsed.white
+      .login
         .github-auth
           For shiny rendered diagrams, please
 
         %a.btn-auth.btn-github.large{href:"/login"}
           sign in with <b>Github</b>
+
+      .save
+        .github-auth
+          Save changes to GitHub?
+
+        %a.btn-auth.btn-github.large{href:"/save"}
+          Yes
 
     / .editing
     %header.gradient.hidden
@@ -45,6 +52,9 @@
             %img.loader.diagram.hidden{src:'/images/loading.gif'}
             %img.preview.diagram{src:'/images/loading.gif'}
 
+        .credits
+          graph rendered with
+          %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml
 
     .browse.yellow
       .navigation
@@ -54,6 +64,10 @@
       .view
         .content
           %ul
+
+        .credits
+          shiny graphs rendered with
+          %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml
 
     #new-commit.new-commit.hidden
       .bubble
