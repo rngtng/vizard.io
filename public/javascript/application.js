@@ -2,6 +2,7 @@ var githubTokenName = 'githubToken',
 preview             = ".edit .preview",
 githubClient        = null,
 editor              = null,
+fileTypes           = '(wsd|dot)',
 defaultGraphContent = "" +
 "' Welcome to vizard\n" +
 "' \n" +
@@ -9,7 +10,7 @@ defaultGraphContent = "" +
 "\n" +
 "A -> B",
 extractParams = function(url) {
-  var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\.(wsd|dot))?)?$");
+  var pattern = new RegExp("https?://github.com/([^/]+)/([^/]+)/(blob|tree)/([^/]+)(/[^.]+(/[^/.]+\\." + fileTypes + " )?)?$");
   if ((ex = pattern.exec(url))) {
     return {
       url:    url,
@@ -59,11 +60,10 @@ loadBrowser = function(content) {
       }
       else {
         var name = folders.shift(),
-        node     = parent.find("#" + name + " ul").first(),
-        url = content.github.split(name)[0];
+        node     = parent.find("#" + name + " ul").first();
 
         if (node.length === 0) {
-          node = $('<li id=' + name + '><a href="/?' + url + name + '" class="folder">' + name + '</a><ul></ul></li>')
+          node = $('<li id=' + name + '><a href="#" class="folder">' + name + '</a><ul></ul></li>')
             .appendTo(parent)
             .find('ul')
             .first();
@@ -75,7 +75,7 @@ loadBrowser = function(content) {
     view_node   = findOrCreateFolder($('.browse .content ul'), folders.slice());
 
     $('<li id=' + id + '>' +
-        '<a href="#' + id + '">' +  name + '</a>' +
+        '<a href="' + file.githubUrl + '">' +  name + '</a>' +
       '</li>').appendTo(nav_node);
 
     $('<li id=' + id + '>' +
@@ -114,11 +114,16 @@ loadBrowser = function(content) {
   githubClient.getRepo(content.user, content.repo)
     .getTree(content.branch + '?recursive=true', function(err, data) {
       $.each(data, function(index, blob) {
-        var filePattern = new RegExp("^" + content.path);
+        var filePattern = new RegExp("^" + content.path),
+        fileTypePattern = new RegExp('\\.' + fileTypes + '$');
 
-        if (blob.type == "blob" && /\.(wsd|dot)$/.test(blob.path) && filePattern.test(blob.path)) {
+        if (blob.type == "blob" && fileTypePattern.test(blob.path) && filePattern.test(blob.path)) {
           blob.githubUrl = 'https://github.com/' + content.user + '/' + content.repo + '/tree/' + content.branch + '/' + blob.path;
           addFile(blob);
+        }
+        else if (blob.type != "blob") {
+          // TODO
+          // addFolder(blob);
         }
       });
     });
@@ -191,9 +196,14 @@ showEditor = function() {
 
 $(document)
   .on('click', '.browse .navigation a:not(.folder)', function(event) {
-    var id = $(this).attr('href');
+    var id = $(this).parent().attr('id');
     event.preventDefault();
     $('.browse .content').scrollTo( $('.browse .content ' + id), 800, {easing:'swing'} );
+  })
+  .on('click', '.browse .navigation .folder', function(event) {
+    event.preventDefault();
+    // TODO
+    // window.location.href = ''
   })
   .on('click', 'a[href="/login"]', function(event) {
     var width = 1010,
