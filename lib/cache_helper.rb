@@ -6,8 +6,13 @@ require 'digest/sha1'
 class CacheHelper
   module Sinatra
     module Helpers
-      def cache(cache_file, options = {}, &block)
-        read_fragment(cache_file, options) || write_fragment(cache_file, block.call)
+      def cache(cache_key, cache_format, options = {}, &block)
+        if cache_key
+          puts cache_file = './cache/' + cache_key + '.' + format
+          read_fragment(cache_file, options) || write_fragment(cache_file, block.call)
+        else
+          block.call
+        end
       end
 
       private

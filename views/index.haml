@@ -1,25 +1,34 @@
 !!!
-%html{lang:"en"}
+%html{lang: "en"}
   %head
-    %meta{charset:'utf-8'}
+    %meta{charset: "utf-8"}
     %meta{'http-equiv' => "X-UA-Compatible", :content => "chrome=1"}
-    %meta{name:"viewport", content:"width=device-width, initial-scale=1, maximum-scale=1"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1"}
 
-    %title UML Generator - Graphs generated with PlantUML
+    %title Vizard - shiny UML Graphs on top of PlantUML
 
-    /[if lt IE 9]
-      %script{src:"//html5shiv.googlecode.com/svn/trunk/html5.js"}
-
-    %link{rel:"stylesheet", type:"text/css", href:"/css/auth-buttons.css", media:"screen"}
-    %link{rel:"stylesheet", type:"text/css", href:"/css/github.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
-    %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
+    %link{rel:"stylesheet", type:"text/css", href:"http://yui.yahooapis.com/pure/0.5.0/pure-min.css", media:"screen"}
 
-  %body
-    #modal.collapsed.white
+    %script#rootTemplate{type: "text/template"}
+      %h1 Vizard
+      .diagrams
+      %form.pure-form
+        %h4 To start, enter a name of the diagram and hit 'create':
+        %input#modelId{type:'text', placeholder:"Diagram Name"}
+        %button.pure-button.pure-button-primary Create
+
+    %script#diagramTemplate{type: "text/template"}
+      %a.fancybox{href: "#"}
+        %img.diagram{src: "data:image/png;base64,<%= image %>"}
+
+    %script#githubModalTemplate{type: "text/template"}
       .login
         .github-auth
           For shiny rendered diagrams, please
+
+          %br
+          %img{src: 'http://upload.wikimedia.org/wikipedia/en/thumb/4/40/Octocat,_a_Mascot_of_Github.jpg/220px-Octocat,_a_Mascot_of_Github.jpg', height:60}
 
         %a.btn-auth.btn-github.large{href:"/login"}
           sign in with <b>Github</b>
@@ -31,26 +40,12 @@
         %a.btn-auth.btn-github.large{href:"/save"}
           Yes
 
-    / .editing
-    %header.gradient.hidden
-      %h1
-        UML Generator - Graphs generated with PlantUML
-      .content
-        .save
-          %a.fancybox{href:"#new-commit"} Save to GitHub
-
-        .logout
-          %a{href:'/logout'} logout
-
+  %body
     .edit.green
       .editor.blue
-        #editor
 
       .view
-        .content.loading.yellow
-          %a.fancybox{href:'#'}
-            %img.loader.diagram.hidden{src:'/images/loading.gif'}
-            %img.preview.diagram{src:'/images/loading.gif'}
+        %ul.content
 
         .credits
           graph rendered with
@@ -63,42 +58,9 @@
 
       .view
         .content
-          %ul
 
         .credits
           shiny graphs rendered with
           %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml
 
-    #new-commit.new-commit.hidden
-      .bubble
-        .bubble-contents
-          .merge-message
-            %form{action:"/update", method:"POST"}
-              %label.commit-message-summary-label{for:"commit-summary-input"} Commit summary:
-              %input#commit-summary-input.commit-message-summary{type:"text", placeholder:"Update", name:"message"}
-
-              %label.commit-message-label{for:"commit-description-textarea"}
-                Extended description: <small>(optional)</small>
-              %textarea#commit-description-textarea.commit-message{name:"description"}
-
-              .author
-                %img{height:"30", src:'', width:"30"}
-                %strong.author-name
-                  %a{href:''}
-                %span.author-email
-
-              .merge-branch-form-actions
-                %button#submit-file.button.primary.js-blob-submit{type:"submit"}
-                  Commit Changes
-
-    %script{src:"/javascript/jquery.min.js"}
-    %script{src:"/javascript/jquery.scrollTo-min.js"}
-    %script{src:"/javascript/jquery.scrollspy.js"}
-    %script{src:"/javascript/jquery.cookie.js"}
-    %script{src:"/javascript/jquery.unevent.js"}
-    / %script{src:"//brandonaaron.github.io/jquery-mousewheel/jquery.mousewheel.js"}
-    %script{src:"/javascript/fancybox/jquery.fancybox.pack.js?v=2.1.5"}
-    %script{src:"/javascript/ace/ace.js"}
-    %script{src:"/javascript/underscore-min.js"}
-    %script{src:"/javascript/github.js"}
-    %script{src:"/javascript/application.js"}
+    %script{src:"/bundle.js"}

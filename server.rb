@@ -25,7 +25,7 @@ CONTENT_TYPE_MAPPING = {
   'utxt' => 'text/plain',
 }
 
-set :haml, :format => :html5
+set :haml, :format => :html5, :escape_attrs => false
 
 helpers do
   def github
@@ -53,21 +53,11 @@ end
 
 # ---------------------------------------------------
 
-get '/render.:format' do
-  set_content_type(format)
-
-  url = request.env["QUERY_STRING"]
-  cache_file = './cache/' + Digest::SHA1.hexdigest(url) + '.' + format
-
-  cache(cache_file) do
-    diagram_data = github.get_content(url, cookies[:githubToken])
-    PlantumlRenderer.render(diagram_data, format)
-  end
-end
-
 post '/render.:format' do
   set_content_type(format)
-  PlantumlRenderer.render(request.body.string, format)
+  cache(request.env["QUERY_STRING"], format) do
+    PlantumlRenderer.render(request.body.string, format)
+  end
 end
 
 # ---------------------------------------------------
