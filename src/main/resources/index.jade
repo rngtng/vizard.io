@@ -1,11 +1,53 @@
-link(rel='stylesheet'
-    type='text/css'
-    href='/style.css')
+!!!
+html(lang= "en")
+  head
+    meta(charset = "utf-8")
+    meta(http-equiv= "X-UA-Compatible" content= "chrome=1")
+    meta(name= "viewport" content= "width=device-width, initial-scale=1, maximum-scale=1")
 
-h1 asdasd
+    title UML Generator - Graphs generated with PlantUML
 
-#text
-  p
-    Your value is asd
+    //- %link{rel:"stylesheet", type:"text/css", href:"/css/auth-buttons.css", media:"screen"}
+    //- %link{rel:"stylesheet", type:"text/css", href:"/css/github.css", media:"screen"}
+    link(rel="stylesheet" type="text/css" href="/css/style.css" media="screen")
+    //- %link{rel:"stylesheet", type:"text/css", href:"/javascript/fancybox/jquery.fancybox.css?v=2.1.5", media:"screen"}
+
+  //-   %script#githubDiagramTemplate{type: "text/template"}
+  //-     %li.loading{id: "<%= id %>"}
+  //-       <%= file_path %>
+  //-       %br
+  //-       %a{href: "/edit?<%= file_githuburl %>"}
+  //-         %img.loader.hidden{src: "/images/loading.gif"}
+  //-         %img.diagram{src: "/render.png?<%= file_githuburl %>?<%= file_sha %>"}
+
+  //-   %script#diagramTemplate{type: "text/template"}
+  //-     %a.fancybox{href: "#"}
+  //-       %img.diagram{src: "data:image/png;base64,<%= imageData %>"}
+
+  //-   %script#folderTemplate{type: "text/template"}
+  //-     %ul
+
+  body
+    .edit.green
+      .editor.blue
+        #editor
+
+      .view
+        .content
+        .credits
+          | shiny graphs rendered with
+          a(href='http://plantuml.sourceforge.net' target='_blank') PlantUml
+
+    .show.yellow
+      .navigation
+        #menu
+
+      .view
+        .content
+        .credits
+          | shiny graphs rendered with
+          a(href='http://plantuml.sourceforge.net' target='_blank') PlantUml
+
+    script(src="/javascript/vendor/require.js" data-main="/javascript/main")
 
 
