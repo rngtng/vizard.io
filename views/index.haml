@@ -5,18 +5,20 @@
     %meta{'http-equiv' => "X-UA-Compatible", :content => "chrome=1"}
     %meta{name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1"}
 
-    %title Vizard - shiny UML Graphs on top of PlantUML
+    %title vizard.io  - shiny UML Graphs on top of PlantUML
 
     %link{rel:"stylesheet", type:"text/css", href:"/css/style.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"http://yui.yahooapis.com/pure/0.5.0/pure-min.css", media:"screen"}
 
     %script#rootTemplate{type: "text/template"}
-      %h1 Vizard
+      %h1 vizard.io
       .diagrams
       %form.pure-form
-        %h4 To start, enter a name of the diagram and hit 'create':
+        %h4 To start, enter a name and hit 'create':
         %input#modelId{type:'text', placeholder:"Diagram Name"}
         %button.pure-button.pure-button-primary Create
+      %br
+      %br
 
     %script#diagramTemplate{type: "text/template"}
       %a.fancybox{href: "#"}
@@ -48,7 +50,7 @@
         %ul.content
 
         .credits
-          graph rendered with
+          shiny graph rendered with
           %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml
 
     .browse.yellow
