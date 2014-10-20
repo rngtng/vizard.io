@@ -2,3 +2,5 @@
 .env.live
 .env
 cache
+node_modules
+3rdparty

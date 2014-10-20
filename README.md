@@ -1,10 +1,37 @@
-# Vizard #
+# Vizard
 
-A SP editor and webservice to render diagrams with plantuml (http://plantuml.com)
+An online editor and webservice to render UML diagrams with plantuml (http://plantuml.com)
 
-# THIS IS VERY HEAVY WIP, stay tuned!
+## CAUTION
 
-## Related
+THIS IS VERY HEAVY **WIP** - stay tuned!
 
-A SoundCloud 20% Project
+## Backbone
 
+Load order:
+
+1. main.js
+2. config.js
+3. app.js (to keep global state)
+4. init rootItem (once)
+5. init Router (once)
+6. start routing
+
+
+## Usage
+
+```
+$ jruby server.rb
+```
+
+
+## Similar Project
+
+  * webdiagrams
+  *
+  *
+
+
+## About
+
+This is a SoundCloud 20% Project

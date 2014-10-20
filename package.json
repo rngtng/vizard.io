@@ -1,0 +1,33 @@
+{
+  "name": "vizard",
+  "version": "0.0.1",
+  "description": "A JS UI to view and edit beautiful sequence diagrams with plantuml",
+  "main": "main.js",
+  "scripts": {
+    "start": "jruby server.rb",
+    "build": "browserify js/main.js | uglifyjs -c > public/bundle.js",
+    "watch": "watchify js/main.js -o public/bundle.js --debug --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/rngtng/vizard.git"
+  },
+  "author": "Tobias Bielohlawek @rngtng",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "node-localstorage": "latest",
+    "browserify": "latest",
+    "watchify": "latest",
+    "uglifyify": "latest",
+    "jsdom": "latest"
+  },
+  "dependencies": {
+    "jquery": "latest",
+    "underscore": "latest",
+    "backbone": "latest",
+    "backbone.localstorage": "latest",
+    "rusha": "latest",
+    "github": "latest",
+    "brace": "latest"
+  }
+}
