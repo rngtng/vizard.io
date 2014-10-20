@@ -10,8 +10,8 @@ module.exports = Backbone.View.extend({
   tagName: 'li',
 
   events: {
-    "click a":    "showFancybox",
-    "dblclick a": "loadEditView"
+    //"click a": "showFancybox",
+    "click a": "loadEditView"
   },
 
   initialize: function() {
@@ -21,7 +21,10 @@ module.exports = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.image.toJSON()));
+    this.$el.html(this.template({
+      title: this.model.get('id'),
+      image: this.model.image.get('image')
+    }));
     return this;
   },
 

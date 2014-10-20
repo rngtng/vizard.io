@@ -49,6 +49,7 @@ module.exports = Backbone.View.extend({
 
   updateModel: function() {
     this.model.update(this.editor.getSession().getValue());
+    this.model.store();
   },
 
   render: function(){

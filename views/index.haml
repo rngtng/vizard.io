@@ -19,14 +19,16 @@
       .diagrams
       %form.pure-form
         %h4 To start, enter a name and hit 'create':
-        %input#modelId{type:'text', placeholder:"Diagram Name"}
+        %input#modelId{type: "text", placeholder: "Diagram Name"}
         %button.pure-button.pure-button-primary Create
       %br
       %br
 
     %script#diagramTemplate{type: "text/template"}
+      %b <%= title %>
+      %br
       %a.fancybox{href: "#"}
-        %img.diagram{src: "data:image/png;base64,<%= image %>"}
+        %img.diagram{src: "data:image/png;base64,<%= image %>", title: "Click to edit"}
 
     %script#githubModalTemplate{type: "text/template"}
       .login
@@ -47,6 +49,9 @@
           Yes
 
   %body
+    .ribbon
+      %a{href:'https://github.com/rngtng/vizard'} I'm BETA!
+
     .edit.green
       .editor.blue
 
