@@ -9,6 +9,7 @@ gem 'less'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'dotenv'
+gem 'newrelic_rpm'
 
 group :test do
   gem 'rspec'

@@ -6,11 +6,14 @@ GEM
     commonjs (0.2.6)
     diff-lcs (1.2.4)
     dotenv (0.8.0)
+    eventmachine (1.0.3)
     eventmachine (1.0.3-java)
     haml (4.0.3)
       tilt
     less (2.3.2)
       commonjs (~> 0.2.6)
+    linecache (0.46-java)
+    newrelic_rpm (3.9.6.257)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -27,6 +30,8 @@ GEM
     ruby-debug (0.10.4)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4)
+      linecache (>= 0.3)
     ruby-debug-base (0.10.4-java)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -51,6 +56,7 @@ DEPENDENCIES
   dotenv
   haml
   less
+  newrelic_rpm
   rspec
   ruby-debug
   sinatra

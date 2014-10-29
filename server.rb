@@ -10,6 +10,7 @@ require 'sinatra'
 require 'sinatra/cookies'
 require 'sinatra/reloader' if development?
 
+require 'newrelic_rpm'
 require 'haml'
 require 'less'
 require 'base64'
@@ -24,6 +25,8 @@ CONTENT_TYPE_MAPPING = {
   'txt'  => 'text/plain',
   'utxt' => 'text/plain',
 }
+
+newrelic_ignore '/ping'
 
 set :haml, :format => :html5, :escape_attrs => false
 
@@ -76,4 +79,8 @@ end
 
 get %r{(edit)?} do
   haml :index
+end
+
+get '/ping' do
+  'OK'
 end
