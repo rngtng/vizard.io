@@ -8,8 +8,12 @@ Backbone.sync = Databackend.sync;
 
 module.exports = Backbone.Model.extend({
   defaults: {
-    data: "'Welcome to vizard\n" +
-      "'\n" +
+    data: "' Welcome to vizard.io\n" +
+      "' This diagram will be auto-saved in your browser \n" +
+      "' \n" +
+      "' For syntax see PlantUML Language Reference Guide:  \n" +
+      "' http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf \n" +
+      "\n" +
       "\n" +
       "A -> B",
     remoteData: null,

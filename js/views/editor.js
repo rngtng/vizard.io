@@ -20,6 +20,7 @@ module.exports = Backbone.View.extend({
     this.editor.setTheme("ace/theme/github");
     this.editor.getSession().setMode('ace/mode/diagram');
     this.editor.getSession().setValue(model.read());
+    this.editor.setOption("scrollPastEnd", 0.3);
     this.editor.commands.addCommand({
         name: 'save',
         bindKey: {
