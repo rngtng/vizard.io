@@ -47,6 +47,13 @@ helpers do
 end
 
 # ---------------------------------------------------
+before do
+  if request.host.include?('heroku')
+    redirect 'http://vizard.io'
+  end
+end
+
+# ---------------------------------------------------
 
 after do
   if request.env["HTTP_ACCEPT"] =~ /base64/
