@@ -5,3 +5,5 @@ cache
 node_modules
 3rdparty
 log/newrelic_agent.log
+vendor/
+.bundle/config

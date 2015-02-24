@@ -23,6 +23,13 @@ Load order:
 $ jruby server.rb
 ```
 
+## Deploy
+
+When deploying to Heroku, make sure  cfgs to set:
+
+`heroku config:add GRAPHVIZ_DOT=/app/vendor/graphviz/bin/dot`
+
+
 
 ## Similar Project
 

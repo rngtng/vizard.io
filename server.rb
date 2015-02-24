@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 require 'rubygems'
-require 'dotenv'
-Dotenv.load(ENV['ENV'] || '.env')
-
 require 'bundler/setup'
 
+require 'dotenv'
 require 'sinatra'
 require 'sinatra/cookies'
 require 'sinatra/reloader' if development?
@@ -19,6 +17,8 @@ require 'lib/cache_helper'
 
 require 'lib/github'
 require 'lib/plantuml_renderer'
+
+Dotenv.load(ENV['ENV'] || '.env')
 
 CONTENT_TYPE_MAPPING = {
   'png'  => 'image/png',
