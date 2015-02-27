@@ -7,3 +7,4 @@ node_modules
 log/newrelic_agent.log
 vendor/
 .bundle/config
+npm-debug.log

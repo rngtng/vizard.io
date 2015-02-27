@@ -4,9 +4,9 @@
   "description": "A JS UI to view and edit beautiful sequence diagrams with plantuml",
   "main": "main.js",
   "scripts": {
-    "start": "jruby server.rb",
-    "build": "browserify js/main.js | uglifyjs -c > public/bundle.js",
-    "watch": "watchify js/main.js -o public/bundle.js --debug --verbose"
+    "server": "jruby server.rb",
+    "build": "node_modules/.bin/browserify js/main.js | node_modules/.bin/uglifyjs -c > public/bundle.js",
+    "watch": "node_modules/.bin/watchify js/main.js -o public/bundle.js --debug --verbose"
   },
   "repository": {
     "type": "git",

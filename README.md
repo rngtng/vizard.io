@@ -2,36 +2,63 @@
 
 An online editor and webservice to render UML diagrams with plantuml (http://plantuml.com)
 
-## CAUTION
-
-This somewhat **WIP** - stay tuned!
-
-## Backbone
-
-Load order:
-
-1. main.js
-3. app.js (to keep global state)
-4. init rootItem (once)
-5. init Router (once)
-6. start routing
-
 
 ## Usage
 
+
 ```
-$ jruby server.rb
+npm run server
 ```
 
 ## Deploy
 
-When deploying to Heroku, make sure  cfgs to set:
+When deploying to Heroku, make sure cfgs to set and multi-pack enabled:
 
-`heroku config:add GRAPHVIZ_DOT=/app/vendor/graphviz/bin/dot`
+```
+  heroku config:add GRAPHVIZ_DOT=/app/vendor/graphviz/bin/dot
+  heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-multi.git
+  heroku config:add RAKE_ENV=production
+```
+
+Before deploy build & uglify js:
+```
+  npm run build
+``
 
 
+## Development
 
-## Similar Project
+To build js run:
+
+```
+  npm install
+  npm run server
+  npm run watch
+``
+
+
+## Requirements:
+
+### Production
+ - jruby
+ - graphviz
+
+### Development
+ - nodejs
+
+
+## Help
+
+### Backbone Load order
+
+1. main.js
+2. app.js (to keep global state)
+3. init rootItem (once)
+4. init Router (once)
+5. start routing
+
+
+## Related/Similar Projects
 
   * [websequencediagrams](https://www.websequencediagrams.com)
 
