@@ -15,20 +15,13 @@
       ;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"179d2e5e51",applicationID:"4103232",sa:1,agent:"js-agent.newrelic.com/nr-476.min.js"}
 
     %script#rootTemplate{type: "text/template"}
-      %h1 vizard.io
       .diagrams
-      %form.pure-form
-        %h4 To start, enter a diagram name:
-        %input#modelId{type: "text", placeholder: "Diagram Name"}
-        %button.pure-button.pure-button-primary Create
-      %br
-      %br
 
     %script#diagramTemplate{type: "text/template"}
-      %a.fancybox{href: "#"}
-        %img.diagram{src: "data:image/png;base64,<%= image %>", title: "Click to edit"}
+      %a{href: "#"}
+        %b <%= title %>
+        %img{src: "data:image/png;base64,<%= image %>", title: "Click to edit"}
       %br
-      %b <%= title %>
 
     %script#githubModalTemplate{type: "text/template"}
       .login
@@ -52,29 +45,29 @@
     .ribbon
       %a{href:'https://github.com/rngtng/vizard'} I'm BETA!
 
-    .edit.green
-      .editor.blue
+    %header
+      .title
+        %h1 vizard.io
 
-      .view
-        %ul.content
+      .create
+        %form.pure-form
+          %b Create new diagram with name:
+          %input#modelId{type: "text", placeholder: "Diagram Name"}
+          %button.pure-button.pure-button-primary Create
 
-        %br
-        .credits
-          shiny graph rendered with
-          %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml,
-          %a{href:'http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf', target:'_blank'} Language Reference Guide
+    %section
+      .edit.green
+        .editor-wrapper.blue
 
-    .browse.yellow
-      .navigation
-        .menu.hidden.white
-          %ul
+        .view
 
-      .view
-        .content
+      .browse.yellow
+        .view
 
-        .credits
-          shiny graphs rendered with
-          %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml
+    %footer
+      shiny graph rendered with
+      %a{href:'http://plantuml.sourceforge.net', target:'_blank'} PlantUml,
+      %a{href:'http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf', target:'_blank'} Language Reference Guide
 
     %script{src:"/bundle.js"}
     %script{type: "text/javascript"}

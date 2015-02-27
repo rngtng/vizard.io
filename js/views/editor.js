@@ -40,7 +40,7 @@ module.exports = Backbone.View.extend({
           sender: 'editor|cli'
         },
         exec: function(editor) {
-          Backbone.history.navigate("/" + model.id, {trigger: true, replace: true});
+          Backbone.history.navigate("/", {trigger: true, replace: true});
         }
       });
     this.listenTo(this.editor, 'change', this.updateModel);

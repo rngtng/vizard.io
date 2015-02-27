@@ -24,22 +24,16 @@ module.exports = Backbone.View.extend({
     Backbone.history.navigate("/" + modelId, {trigger: true});
   },
 
-  diagrams: function() {
-    var content = $('<ul>');
+  renderDiagrams: function(content) {
     this.collection.forEach(function(diagram){
       var diagramView = new DiagramView({ model: diagram });
       content.append(diagramView.render().el);
     }, this);
-    return content;
   },
 
   render: function() {
-    this.$el.html(
-      $(this.template())
-       .filter('.diagrams')
-       .html(this.diagrams())
-       .end()
-    );
+    this.$el.html($(this.template()));
+    this.renderDiagrams(this.$el.find('.diagrams'));
     return this;
   }
 });

@@ -29,7 +29,7 @@ module.exports = Backbone.Router.extend({
       }
     }
 
-    new RootView({ el: $('.browse .view .content'), collection: items });
+    new RootView({ el: $('.browse .view'), collection: items });
     app.showBrowser();
   },
 
@@ -37,8 +37,8 @@ module.exports = Backbone.Router.extend({
     console.log("Router edit: " + itemId);
 
     var item = app.rootItem.findOrAddItem(itemId);
-    $('.edit .editor').html(new EditorView({ model: item }).$el);
-    $('.edit .view .content').html(new DiagramView({ model: item }).$el);
+    $('.edit .editor-wrapper').html(new EditorView({ model: item }).$el);
+    $('.edit .view').html(new DiagramView({ model: item }).$el);
     app.showEditor();
   }
 });

@@ -6,10 +6,10 @@ module.exports = {
   rootItem: null,
   showBrowser: function() {
     $('.edit').animate({'margin-left':'-100%'}, 500);
-    $('.navigation').animate({'margin-left':'0'}, 500);
+    $('.browse').animate({'margin-right':'0'}, 500);
   },
   showEditor: function() {
     $('.edit').animate({'margin-left':'0'}, 500);
-    $('.navigation').animate({'margin-left':'100%'}, 500);
+    $('.browse').animate({'margin-right':'-100%'}, 500);
   }
 };

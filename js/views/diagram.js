@@ -7,7 +7,7 @@ Backbone.$ = $;
 module.exports = Backbone.View.extend({
   template: _.template($('#diagramTemplate').html()),
 
-  tagName: 'li',
+  className: 'diagram',
 
   events: {
     //"click a": "showFancybox",
