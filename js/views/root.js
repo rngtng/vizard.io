@@ -1,7 +1,7 @@
 var $ = require('jquery'),
   _ = require('underscore'),
-  Backbone       = require('backbone'),
-  DiagramView    = require('./diagram');
+  Backbone     = require('backbone'),
+  DiagramView  = require('./diagram');
 
 Backbone.$ = $;
 

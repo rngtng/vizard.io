@@ -7,16 +7,15 @@ require 'dotenv'
 require 'sinatra'
 require 'sinatra/cookies'
 require 'sinatra/reloader' if development?
+require 'haml'
+require 'sass/plugin/rack'
 
 require 'newrelic_rpm'
-require 'haml'
-require 'less'
 require 'base64'
-
-require 'lib/cache_helper'
 
 require 'lib/github'
 require 'lib/plantuml_renderer'
+require 'lib/cache_helper'
 
 Dotenv.load(ENV['ENV'] || '.env')
 
@@ -27,6 +26,14 @@ CONTENT_TYPE_MAPPING = {
 }
 
 newrelic_ignore '/ping'
+
+use Sass::Plugin::Rack
+
+Sass::Plugin.options.merge({
+  :css_location      => './public/css/',
+  :template_location => 'public/css',
+  :style             => :compressed,
+})
 
 set :haml, :format => :html5, :escape_attrs => false
 
@@ -71,10 +78,6 @@ post '/render.:format' do
 end
 
 # ---------------------------------------------------
-
-get '/css/style.css' do
-  less :'style.css'
-end
 
 get '/login' do
   if code = params["code"]

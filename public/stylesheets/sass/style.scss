@@ -1,3 +1,19 @@
+@mixin flexbox-display-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flexbox($cmd, $direction) {
+  -webkit-box-#{$cmd}: $direction;
+  -moz-box-#{$cmd}: $direction;
+  -webkit-#{$cmd}: $direction;
+  -ms-flex-#{$cmd}: $direction;
+  #{$cmd}: $direction;
+}
+
 html, body, * {
   padding: 0;
   margin: 0;
@@ -20,29 +36,26 @@ body {
   height: 100%;
   overflow: hidden;
 
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
+  @include flexbox-display-flex;
+  @include flexbox(flex-direction, column);
 }
 
 header {
+  @include flexbox-display-flex;
   height: 40px;
   min-height: 40px;
-  display: flex;
 
   .title {
+    @include flexbox(flex, 1);
     padding-left: 10px;
-    flex: 1;
+
     h1 {
       margin: 0;
     }
   }
 
   .create {
-    flex: 1;
+    @include flexbox(flex, 1);
     text-align: right;
     padding: 5px;
     padding-right: 10px;
@@ -50,20 +63,20 @@ header {
 }
 
 section {
-  flex: 1;
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
+  @include flexbox-display-flex;
+  @include flexbox(flex, 1);
+  @include flexbox(align-self, stretch);
+  @include flexbox(flex-direction, row);
 }
 
 .edit, .browse {
-  flex: 1;
-  display: flex;
+  @include flexbox-display-flex;
+  @include flexbox(flex, 1);
 }
 
 .edit .view {
+  @include flexbox(flex, 1);
   overflow-y: scroll;
-  flex: 1;
 }
 
 footer {
@@ -87,14 +100,14 @@ footer {
 /*------------------------------- */
 
 .editor-wrapper {
+  @include flexbox-display-flex;
   padding: 0 10px;
   min-width: 500px;
-  display: flex;
   overflow: auto;
   resize: horizontal;
 
   #editor {
-    flex: 1;
+    @include flexbox(flex, 1);
     border: 1px solid #ddd;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -210,13 +223,12 @@ div.loading img {
 }
 
 .diagrams {
-  display: -webkit-flex;
-  display: flex;
+  @include flexbox-display-flex;
   flex-wrap: wrap;
   justify-content: center;
 
   div {
-    flex: 1
+     @include flexbox(flex, 1);
   }
 }
 
