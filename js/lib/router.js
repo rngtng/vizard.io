@@ -8,6 +8,7 @@ Backbone.$ = $;
 
 var app       = require('./app'),
   RootView    = require('../views/root'),
+  HeaderView  = require('../views/header'),
   EditorView  = require('../views/editor'),
   DiagramView = require('../views/diagram');
 
@@ -29,6 +30,7 @@ module.exports = Backbone.Router.extend({
       }
     }
 
+    new HeaderView({ el: $('header')});
     new RootView({ el: $('.browse .view'), collection: items });
     app.showBrowser();
   },

@@ -5,6 +5,7 @@ module.exports = {
   router: null,
   rootItem: null,
   showBrowser: function() {
+    //TODO Add class to body??
     $('.edit').animate({'margin-left':'-100%'}, 500);
     $('.browse').animate({'margin-right':'0'}, 500);
   },
