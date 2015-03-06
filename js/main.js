@@ -14,9 +14,13 @@ app.rootItem.fetch();
 app.router    = new Router();
 window.app    = app; // Debug
 
-// Trigger the initial route and enable HTML5 History API support, set the
-// root folder to '/' by default.  Change in app.js.
 Backbone.history.start({ pushState: true, root: app.root });
 
+function KeyPressed( e ) {
+  if (e.keyCode == 27) {
+    Backbone.history.navigate("/", {trigger: true});
+    // window.history.back();
+  }
+}
 
-//window.localStorage.clear();
+document.onkeyup = KeyPressed;

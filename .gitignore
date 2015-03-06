@@ -8,3 +8,4 @@ log/newrelic_agent.log
 vendor/
 .bundle/config
 npm-debug.log
+.sass-cache/
