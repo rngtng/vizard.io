@@ -108,13 +108,33 @@ section {
   display: -webkit-flex;
   display: flex; }
 
+footer {
+  height: 20px;
+  min-height: 20px;
+  text-align: center;
+  font-size: 10px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 400;
+  color: #AAA; }
+  footer a {
+    color: #AAA; }
+    footer a:hover {
+      color: #999; }
+
+/*------------------------------- */
 .edit .view {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex-flex: 1;
   flex: 1;
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  text-align: left;
+  margin: 0; }
+  .edit .view .diagram .wrapper {
+    display: inline-block; }
+  .edit .view .diagram b {
+    display: none; }
 
 .browse .view {
   -webkit-box-flex: 1;
@@ -152,21 +172,9 @@ section {
     .browse .view .diagram a {
       max-height: 250px;
       overflow: scroll; }
+    .browse .view .diagram img {
+      width: 100%; }
 
-footer {
-  height: 20px;
-  min-height: 20px;
-  text-align: center;
-  font-size: 10px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-weight: 400;
-  color: #AAA; }
-  footer a {
-    color: #AAA; }
-    footer a:hover {
-      color: #999; }
-
-/*------------------------------- */
 .editor-wrapper {
   display: -webkit-box;
   display: -moz-box;

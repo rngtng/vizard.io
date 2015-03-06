@@ -97,9 +97,41 @@ section {
   @include flexbox-display-flex;
 }
 
+footer {
+  height: 20px;
+  min-height: 20px;
+  text-align: center;
+  font-size: 10px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 400;
+  color: #AAA;
+
+  a {
+    color: #AAA;
+
+    &:hover {
+      color: #999;
+    }
+  }
+}
+
+/*------------------------------- */
+
 .edit .view {
   @include flexbox(flex, 1);
   overflow-y: scroll;
+  text-align: left;
+  margin: 0;
+
+  .diagram {
+    .wrapper {
+      display: inline-block;
+    }
+
+    b {
+      display: none;
+    }
+  }
 }
 
 .browse .view {
@@ -123,29 +155,13 @@ section {
       max-height: 250px;
       overflow: scroll;
     }
-    // @include flexbox(flex, 1);
-  }
-}
 
-footer {
-  height: 20px;
-  min-height: 20px;
-  text-align: center;
-  font-size: 10px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-weight: 400;
-  color: #AAA;
-
-  a {
-    color: #AAA;
-
-    &:hover {
-      color: #999;
+    img {
+      width: 100%;
     }
   }
 }
 
-/*------------------------------- */
 
 .editor-wrapper {
   @include flexbox-display-flex;
