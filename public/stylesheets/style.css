@@ -13,7 +13,6 @@ body {
   font-size: 13px;
   line-height: 1.5;
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-weight: 400;
   color: #999;
   height: 100%;
   overflow: hidden;
@@ -34,8 +33,12 @@ header {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  height: 40px;
-  min-height: 40px; }
+  -webkit-box-flex-direction: row;
+  -moz-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-flex-direction: row;
+  flex-direction: row;
+  height: 50px; }
   header .title {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -44,7 +47,24 @@ header {
     flex: 1;
     padding-left: 10px; }
     header .title h1 {
-      margin: 0; }
+      margin: 0 5px;
+      padding: 0;
+      display: inline-block;
+      font-weight: bold;
+      color: #3ed715;
+      font-size: 35px;
+      vertical-align: middle; }
+      header .title h1:hover {
+        cursor: pointer; }
+    header .title .menu {
+      display: inline-block;
+      vertical-align: middle; }
+    header .title a {
+      color: #333;
+      text-decoration: none;
+      font-size: 20px; }
+      header .title a:hover {
+        text-decoration: underline; }
   header .create {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -52,20 +72,19 @@ header {
     -ms-flex-flex: 1;
     flex: 1;
     text-align: right;
-    padding: 5px;
-    padding-right: 10px; }
+    padding: 15px; }
 
 section {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex-flex: 1;
   flex: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
   -webkit-box-align-self: stretch;
   -moz-box-align-self: stretch;
   -webkit-align-self: stretch;
@@ -78,16 +97,16 @@ section {
   flex-direction: row; }
 
 .edit, .browse {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex-flex: 1;
-  flex: 1; }
+  flex: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex; }
 
 .edit .view {
   -webkit-box-flex: 1;
@@ -96,6 +115,43 @@ section {
   -ms-flex-flex: 1;
   flex: 1;
   overflow-y: scroll; }
+
+.browse .view {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex-flex: 1;
+  flex: 1;
+  overflow: scroll;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex-direction: row;
+  -moz-box-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -moz-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-justify-content: center;
+  -moz-box-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-justify-content: center;
+  justify-content: center;
+  padding: 20px; }
+  .browse .view .diagram {
+    transition: all .1s ease-in-out; }
+    .browse .view .diagram:hover {
+      z-index: 1000;
+      transform: scale(1.05); }
+    .browse .view .diagram a {
+      max-height: 250px;
+      overflow: scroll; }
 
 footer {
   height: 20px;
@@ -135,35 +191,44 @@ footer {
       margin-top: 5px;
       margin-bottom: 5px; }
 
-.diagram a {
-  text-decoration: none;
-  position: relative;
-  margin: 25px; }
-  .diagram a b {
-    opacity: 0.5;
+.diagram {
+  text-align: center;
+  margin: 0 25px 25px; }
+  .diagram .wrapper {
+    position: relative; }
+    .diagram .wrapper b {
+      opacity: 0.5;
+      text-align: left;
+      background-color: black;
+      color: #fff;
+      display: inline;
+      padding: 1px 5px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-transform: capitalize;
+      border: 2px solid black;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      z-index: 100; }
+    .diagram .wrapper a {
+      text-decoration: none;
+      display: block;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      padding: 5px;
+      background-color: white;
+      border: 1px solid #ddd; }
+  .edit .diagram {
     text-align: left;
-    position: absolute;
-    background-color: black;
-    color: #fff;
-    display: inline;
-    padding: 1px 5px;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-transform: capitalize;
-    margin-bottom: 3px;
-    border: 2px solid black;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px; }
-.diagram img {
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  max-width: 100%;
-  padding: 5px;
-  background-color: white;
-  border: 1px solid #ddd; }
+    margin: 0; }
+    .edit .diagram .wrapper {
+      display: inline-block; }
+    .edit .diagram b {
+      display: none; }
 
 /*------------------------------- */
 #modal {
@@ -212,20 +277,24 @@ div.loading img {
   div.loading img.loader {
     display: inline; }
 
-.diagrams {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; }
-  .diagrams div {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex-flex: 1;
-    flex: 1; }
+#create, #delete, #save {
+  background-color: #3ed715;
+  color: #FFF;
+  font-weight: bold; }
+
+#delete {
+  background-color: red; }
+
+#save, #rename {
+  display: none; }
+
+#item:before {
+  content: '>';
+  width: 20px;
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  color: #999; }
 
 .gradient {
   background: -moz-linear-gradient(top, #fff, #ddd);

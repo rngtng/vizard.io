@@ -6,12 +6,9 @@ var $ = require('jquery'),
 Backbone.$ = $;
 
 module.exports = Backbone.View.extend({
-  template: _.template($('#rootTemplate').html()),
 
   initialize: function(){
     _.bindAll(this, 'render');
-
-    this.render();
   },
 
   renderDiagrams: function(content) {
@@ -21,9 +18,14 @@ module.exports = Backbone.View.extend({
     }, this);
   },
 
+  setItems: function(items) {
+    this.collection = items;
+    this.render();
+  },
+
   render: function() {
-    this.$el.html($(this.template()));
-    this.renderDiagrams(this.$el.find('.diagrams'));
+    this.$el.html("");
+    this.renderDiagrams(this.$el);
     return this;
   }
 });

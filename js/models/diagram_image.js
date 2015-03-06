@@ -20,7 +20,10 @@ module.exports = Backbone.Model.extend({
 
   //---- PRIVATE
   updateImageData: function() {
-    $.ajax({
+    if (this.request) {
+      this.request.abort();
+    }
+    this.request = $.ajax({
       url: '/render.png?' + this.cacheKey(),
       type: 'post',
       data: this.get('imageData'), // + "\ntitle " + this.cacheKey()
@@ -33,6 +36,7 @@ module.exports = Backbone.Model.extend({
 
   setImage: function(imageData) {
     this.set('image', imageData);
+    this.request = undefined;
   },
 
   cacheKey: function() {
