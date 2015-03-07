@@ -39,13 +39,17 @@ body {
   @include flexbox(flex-direction, column);
 }
 
+.pure-form input[type=text]:focus {
+  border-color: #3ed715;
+}
+
 header {
   @include flexbox-display-flex;
   @include flexbox(flex-direction, row);
   height: 50px;
 
   .title {
-    @include flexbox(flex, 1);
+    // @include flexbox(flex, 3);
     padding-left: 10px;
 
     h1 {
@@ -62,15 +66,23 @@ header {
       }
     }
 
-    .menu {
+    form.rename, .menu {
       display: inline-block;
       vertical-align: middle;
+    }
+
+    form.rename {
+      display: none;
     }
 
     a {
       color: #333;
       text-decoration: none;
       font-size: 20px;
+      vertical-align: middle;
+      font-weight: bold;
+      text-transform: capitalize;
+      margin-right: 10px;
 
       &:hover {
         text-decoration: underline;
@@ -312,16 +324,18 @@ div.loading img {
   background-color: red;
 }
 
-#save, #rename {
+#save {
   display: none;
 }
 
-#item {
+.breadcrumb {
+  margin-top: 5px;
+
   &:before {
     content: '>';
     width: 20px;
     display: inline-block;
-    width: 30px;
+    font-weight: bold;
     text-align: center;
     color: #999;
   }

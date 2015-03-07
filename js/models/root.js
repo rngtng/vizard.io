@@ -6,20 +6,24 @@ var $ = require('jquery'),
 Backbone.sync = Databackend.sync;
 
 module.exports = Backbone.Collection.extend({
-    localStorage: new Databackend.storage("vizard-root"),
+  localStorage: new Databackend.storage("vizard-root"),
 
-    model: DiagramModel,
+  model: DiagramModel,
 
-    filterItem: function(itemId) {
-      return this.filter({id: itemId});
-    },
+  filterItem: function(itemId) {
+    return this.filter({id: itemId});
+  },
 
-    findOrAddItem: function(itemId) {
-      var item = this.findWhere({id: itemId});
+  findItem: function(itemId) {
+    return this.findWhere({id: itemId});
+  },
 
-      if(item === undefined) {
-        item = this.create({id: itemId});
-      }
-      return item;
+  findOrAddItem: function(itemId) {
+    var item = this.findWhere({id: itemId});
+
+    if(item === undefined) {
+      item = this.create({id: itemId});
     }
-  })
+    return item;
+  }
+});

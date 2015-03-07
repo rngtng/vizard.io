@@ -2,6 +2,7 @@ var $ = require('jquery'),
   Backbone = require('backbone');
 
 Backbone.$ = $;
+window.$ = $;
 
 var app        = require('./lib/app'),
   Databackend  = require('./lib/databackend'),

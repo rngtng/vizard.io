@@ -57,6 +57,17 @@ module.exports = Backbone.Model.extend({
     });
   },
 
+  setTitle: function(title) {
+    this.set('title', title);
+    this.save({
+      title: title
+    });
+  },
+
+  title: function() {
+    return this.get('title') || this.get('id');
+  },
+
   //---- PRIVATE
   updateImage: function() {
     this.image.update(this.get('data'));

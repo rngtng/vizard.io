@@ -10,30 +10,28 @@ module.exports = Backbone.View.extend({
   className: 'diagram',
 
   events: {
-    //"click a": "showFancybox",
-    "click a": "loadEditView"
+    "click a": "gotoEditView"
   },
 
-  initialize: function() {
-    _.bindAll(this, 'render', 'loadEditView');
+  initialize: function(options) {
+    this.action = options.action || '';
+    _.bindAll(this, 'render');
     this.listenTo(this.model.image, 'change:image', this.render);
     this.render();
   },
 
+  gotoEditView: function(event) {
+    var href = $(event.currentTarget).attr("href");
+    event.preventDefault();
+    Backbone.history.navigate(href, {trigger: true});
+  },
+
   render: function() {
     this.$el.html(this.template({
-      title: this.model.get('id'),
+      itemPath: this.action + this.model.id,
+      itemTitle: this.model.title(),
       image: this.model.image.get('image')
     }));
     return this;
-  },
-
-  showFancybox: function(event) {
-    event.preventDefault();
-    console.log('fancybox');
-  },
-
-  loadEditView: function(event) {
-    Backbone.history.navigate("edit/" + this.model.id, {trigger: true});
   }
 });

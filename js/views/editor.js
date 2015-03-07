@@ -32,17 +32,6 @@ module.exports = Backbone.View.extend({
           model.store();
         }
       });
-    // this.editor.commands.addCommand({
-    //     name: 'back',
-    //     bindKey: {
-    //       win: 'ESC',
-    //       mac: 'ESC',
-    //       sender: 'editor|cli'
-    //     },
-    //     exec: function(editor) {
-    //       Backbone.history.navigate("/", {trigger: true, replace: true});
-    //     }
-    //   });
     this.listenTo(this.editor, 'change', this.updateModel);
     // TODO update editor data when model data changed
     this.render();

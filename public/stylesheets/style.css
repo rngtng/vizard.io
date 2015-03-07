@@ -27,6 +27,9 @@ body {
   -ms-flex-flex-direction: column;
   flex-direction: column; }
 
+.pure-form input[type=text]:focus {
+  border-color: #3ed715; }
+
 header {
   display: -webkit-box;
   display: -moz-box;
@@ -40,11 +43,6 @@ header {
   flex-direction: row;
   height: 50px; }
   header .title {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex-flex: 1;
-    flex: 1;
     padding-left: 10px; }
     header .title h1 {
       margin: 0 5px;
@@ -56,13 +54,19 @@ header {
       vertical-align: middle; }
       header .title h1:hover {
         cursor: pointer; }
-    header .title .menu {
+    header .title form.rename, header .title .menu {
       display: inline-block;
       vertical-align: middle; }
+    header .title form.rename {
+      display: none; }
     header .title a {
       color: #333;
       text-decoration: none;
-      font-size: 20px; }
+      font-size: 20px;
+      vertical-align: middle;
+      font-weight: bold;
+      text-transform: capitalize;
+      margin-right: 10px; }
       header .title a:hover {
         text-decoration: underline; }
   header .create {
@@ -293,16 +297,18 @@ div.loading img {
 #delete {
   background-color: red; }
 
-#save, #rename {
+#save {
   display: none; }
 
-#item:before {
-  content: '>';
-  width: 20px;
-  display: inline-block;
-  width: 30px;
-  text-align: center;
-  color: #999; }
+.breadcrumb {
+  margin-top: 5px; }
+  .breadcrumb:before {
+    content: '>';
+    width: 20px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    color: #999; }
 
 .gradient {
   background: -moz-linear-gradient(top, #fff, #ddd);

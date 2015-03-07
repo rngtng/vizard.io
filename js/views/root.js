@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
 
   renderDiagrams: function(content) {
     this.collection.forEach(function(diagram){
-      var diagramView = new DiagramView({ model: diagram });
+      var diagramView = new DiagramView({ model: diagram, action: 'edit/' });
       content.append(diagramView.render().el);
     }, this);
   },

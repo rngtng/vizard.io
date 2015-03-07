@@ -15,6 +15,7 @@ var   app        = require('./app'),
 
 module.exports = Backbone.Router.extend({
   routes: {
+    "": "_index",
     "edit/*itemId": "_edit",
     "*itemId":      "_show"
   },
@@ -25,20 +26,27 @@ module.exports = Backbone.Router.extend({
     this.editHeaderView = new EditHeaderView({ el: $('header') });
   },
 
-  _show: function(itemId) {
+  _index: function(itemId) {
     var items = app.rootItem;
-
-    if (itemId) {
-      items = items.filterItem(itemId);
-      if (items.length === 0) {
-        app.router.navigate("edit/" + itemId, { trigger: true, replace: true });
-        return;
-      }
-    }
 
     this.headerView.setItems(items);
     this.rootView.setItems(items);
     app.showBrowser();
+  },
+
+  _show: function(itemId) {
+    var item = app.rootItem.findItem(itemId);
+
+    if(item === undefined) {
+      app.router.navigate("edit/" + itemId, { trigger: true, replace: true });
+      return;
+    }
+
+    this.editHeaderView.setItem(item);
+
+    $('.edit .editor-wrapper').html(new EditorView({ model: item }).$el);
+    $('.edit .view').html(new DiagramView({ model: item, action: 'edit/' }).$el);
+    app.showSingle();
   },
 
   _edit: function(itemId) {
