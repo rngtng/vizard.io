@@ -107,6 +107,7 @@ section {
 .edit, .browse {
   @include flexbox(flex, 1);
   @include flexbox-display-flex;
+  padding: 0 10px;
 }
 
 footer {
@@ -130,14 +131,21 @@ footer {
 /*------------------------------- */
 
 .edit .view {
+  overflow-x: scroll;
   @include flexbox(flex, 1);
-  overflow-y: scroll;
   text-align: left;
   margin: 0;
 
   .diagram {
+    margin: 0;
+
     .wrapper {
       display: inline-block;
+      max-width: 100%;
+    }
+
+    a {
+      overflow-y: scroll;
     }
 
     b {
@@ -153,6 +161,7 @@ footer {
   @include flexbox(flex-direction, row);
   @include flexbox(flex-wrap, wrap);
   @include flexbox(justify-content, center);
+  @include flexbox(align-items, center);
   padding: 20px;
 
   .diagram {
@@ -172,15 +181,28 @@ footer {
       width: 100%;
     }
   }
+
+  .start {
+    text-align: center;
+    margin: 0px 0px 180px;
+
+    h1 {
+      font-weight: bold;
+      color: #3ed715;
+      font-size: 100px;
+      margin: 0px 0px 20px;
+    }
+  }
 }
+
 
 
 .editor-wrapper {
   @include flexbox-display-flex;
-  padding: 0 10px;
   min-width: 500px;
   overflow: auto;
   resize: horizontal;
+  margin-right: 10px;
 
   #editor {
     @include flexbox(flex, 1);
@@ -203,6 +225,27 @@ footer {
   .wrapper {
     position: relative;
 
+    .menu {
+      text-align: left;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border: 0;
+      z-index: 100;
+      padding: 10px;
+
+      a {
+        background-color: black;
+        opacity: 0.5;
+        color: #fff;
+        margin-right: 8px;
+        padding: 8px;
+        text-decoration: none;
+      }
+    }
+
     b {
       opacity: 0.5;
       text-align: left;
@@ -223,7 +266,7 @@ footer {
       z-index: 100;
     }
 
-    a {
+    > a {
       text-decoration: none;
       display: block;
       -moz-border-radius: 4px;
@@ -232,19 +275,6 @@ footer {
       padding: 5px;
       background-color: white;
       border: 1px solid #ddd;
-    }
-  }
-
-  .edit & {
-    text-align: left;
-    margin: 0;
-
-    .wrapper {
-      display: inline-block;
-    }
-
-    b {
-      display: none;
     }
   }
 }

@@ -8,7 +8,7 @@ Backbone.$ = $;
 
 var   app        = require('./app'),
   HeaderView     = require('../views/header'),
-  RootView       = require('../views/root'),
+  BrowserView    = require('../views/browser'),
   EditHeaderView = require('../views/edit_header'),
   EditorView     = require('../views/editor'),
   DiagramView    = require('../views/diagram');
@@ -22,7 +22,7 @@ module.exports = Backbone.Router.extend({
 
   initialize: function(options) {
     this.headerView     = new HeaderView({ el: $('header') });
-    this.rootView       = new RootView({ el: $('.browse .view') });
+    this.browserView    = new BrowserView({ el: $('.browse .view') });
     this.editHeaderView = new EditHeaderView({ el: $('header') });
   },
 
@@ -30,7 +30,7 @@ module.exports = Backbone.Router.extend({
     var items = app.rootItem;
 
     this.headerView.setItems(items);
-    this.rootView.setItems(items);
+    this.browserView.setItems(items);
     app.showBrowser();
   },
 

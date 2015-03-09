@@ -9,21 +9,15 @@ module.exports = Backbone.View.extend({
 
   events: {
     "click #create": "createNew",
-    "keypress #modelId": "enableCreate"
   },
 
   initialize: function(){
     _.bindAll(this, 'render');
-    $('#create').attr("disabled", true);
-  },
-
-  enableCreate: function() {
-    $('#create').attr("disabled", false);
   },
 
   createNew: function(event) {
     event.preventDefault();
-    var modelId = $('input#modelId').val();
+    var modelId = $('input#modelId').val() || new Date().timeNow();
     if( modelId ) {
       Backbone.history.navigate("/" + modelId, {trigger: true});
       $('input#modelId').val("");
@@ -38,6 +32,7 @@ module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template());
+    $('header').toggleClass('hidden', (this.collection.length < 1) );
     return this;
   }
 });

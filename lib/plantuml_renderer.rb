@@ -10,8 +10,8 @@ java_import 'java.io.FileOutputStream'
 
 DEFAULTS = <<-EOF
 
-skinparam sequenceArrowColor #FF3300
-skinparam sequenceLifeLineBorderColor #FF3300
+skinparam sequenceArrowColor #3ed715
+skinparam sequenceLifeLineBorderColor #3ed715
 skinparam sequenceLifeLineBackgroundColor #FF3300
 
 skinparam sequenceParticipantBorderColor #CCCCCC

@@ -15,7 +15,8 @@ module.exports = Backbone.Model.extend({
       "' http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf \n" +
       "\n" +
       "\n" +
-      "A -> B",
+      "A -> B: Example Request\n" +
+      "A <-- B: A Response",
     remoteData: null,
     image: null
   },

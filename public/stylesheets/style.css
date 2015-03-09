@@ -110,7 +110,8 @@ section {
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex; }
+  display: flex;
+  padding: 0 10px; }
 
 footer {
   height: 20px;
@@ -127,18 +128,23 @@ footer {
 
 /*------------------------------- */
 .edit .view {
+  overflow-x: scroll;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex-flex: 1;
   flex: 1;
-  overflow-y: scroll;
   text-align: left;
   margin: 0; }
-  .edit .view .diagram .wrapper {
-    display: inline-block; }
-  .edit .view .diagram b {
-    display: none; }
+  .edit .view .diagram {
+    margin: 0; }
+    .edit .view .diagram .wrapper {
+      display: inline-block;
+      max-width: 100%; }
+    .edit .view .diagram a {
+      overflow-y: scroll; }
+    .edit .view .diagram b {
+      display: none; }
 
 .browse .view {
   -webkit-box-flex: 1;
@@ -167,6 +173,11 @@ footer {
   -webkit-justify-content: center;
   -ms-flex-justify-content: center;
   justify-content: center;
+  -webkit-box-align-items: center;
+  -moz-box-align-items: center;
+  -webkit-align-items: center;
+  -ms-flex-align-items: center;
+  align-items: center;
   padding: 20px; }
   .browse .view .diagram {
     transition: all .1s ease-in-out; }
@@ -178,6 +189,14 @@ footer {
       overflow: scroll; }
     .browse .view .diagram img {
       width: 100%; }
+  .browse .view .start {
+    text-align: center;
+    margin: 0px 0px 180px; }
+    .browse .view .start h1 {
+      font-weight: bold;
+      color: #3ed715;
+      font-size: 100px;
+      margin: 0px 0px 20px; }
 
 .editor-wrapper {
   display: -webkit-box;
@@ -185,10 +204,10 @@ footer {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  padding: 0 10px;
   min-width: 500px;
   overflow: auto;
-  resize: horizontal; }
+  resize: horizontal;
+  margin-right: 10px; }
   .editor-wrapper #editor {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -208,6 +227,23 @@ footer {
   margin: 0 25px 25px; }
   .diagram .wrapper {
     position: relative; }
+    .diagram .wrapper .menu {
+      text-align: left;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border: 0;
+      z-index: 100;
+      padding: 10px; }
+      .diagram .wrapper .menu a {
+        background-color: black;
+        opacity: 0.5;
+        color: #fff;
+        margin-right: 8px;
+        padding: 8px;
+        text-decoration: none; }
     .diagram .wrapper b {
       opacity: 0.5;
       text-align: left;
@@ -226,7 +262,7 @@ footer {
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
       z-index: 100; }
-    .diagram .wrapper a {
+    .diagram .wrapper > a {
       text-decoration: none;
       display: block;
       -moz-border-radius: 4px;
@@ -234,13 +270,6 @@ footer {
       padding: 5px;
       background-color: white;
       border: 1px solid #ddd; }
-  .edit .diagram {
-    text-align: left;
-    margin: 0; }
-    .edit .diagram .wrapper {
-      display: inline-block; }
-    .edit .diagram b {
-      display: none; }
 
 /*------------------------------- */
 #modal {

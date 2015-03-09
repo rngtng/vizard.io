@@ -39,9 +39,19 @@
 
       .create
         %form.pure-form
-          %b Create new diagram with name:
+          %b Create new diagram:
           %input#modelId{type: "text", placeholder: "Diagram Name"}
           %button#create.pure-button Create
+
+    %script#browserTemplate{type: "text/template"}
+      .start
+        .title
+          %h1 vizard.io
+        .create
+          %form.pure-form
+            %b Create new diagram:
+            %input#modelId{type: "text", placeholder: "Diagram Name"}
+            %button#create.pure-button Start
 
     %script#editHeaderTemplate{type: "text/template"}
       .title
@@ -60,6 +70,11 @@
 
     %script#diagramTemplate{type: "text/template"}
       .wrapper
+        .menu
+          %a{href: "#"} Edit
+          %a{href: "#"} Show
+          %a{href: "#"} Fit
+          %a{href: "#"} Download
         %b <%= itemTitle %>
         %a{href: "/<%= itemPath %>"}
           %img{src: "data:image/png;base64,<%= image %>", title: "Click to edit"}

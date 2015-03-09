@@ -70,6 +70,7 @@ module.exports = Backbone.View.extend({
       itemPath: this.model.id,
       itemTitle: this.model.title(),
     }));
+    $('header').toggleClass('hidden', false);
     return this;
   }
 });

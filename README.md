@@ -5,7 +5,6 @@ An online editor and webservice to render UML diagrams with plantuml (http://pla
 
 ## Usage
 
-
 ```
 npm run server
 ```
@@ -21,6 +20,7 @@ When deploying to Heroku, make sure cfgs to set and multi-pack enabled:
 ```
 
 Before deploy build & uglify js:
+
 ```
   npm run build
 ``
@@ -37,32 +37,34 @@ To build js run:
 ``
 
 
-## Requirements:
+## Requirements
 
 ### Production
- - jruby
- - graphviz
+  - jruby
+  - graphviz
 
 ### Development
- - nodejs
+  - nodejs
+
+
+## Dependencies
+  - jquery
+  - http://purecss.io/start/
+  - Backbone
+  -
 
 
 ## Help
 
-### Backbone Load order
+### Backbone load order
 
-1. main.js
-2. app.js (to keep global state)
-3. init rootItem (once)
-4. init Router (once)
-5. start routing
+  1. main.js
+  2. app.js (to keep global state)
+  3. init rootItem (once)
+  4. init Router (once)
+  5. start routing
 
 
 ## Related/Similar Projects
 
   * [websequencediagrams](https://www.websequencediagrams.com)
-
-
-## About
-
-This is a SoundCloud 20% Project
