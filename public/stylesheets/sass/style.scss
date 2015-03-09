@@ -194,25 +194,23 @@ footer {
   }
 }
 
-
-
 .editor-wrapper {
   @include flexbox-display-flex;
   min-width: 500px;
   overflow: auto;
   resize: horizontal;
+  border: 1px solid #ddd;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding-right: 8px;
   margin-right: 10px;
 
   #editor {
     @include flexbox(flex, 1);
-    border: 1px solid #ddd;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
     resize: none;
 
     .ace_gutter, .ace_scroller {
-      margin-top: 5px;
-      margin-bottom: 5px;
+      padding-top: 5px;
     }
   }
 }
