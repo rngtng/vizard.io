@@ -338,47 +338,6 @@ div.loading img {
     text-align: center;
     color: #999; }
 
-.gradient {
-  background: -moz-linear-gradient(top, #fff, #ddd);
-  background: -webkit-linear-gradient(top, #fff, #ddd);
-  background: -o-linear-gradient(top, #fff, #ddd);
-  background: linear-gradient(top, #fff, #ddd);
-  border-bottom: 1px solid #ddd;
-  /* versions of IE use these */
-  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff',EndColorStr='#dddaaa');
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#dddaaa)"; }
-
-.ribbon {
-  display: none;
-  background-color: #a00;
-  overflow: hidden;
-  white-space: nowrap;
-  position: absolute;
-  right: -40px;
-  top: 40px;
-  /* 45 deg ccw rotation */
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
-  /* shadow */
-  -webkit-box-shadow: 0 0 10px #888;
-  -moz-box-shadow: 0 0 10px #888;
-  box-shadow: 0 0 10px #888; }
-  .ribbon a {
-    border: 1px solid #faa;
-    color: #fff;
-    display: block;
-    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 1px 0;
-    padding: 10px 50px;
-    text-align: center;
-    text-decoration: none;
-    width: 200px;
-    /* shadow */
-    text-shadow: 0 0 5px #444; }
-
 /*------------------------------- */
 .hidden {
   display: none; }
