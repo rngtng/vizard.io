@@ -8,6 +8,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'dotenv'
 gem 'newrelic_rpm'
+gem 'puma'
 
 group :test do
   gem 'rspec'

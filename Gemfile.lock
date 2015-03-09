@@ -9,6 +9,8 @@ GEM
     haml (4.0.3)
       tilt
     newrelic_rpm (3.9.6.257)
+    puma (2.11.1-java)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -47,6 +49,7 @@ DEPENDENCIES
   dotenv
   haml
   newrelic_rpm
+  puma
   rspec
   ruby-debug
   sass
