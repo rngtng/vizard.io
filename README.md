@@ -11,7 +11,7 @@ npm run server
 
 ## Deploy
 
-When deploying to Heroku, make sure cfgs to set and multi-pack enabled:
+When deploying to Heroku, make sure to set cfgs and enable multi-pack:
 
 ```
   heroku config:add GRAPHVIZ_DOT=/app/vendor/graphviz/bin/dot
@@ -23,12 +23,12 @@ Before deploy build & uglify js:
 
 ```
   npm run build
-``
+```
 
 
 ## Development
 
-To build js run:
+To build css & javascript run:
 
 ```
   npm install
@@ -43,15 +43,17 @@ To build js run:
   - jruby
   - graphviz
 
+
 ### Development
   - nodejs
 
 
 ## Dependencies
   - jquery
-  - http://purecss.io/start/
-  - Backbone
-  -
+  - jquery localstorage
+  - backbone
+  - purecss
+
 
 
 ## Help

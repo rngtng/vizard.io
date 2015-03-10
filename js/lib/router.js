@@ -44,8 +44,7 @@ module.exports = Backbone.Router.extend({
 
     this.editHeaderView.setItem(item);
 
-    $('.edit .editor-wrapper').html(new EditorView({ model: item }).$el);
-    $('.edit .view').html(new DiagramView({ model: item, action: 'edit/' }).$el);
+    $('.edit .view').html(new DiagramView({ model: item, action: 'Edit' }).$el);
     app.showSingle();
   },
 
@@ -54,8 +53,8 @@ module.exports = Backbone.Router.extend({
 
     this.editHeaderView.setItem(item);
 
-    $('.edit .editor-wrapper').html(new EditorView({ model: item }).$el);
-    $('.edit .view').html(new DiagramView({ model: item }).$el);
+    $('.edit .editor-wrapper').show().html(new EditorView({ model: item }).$el);
+    $('.edit .view').html(new DiagramView({ model: item, action: 'Show' }).$el);
     app.showEditor();
   }
 });

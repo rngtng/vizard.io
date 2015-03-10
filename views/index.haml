@@ -8,7 +8,7 @@
     %title vizard.io - shiny UML Graphs on top of PlantUML
 
     %link{rel:"stylesheet", type:"text/css", href:"http://yui.yahooapis.com/pure/0.6.0/pure-min.css", media:"screen"}
-    %link{rel:"stylesheet", type:"text/css", href:"/stylesheets/style.css?123456", media:"screen"}
+    %link{rel:"stylesheet", type:"text/css", href:"/stylesheets/style.css?123458", media:"screen"}
 
   %body
     %header
@@ -66,13 +66,14 @@
     %script#diagramTemplate{type: "text/template"}
       .wrapper
         .menu
-          %a{href: "#"} Edit
-          %a{href: "#"} Show
-          %a{href: "#"} Fit
-          %a{href: "#"} Download
+          %a.btnEdit{href: "/edit/<%= itemPath %>"}
+            .pencil
+          %a.btnShow{href: "/<%= itemPath %>"} Show
+          %a.btnDownload{href: "#download"} Download
+          %a.btnFit{href: "#fit"} Fit
         %b <%= itemTitle %>
-        %a{href: "/<%= itemPath %>"}
-          %img{src: "data:image/png;base64,<%= image %>", title: "Click to edit"}
+        .img
+          %img{src: "data:image/png;base64,<%= image %>", title: "Click to <%= action %>"}
 
     %script{src:"/bundle.js"}
     %script{type: "text/javascript"}
