@@ -27,6 +27,10 @@ CONTENT_TYPE_MAPPING = {
 
 newrelic_ignore '/ping'
 
+require "rack-timeout"
+use Rack::Timeout
+Rack::Timeout.timeout = 20
+
 use Sass::Plugin::Rack
 
 Sass::Plugin.options.merge({

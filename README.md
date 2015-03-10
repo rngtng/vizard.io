@@ -34,7 +34,7 @@ To build css & javascript run:
   npm install
   npm run server
   npm run watch
-``
+```
 
 
 ## Requirements
@@ -57,6 +57,11 @@ To build css & javascript run:
 
 
 ## Help
+
+- http://caniuse.com/
+- https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+- http://jsdesignpatterns.com/
+- http://jsninja.com/
 
 ### Backbone load order
 

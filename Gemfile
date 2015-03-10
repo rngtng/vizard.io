@@ -9,6 +9,7 @@ gem 'sinatra-contrib'
 gem 'dotenv'
 gem 'newrelic_rpm'
 gem 'puma'
+gem 'rack-timeout'
 
 group :test do
   gem 'rspec'
