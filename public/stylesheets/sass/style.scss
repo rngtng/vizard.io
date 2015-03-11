@@ -220,7 +220,7 @@ footer {
 
     &:hover {
       .menu {
-        // display: block;
+        display: block;
       }
     }
 
@@ -233,14 +233,18 @@ footer {
       width: 100%;
       border: 0;
       z-index: 100;
-      padding: 10px;
+      padding: 5px;
+      background-color: rgba(255,255,255,0.8);
 
       a {
-        background-color: rgba(0,0,0,0.5);
-        color: #fff;
+        color: #000;
         margin-right: 8px;
-        padding: 8px;
+        padding: 4px;
         text-decoration: none;
+
+        &.btnDownload {
+          float: right;
+        }
       }
     }
 
@@ -365,6 +369,22 @@ div.loading img {
     text-align: center;
     color: #999;
   }
+}
+
+.browse .wrapper:hover .btnShrink,
+.browse .wrapper:hover .btnExtend,
+.editor .wrapper:hover .btnEdit,
+.editor .wrapper:hover .btnShrink,
+.editor .fit .wrapper:hover .btnExtend,
+.single .wrapper:hover .btnShow,
+.single .wrapper:hover .btnShrink,
+.single .fit .wrapper:hover .btnExtend {
+  display: none;
+}
+
+.editor .fit .wrapper:hover .btnShrink,
+.single .fit .wrapper:hover .btnShrink {
+  display: inline-block;
 }
 
 /*------------------------------- */

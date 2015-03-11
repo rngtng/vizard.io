@@ -12,7 +12,8 @@ module.exports = Backbone.View.extend({
   events: {
     "click .btnEdit": "gotoView",
     "click .btnShow": "gotoView",
-    "click .btnFit": "imgFit",
+    "click .btnShrink": "imgFit",
+    "click .btnExtend": "imgFit",
     "click .btnDownload": "imgDownload",
     "click .img": "clickAction"
   },

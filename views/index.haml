@@ -66,11 +66,11 @@
     %script#diagramTemplate{type: "text/template"}
       .wrapper
         .menu
-          %a.btnEdit{href: "/edit/<%= itemPath %>"}
-            .pencil
-          %a.btnShow{href: "/<%= itemPath %>"} Show
-          %a.btnDownload{href: "#download"} Download
-          %a.btnFit{href: "#fit"} Fit
+          %a.btnEdit{href: "/edit/<%= itemPath %>", title: 'Edit'} Edit
+          %a.btnShow{href: "/<%= itemPath %>", title: 'Show'} Show
+          %a.btnExtend{href: "#extend", title: 'Zoom in'} +
+          %a.btnShrink{href: "#shrink", title: 'Zoom out'} -
+          %a.btnDownload{href: "data:image/png;base64,<%= image %>", download:"<%= itemPath %>.png", title: 'Download'} Download
         %b <%= itemTitle %>
         .img
           %img{src: "data:image/png;base64,<%= image %>", title: "Click to <%= action %>"}

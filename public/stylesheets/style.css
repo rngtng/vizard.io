@@ -222,6 +222,8 @@ footer {
     background-color: white;
     display: inline-block;
     max-width: 100%; }
+    .diagram .wrapper:hover .menu {
+      display: block; }
     .diagram .wrapper .menu {
       text-align: left;
       display: none;
@@ -231,13 +233,15 @@ footer {
       width: 100%;
       border: 0;
       z-index: 100;
-      padding: 10px; }
+      padding: 5px;
+      background-color: rgba(255, 255, 255, 0.7); }
       .diagram .wrapper .menu a {
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
+        color: #000;
         margin-right: 8px;
-        padding: 8px;
+        padding: 4px;
         text-decoration: none; }
+        .diagram .wrapper .menu a.btnDownload {
+          float: right; }
     .diagram .wrapper b {
       background-color: rgba(0, 0, 0, 0.5);
       text-align: left;
@@ -331,6 +335,20 @@ div.loading img {
     font-weight: bold;
     text-align: center;
     color: #999; }
+
+.browse .wrapper:hover .btnShrink,
+.browse .wrapper:hover .btnExtend,
+.editor .wrapper:hover .btnEdit,
+.editor .wrapper:hover .btnShrink,
+.editor .fit .wrapper:hover .btnExtend,
+.single .wrapper:hover .btnShow,
+.single .wrapper:hover .btnShrink,
+.single .fit .wrapper:hover .btnExtend {
+  display: none; }
+
+.editor .fit .wrapper:hover .btnShrink,
+.single .fit .wrapper:hover .btnShrink {
+  display: inline-block; }
 
 /*------------------------------- */
 .hidden {
