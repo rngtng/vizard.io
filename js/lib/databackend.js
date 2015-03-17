@@ -9,7 +9,7 @@ module.exports = {
 
     options.error = function(errorMessage) {
       console.log('sync ' + method + '--> error: ' + errorMessage);
-    }
+    };
 
     var response = LocalStorage.sync(method, model, options);
     // console.log('sync ' + method + ' --> done');

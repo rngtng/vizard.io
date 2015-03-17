@@ -12,34 +12,63 @@ module.exports = Backbone.View.extend({
   id: 'editor',
 
   initialize: function(){
-    var model = this.model;
-
     _.bindAll(this, 'render', 'updateModel');
-    this.editor = ace.edit(this.el);
-    this.editor.setFontSize(10);
-    this.editor.setTheme("ace/theme/github");
-    this.editor.getSession().setMode('ace/mode/diagram');
-    this.editor.getSession().setValue(model.read());
-    this.editor.setOption("scrollPastEnd", 0.3);
-    this.editor.commands.addCommand({
-        name: 'save',
-        bindKey: {
-          win: 'Ctrl-S',
-          mac: 'Command-S',
-          sender: 'editor|cli'
-        },
-        exec: function(editor) {
-          model.store();
-        }
-      });
+
+    this.editor = this.initEditor();
+
     this.listenTo(this.editor, 'change', this.updateModel);
-    // TODO update editor data when model data changed
+    this.listenTo(this.model, 'externalDataLoaded', this.updateEditor);
     this.render();
   },
 
+  initEditor: function() {
+    var model = this.model,
+    editor = ace.edit(this.el);
+    editor.setFontSize(10);
+    editor.setTheme("ace/theme/github");
+    editor.getSession().setMode('ace/mode/diagram');
+    editor.getSession().setValue(this.model.read());
+    editor.setOption("scrollPastEnd", 0.3);
+
+    editor.commands.addCommand({
+      name: 'save',
+      bindKey: {
+        win: 'Ctrl-S',
+        mac: 'Command-S',
+        sender: 'editor|cli'
+      },
+      exec: function(editor) {
+        console.log('save');
+        console.log(editor);
+        // TODO bring up save dialog, save to github?!
+        // model.store();
+      }
+    });
+
+    editor.commands.addCommand({
+      name: 'load',
+      bindKey: {
+        win: 'Ctrl-L',
+        mac: 'Command-L',
+        sender: 'editor|cli'
+      },
+      exec: function(editor) {
+        model.remoteLoad();
+      }
+    });
+
+    return editor;
+  },
+
   updateModel: function() {
-    this.model.update(this.editor.getSession().getValue());
-    this.model.store();
+    if (this.editor.curOp && this.editor.curOp.command.name) {
+      this.model.update(this.editor.getSession().getValue());
+      this.model.store();
+    }
+  },
+
+  updateEditor: function() {
+    this.editor.getSession().setValue(this.model.get('data'));
   },
 
   render: function(){

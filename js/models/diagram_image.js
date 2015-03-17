@@ -7,8 +7,7 @@ Backbone.$ = $;
 
 module.exports = Backbone.Model.extend({
   initialize: function() {
-    _.bindAll(this, 'update');
-    _.bindAll(this, 'updateImageData', 'updateImageDataWithoutDelay', 'setImage', 'cacheKey');
+    _.bindAll(this, 'update', 'updateImageData', 'updateImageDataWithoutDelay', 'setImage', 'cacheKey');
 
     this.processing = false;
     this.bind('change:imageData', this.updateImageData);

@@ -2,7 +2,8 @@ var $ = require('jquery'),
   _ = require('underscore'),
   Backbone          = require('backbone'),
   DiagramImageModel = require('./diagram_image'),
-  Databackend       = require('../lib/databackend');
+  Databackend       = require('../lib/databackend'),
+  app               = require('../lib/app');
 
 Backbone.sync = Databackend.sync;
 
@@ -42,6 +43,9 @@ module.exports = Backbone.Model.extend({
 
   //---- PUBLIC
   read: function() {
+    if (!this.get('remoteData')) {
+      this.remoteLoad();
+    }
     return this.get('data');
   },
 
@@ -55,6 +59,14 @@ module.exports = Backbone.Model.extend({
       remoteData: this.get('data')
     }, {
       wait: true
+    });
+  },
+
+  remoteLoad: function() {
+    var self = this;
+    app.github.loadFile(this.id, function(data) {
+      self.set('remoteData', data);
+      self.trigger('externalDataLoaded');
     });
   },
 

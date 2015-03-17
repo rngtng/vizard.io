@@ -1,7 +1,6 @@
 "use strict";
 
 var $ = require('jquery'),
-  _ = require('underscore'),
   Backbone = require('backbone');
 
 Backbone.$ = $;
@@ -11,7 +10,8 @@ var   app        = require('./app'),
   BrowserView    = require('../views/browser'),
   EditHeaderView = require('../views/edit_header'),
   EditorView     = require('../views/editor'),
-  DiagramView    = require('../views/diagram');
+  DiagramView    = require('../views/diagram'),
+  GithubView     = require('../views/github');
 
 module.exports = Backbone.Router.extend({
   routes: {
@@ -24,6 +24,7 @@ module.exports = Backbone.Router.extend({
     this.headerView     = new HeaderView({ el: $('header') });
     this.browserView    = new BrowserView({ el: $('.browse .view') });
     this.editHeaderView = new EditHeaderView({ el: $('header') });
+    this.githubView     = new GithubView({ model: app.github });
   },
 
   _index: function(itemId) {

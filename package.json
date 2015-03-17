@@ -27,7 +27,7 @@
     "backbone": "latest",
     "backbone.localstorage": "latest",
     "rusha": "latest",
-    "github": "latest",
+    "github-api": "latest",
     "brace": "latest"
   }
 }

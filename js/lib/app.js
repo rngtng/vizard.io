@@ -3,6 +3,7 @@ var $ = require('jquery');
 module.exports = {
   root: "/",
   router: null,
+  github: null,
   rootItem: null,
   showBrowser: function() {
     $('.edit').animate({'margin-left':'-100%'}, 500);
