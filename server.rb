@@ -5,8 +5,6 @@ require 'bundler/setup'
 
 require 'dotenv'
 require 'sinatra'
-require 'sinatra/cookies'
-require 'sinatra/reloader' if development?
 require 'haml'
 require 'sass/plugin/rack'
 
