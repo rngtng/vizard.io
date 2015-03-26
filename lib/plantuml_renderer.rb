@@ -48,9 +48,8 @@ module PlantumlRenderer
 
   def render(diagram_data, format = 'svg')
     diagram_data = decorate(diagram_data)
-    ByteArrayOutputStream.new.tap do |out|
-      SourceStringReader.new(diagram_data).generate_image(out, FileFormatOption.new(FORMAT_MAPPING[format.to_s]))
-      return out.to_byte_array.to_a.pack('c*')
-    end
+    out = ByteArrayOutputStream.new
+    SourceStringReader.new(diagram_data).generate_image(out, FileFormatOption.new(FORMAT_MAPPING[format.to_s]))
+    out.to_byte_array.to_a.pack('c*')
   end
 end

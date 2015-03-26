@@ -23,13 +23,13 @@ CONTENT_TYPE_MAPPING = {
   'utxt' => 'text/plain',
 }
 
-newrelic_ignore '/ping'
-
 require "rack-timeout"
-use Rack::Timeout
 Rack::Timeout.timeout = 20
 
+use Rack::Timeout
 use Sass::Plugin::Rack
+
+newrelic_ignore '/ping'
 
 Sass::Plugin.options.merge({
   :css_location      => './public/css/',
@@ -74,9 +74,10 @@ end
 
 post '/render.:format' do
   set_content_type(format)
-  cache(request.env["QUERY_STRING"], format) do
+  cache_control :public
+  # cache(request.env["QUERY_STRING"], format) do
     PlantumlRenderer.render(request.body.string, format)
-  end
+  # end
 end
 
 # ---------------------------------------------------

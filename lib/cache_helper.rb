@@ -8,7 +8,7 @@ class CacheHelper
     module Helpers
       def cache(cache_key, cache_format, options = {}, &block)
         if cache_key
-          puts cache_file = './cache/' + cache_key + '.' + format
+          cache_file = './cache/' + cache_key + '.' + format
           read_fragment(cache_file, options) || write_fragment(cache_file, block.call)
         else
           block.call
@@ -19,10 +19,10 @@ class CacheHelper
 
       def read_fragment(cache_file, options = {})
         if File.file?(cache_file)
-          if options[:max_age]
+          if max_age = options[:max_age]
             current_age = (Time.now - File.mtime(cache_file)).to_i / 60
             puts "Fragment for '#{name}' is #{current_age} minutes old."
-            return false if current_age > options[:max_age]
+            return false if current_age > max_age
           end
           return File.read(cache_file)
         end
@@ -30,9 +30,9 @@ class CacheHelper
       end
 
       def write_fragment(cache_file, content)
-        FileUtils.mkdir_p File.dirname(cache_file)
+        FileUtils.mkdir_p(File.dirname(cache_file))
         File.open(cache_file, "w") { |f| f.write(content) }
-        puts "Fragment written for '#{cache_file}'"
+        # puts "Fragment written for '#{cache_file}'"
         content
       end
     end
