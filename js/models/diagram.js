@@ -50,7 +50,7 @@ module.exports = Backbone.Model.extend({
   },
 
   store: function() {
-    console.log("store model: <" + this.id + ">");
+    // console.log("store model: <" + this.id + ">");
     this.save({
       remoteData: this.get('data')
     }, {

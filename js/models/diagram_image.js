@@ -8,8 +8,9 @@ Backbone.$ = $;
 module.exports = Backbone.Model.extend({
   initialize: function() {
     _.bindAll(this, 'update');
-    _.bindAll(this, 'updateImageData', 'setImage', 'cacheKey');
+    _.bindAll(this, 'updateImageData', 'updateImageDataWithoutDelay', 'setImage', 'cacheKey');
 
+    this.processing = false;
     this.bind('change:imageData', this.updateImageData);
   },
 
@@ -20,13 +21,17 @@ module.exports = Backbone.Model.extend({
 
   //---- PRIVATE
   updateImageData: function() {
-    if (this.request) {
-      this.request.abort();
+    if (!this.processing) {
+      this.processing = true;
+      setTimeout(this.updateImageDataWithoutDelay, 500);
     }
-    this.request = $.ajax({
+  },
+
+  updateImageDataWithoutDelay: function() {
+    $.ajax({
       url: '/render.png?' + this.cacheKey(),
       type: 'post',
-      data: this.get('imageData'), // + "\ntitle " + this.cacheKey()
+      data: this.get('imageData'),
       headers: {
         'Accept': 'image/png;base64'
       },
@@ -36,7 +41,7 @@ module.exports = Backbone.Model.extend({
 
   setImage: function(imageData) {
     this.set('image', imageData);
-    this.request = undefined;
+    this.processing = false;
   },
 
   cacheKey: function() {
