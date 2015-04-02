@@ -55,7 +55,6 @@ To build css & javascript run:
   - purecss
 
 
-
 ## Help
 
 - http://caniuse.com/
@@ -63,6 +62,7 @@ To build css & javascript run:
 - http://jsdesignpatterns.com/
 - http://jsninja.com/
 - https://github.com/bengourley/modal.js
+
 
 ### Backbone load order
 
@@ -76,7 +76,3 @@ To build css & javascript run:
 ## Related/Similar Projects
 
   * [websequencediagrams](https://www.websequencediagrams.com)
-
-
-'08c7612351d1da876509761e94e71f1d40bd2123'
-

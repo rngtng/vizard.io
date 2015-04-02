@@ -28,6 +28,7 @@
     "backbone.localstorage": "latest",
     "rusha": "latest",
     "github-api": "latest",
-    "brace": "latest"
+    "brace": "latest",
+    "remodal": "https://github.com/VodkaBears/Remodal/tarball/master"
   }
 }
