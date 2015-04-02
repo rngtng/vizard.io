@@ -4,23 +4,26 @@ var $ = require('jquery'),
 Backbone.$ = $;
 window.$ = $;
 
-var app        = require('./lib/app'),
-  Databackend  = require('./lib/databackend'),
-  Router       = require('./lib/router'),
-  Root         = require('./models/root');
+var app  = require('./lib/app'),
+  Root   = require('./models/root'),
+  GitHub = require('./models/github'),
+  Router = require('./lib/router');
 
 app.rootItem  = new Root();
 app.rootItem.fetch();
 
-app.router    = new Router();
-window.app    = app; // Debug
+app.github = new GitHub({id: 'root'});
+
+app.router = new Router();
+window.app = app; // Debug
 
 Backbone.history.start({ pushState: true, root: app.root });
 
 function KeyPressed( e ) {
   if (e.keyCode == 27) {
-    Backbone.history.navigate("/", {trigger: true});
-    // window.history.back();
+    Backbone.history.navigate(app.root, {
+      trigger: true
+    });
   }
 }
 

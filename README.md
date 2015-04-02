@@ -50,6 +50,7 @@ To build css & javascript run:
 ## Dependencies
   - jquery
   - jquery localstorage
+  - browserify
   - backbone
   - purecss
 
@@ -61,6 +62,7 @@ To build css & javascript run:
 - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 - http://jsdesignpatterns.com/
 - http://jsninja.com/
+- https://github.com/bengourley/modal.js
 
 ### Backbone load order
 
@@ -74,3 +76,7 @@ To build css & javascript run:
 ## Related/Similar Projects
 
   * [websequencediagrams](https://www.websequencediagrams.com)
+
+
+'08c7612351d1da876509761e94e71f1d40bd2123'
+
