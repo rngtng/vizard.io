@@ -24,7 +24,7 @@ module.exports = Backbone.Router.extend({
     this.headerView     = new HeaderView({ el: $('header') });
     this.browserView    = new BrowserView({ el: $('.browse .view') });
     this.editHeaderView = new EditHeaderView({ el: $('header') });
-    this.githubView     = new GithubView({ model: app.github });
+    this.githubView     = new GithubView({ el: $('#modal'), model: app.github });
   },
 
   _index: function(itemId) {

@@ -10,7 +10,7 @@
     %link{rel:"stylesheet", type:"text/css", href:"http://yui.yahooapis.com/pure/0.6.0/pure-min.css", media:"screen"}
     %link{rel:"stylesheet", type:"text/css", href:"/stylesheets/style.css?9", media:"screen"}
 
-  %body
+  %body.remodal-bg
     %header
 
     %section
@@ -27,6 +27,8 @@
       %a{href:'http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf', target:'_blank'} Language Reference Guide
       &middot;
       %a{href:'https://github.com/rngtng/vizard', target:'_blank'} Fork vizard.io on GitHub
+
+    #modal
 
     %script#headerTemplate{type: "text/template"}
       .title
@@ -74,6 +76,16 @@
         %b <%= itemTitle %>
         .img
           %img{src: "data:image/png;base64,<%= image %>", title: "Click to <%= action %>"}
+
+    %script#githubModealTemplate{type: "text/template"}
+      .remodal{:"data-remodal-id" => "modal"}
+        %h1 GithubLogin
+        %p
+          Flat, responsive, lightweight, fast, easy customizable modal window plugin
+          with declarative state notation and hash tracking.
+
+        %a.remodal-cancel{href:"#"} Cancel
+        %a.remodal-confirm{href:"#"} OK
 
     %script{src:"/bundle.js"}
     %script{type: "text/javascript"}
