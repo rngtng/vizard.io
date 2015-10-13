@@ -12,8 +12,7 @@ npm run server
 
 When deploying to Heroku, make sure to set cfgs and enable multi-pack:
 
-```
-  heroku config:add GRAPHVIZ_DOT=/app/graphviz/bin/dot
+```  
   heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-multi.git
   heroku config:add RAKE_ENV=production
 ```
