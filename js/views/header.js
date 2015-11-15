@@ -17,12 +17,8 @@ module.exports = Backbone.View.extend({
 
   createNew: function(event) {
     event.preventDefault();
-    var modelId = $('input#modelId').val() || new Date().timeNow();
-    if( modelId ) {
-      Backbone.history.navigate("/" + modelId, {trigger: true});
-      $('input#modelId').val("");
-      $('#create').attr("disabled", true);
-    }
+    var modelId = 'diagram' + new Date().timeNow();
+    Backbone.history.navigate("/" + modelId, {trigger: true});
   },
 
   setItems: function(items) {
