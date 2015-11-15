@@ -33,7 +33,10 @@ module.exports = Backbone.View.extend({
 
   renameItem: function(event) {
     event.preventDefault();
-    this.model.setTitle($('input#modelId').val());
+
+    var title = $('input#modelId').val();
+
+    this.model.setTitle(title);
     this.model.save();
     this.render();
   },

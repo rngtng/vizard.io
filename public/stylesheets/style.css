@@ -61,7 +61,6 @@ header {
       text-decoration: none;
       font-size: 18px;
       vertical-align: middle;
-      text-transform: capitalize;
       margin-right: 10px; }
       header .title a:hover {
         text-decoration: underline; }

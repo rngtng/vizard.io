@@ -19,11 +19,9 @@ module.exports = Backbone.View.extend({
   createNew: function(event) {
     event.preventDefault();
 
-    var date = Date.now(),
-    modelId = $('input#modelId').val() || date;
+    var modelId =  'diagram' + Date.now() + '.pu';
 
     Backbone.history.navigate("/" + modelId, {trigger: true});
-    $('input#modelId').val("");
   },
 
   setItems: function(items) {

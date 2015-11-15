@@ -34,7 +34,7 @@
 
       .create
         %form.pure-form
-          %button#create.pure-button Create new diagram
+          %button#create.pure-button Create a new diagram
 
     %script#browserTemplate{type: "text/template"}
       .start
@@ -42,13 +42,13 @@
           %h1 vizard.io
         .create
           %form.pure-form
-            %button#create.pure-button Start by creating a new diagram:
+            %button#create.pure-button Start with creating a new diagram!
 
     %script#editHeaderTemplate{type: "text/template"}
       .title
         %h1 vizard.io
         .menu.breadcrumb
-          %a#item{href: "/<%= itemPath %>"}
+          %a#item{href: "/<%= itemPath %>", title: "Click to rename"}
             <%= itemTitle %>
         %form.rename.breadcrumb.pure-form
           %input#modelId{type: "text", value: "<%= itemTitle %>"}
@@ -58,6 +58,7 @@
         %form.pure-form
           %button#save.pure-button Save
           %button#delete.pure-button Delete
+          %button#create.pure-button Create a new diagram
 
     %script#diagramTemplate{type: "text/template"}
       .wrapper

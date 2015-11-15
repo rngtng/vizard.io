@@ -17,7 +17,7 @@ module.exports = Backbone.View.extend({
 
   createNew: function(event) {
     event.preventDefault();
-    var modelId = 'diagram' + new Date().timeNow();
+    var modelId = 'diagram' + Date.now() + '.pu';
     Backbone.history.navigate("/" + modelId, {trigger: true});
   },
 
