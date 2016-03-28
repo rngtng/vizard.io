@@ -1,7 +1,9 @@
 var $ = require('jquery'),
   _  = require('underscore'),
   Backbone = require('backbone'),
-  ace      = require('brace');
+  ace      = require('brace'),
+  Firebase  = require('firebase'),
+  Firepad = require('firepad');
 
 require('../lib/ace-mode-diagram');
 require('brace/theme/github');
@@ -23,11 +25,17 @@ module.exports = Backbone.View.extend({
 
   initEditor: function() {
     var model = this.model,
-    editor = ace.edit(this.el);
+    // firepadRef = new Firebase('https://vizard.firebaseio.com/development'),
+    editor = ace.edit(this.$el);
+    // editor2 = Firepad.fromACE(firepadRef, editor, {
+    //   defaultText: model.read()
+    // });
+
     editor.setFontSize(10);
     editor.setTheme("ace/theme/github");
     editor.getSession().setMode('ace/mode/diagram');
     editor.getSession().setValue(this.model.read());
+    // editor.getSession().setUseWorker(false);
     editor.setOption("scrollPastEnd", 0.3);
 
     editor.commands.addCommand({
