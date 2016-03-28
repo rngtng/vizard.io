@@ -1,0 +1,33 @@
+{
+  "name": "vizard.io",
+  "version": "0.2.0",
+  "description": "A JS UI to view and edit beautiful sequence diagrams with plantuml",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "webpack": "webpack --progress --colors",
+    "webpack-server": "webpack-dev-server --progress --colors",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/rngtng/vizard.git"
+  },
+  "author": "Tobias Bielohlawek @rngtng",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "latest",
+    "firepad": "latest",
+    "plantuml-encoder": "latest",
+    "underscore": "latest",
+    "backbone": "latest",
+    "backbone.localstorage": "latest",
+    "rusha": "latest",
+    "brace": "latest",
+    "github-api": "latest"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-loader": "^0.4.3",
+    "webpack": "^1.12.14"
+  }
+}
