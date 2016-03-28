@@ -8,12 +8,12 @@ require 'sinatra'
 require 'haml'
 require 'sass/plugin/rack'
 
-require 'newrelic_rpm'
+# require 'newrelic_rpm'
 require 'base64'
 
-require 'lib/github'
-require 'lib/plantuml_renderer'
-require 'lib/cache_helper'
+require './lib/github'
+require './lib/plantuml_renderer'
+require './lib/cache_helper'
 
 Dotenv.load(ENV['ENV'] || '.env')
 
@@ -29,7 +29,7 @@ Rack::Timeout.timeout = 20
 use Rack::Timeout
 use Sass::Plugin::Rack
 
-newrelic_ignore '/ping'
+# newrelic_ignore '/ping'
 
 Sass::Plugin.options.merge({
   :css_location      => './public/css/',

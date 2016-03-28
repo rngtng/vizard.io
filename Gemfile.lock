@@ -1,12 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    columnize (0.9.0)
     diff-lcs (1.2.5)
     dotenv (2.0.0)
     haml (4.0.6)
       tilt
-    newrelic_rpm (3.10.0.279)
+    puma (2.11.1)
+      rack (>= 1.1, < 2.0)
     puma (2.11.1-java)
       rack (>= 1.1, < 2.0)
     rack (1.6.0)
@@ -26,10 +26,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    ruby-debug (0.10.4)
-      columnize (>= 0.1)
-      ruby-debug-base (~> 0.10.4.0)
-    ruby-debug-base (0.10.4-java)
     sass (3.4.13)
     sinatra (1.4.5)
       rack (~> 1.4)
@@ -39,14 +35,16 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   dotenv
   haml
-  newrelic_rpm
   puma
   rack-timeout
   rspec
-  ruby-debug
   sass
   sinatra
+
+BUNDLED WITH
+   1.11.2

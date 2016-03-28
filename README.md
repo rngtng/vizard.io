@@ -35,6 +35,13 @@ To build css & javascript run:
 ```
 
 
+## Install jruby in paralell to ruby homebrew
+
+```
+jruby -S gem install --platform=java bundler
+jruby -S bundle
+```
+
 ## Requirements
 
 ### Production

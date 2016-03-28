@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.16.1'
+ruby '2.2.3', :engine => 'jruby', :engine_version => '9.0.5.0'
 
 gem 'haml'
 gem 'sass'
 gem 'sinatra'
 gem 'dotenv'
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
 gem 'puma'
 gem 'rack-timeout'
 
 group :test do
   gem 'rspec'
-  gem 'ruby-debug'
+  # gem 'ruby-debug'
 end
