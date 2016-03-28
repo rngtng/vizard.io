@@ -6,11 +6,14 @@ gem 'haml'
 gem 'sass'
 gem 'sinatra'
 gem 'dotenv'
-# gem 'newrelic_rpm'
 gem 'puma'
 gem 'rack-timeout'
 
+group :test, :development do
+  gem 'pry'
+  gem 'pry-byebug'
+end
+
 group :test do
   gem 'rspec'
-  # gem 'ruby-debug'
 end
