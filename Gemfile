@@ -11,7 +11,6 @@ gem 'rack-timeout'
 
 group :test, :development do
   gem 'pry'
-  gem 'pry-byebug'
 end
 
 group :test do
