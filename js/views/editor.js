@@ -25,11 +25,11 @@ module.exports = Backbone.View.extend({
 
   initEditor: function() {
     var model = this.model,
-    // firepadRef = new Firebase('https://vizard.firebaseio.com/development'),
-    editor = ace.edit(this.$el);
-    // editor2 = Firepad.fromACE(firepadRef, editor, {
-    //   defaultText: model.read()
-    // });
+    firepadRef = new Firebase('https://vizard.firebaseio.com/development'),
+    editor = ace.edit('editor-wrapper');
+    editor2 = Firepad.fromACE(firepadRef, editor, {
+      defaultText: model.read()
+    });
 
     editor.setFontSize(10);
     editor.setTheme("ace/theme/github");
