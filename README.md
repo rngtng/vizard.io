@@ -82,3 +82,5 @@ jruby -S bundle
 ## Related/Similar Projects
 
   * [websequencediagrams](https://www.websequencediagrams.com)
+  * [Draw UML](http://ogom.github.io/draw_uml)
+  * Other: http://plantuml.com/external-links
