@@ -23,9 +23,8 @@ CONTENT_TYPE_MAPPING = {
 }
 
 require "rack-timeout"
-Rack::Timeout.timeout = 20
 
-use Rack::Timeout
+use Rack::Timeout, service_timeout: 20
 use Sass::Plugin::Rack
 
 Sass::Plugin.options.merge({

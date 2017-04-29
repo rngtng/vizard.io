@@ -17,6 +17,9 @@ heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-multi
 heroku config:add RAKE_ENV=production
 ```
 
+Once pushed to github, heroku pipeline will pick it up and auto-deploy
+
+## Release
 Before deploy build & uglify js:
 
 ```shell
