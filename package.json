@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "jruby server.rb",
-    "build": "browserify js/main.js | uglifyjs -c > public/bundle.js",
+    "build": "browserify js/main.js > public/bundle.js",
     "watch": "watchify js/main.js -o public/bundle.js --debug --verbose"
   },
   "repository": {
