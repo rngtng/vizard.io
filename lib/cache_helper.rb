@@ -21,7 +21,7 @@ class CacheHelper
 
       def read_fragment(cache_file, options = {})
         if File.file?(cache_file)
-          if max_age = options[:max_age]
+          if (max_age = options[:max_age])
             current_age = (Time.now - File.mtime(cache_file)).to_i / 60
             puts "Fragment for '#{name}' is #{current_age} minutes old."
             return false if current_age > max_age

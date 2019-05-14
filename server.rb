@@ -28,11 +28,11 @@ require 'rack-timeout'
 use Rack::Timeout, service_timeout: 20
 use Sass::Plugin::Rack
 
-Sass::Plugin.options.merge({
-  :css_location      => './public/css/',
-  :template_location => 'public/css',
-  :style             => :compressed,
-})
+Sass::Plugin.options.merge(
+  css_location: './public/css/',
+  template_location: 'public/css',
+  style: :compressed
+)
 # use Rack::SassC, {
 #   check: ENV['RACK_ENV'] != 'production',
 #   public_location: 'publi/css',
@@ -60,9 +60,11 @@ helpers do
   end
 
   def set_content_type(format)
-    if content_type_value = CONTENT_TYPE_MAPPING[format]
+    # rubocop:disable Style/GuardClause
+    if (content_type_value = CONTENT_TYPE_MAPPING[format])
       content_type content_type_value
     end
+    # rubocop:enable Style/GuardClause
   end
 end
 
@@ -90,14 +92,14 @@ end
 # ---------------------------------------------------
 
 get '/login' do
-  if code = params['code']
+  if (code = params['code'])
     haml :login, locals: { access_token: github.get_access_token(code) }
   else
     redirect github.auth_url
   end
 end
 
-get /\/(edit)?/ do
+get %r{/(edit)?} do
   haml :index
 end
 

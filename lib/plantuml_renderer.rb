@@ -20,9 +20,8 @@ module PlantumlRenderer
     # wrong: HTML5
     # untested: EPS, EPS_TEXT, XMI_STANDARD, XMI_STAR, XMI_ARGO, MJPEG
   }.freeze
-  
-  DEFAULTS = <<~EOF
 
+  DEFAULTS = <<~EOF
     skinparam sequenceArrowColor #3ed715
     skinparam sequenceLifeLineBorderColor #3ed715
     skinparam sequenceLifeLineBackgroundColor #FF3300
@@ -38,7 +37,6 @@ module PlantumlRenderer
 
     skinparam noteBorderColor #F2F2F2
     skinparam noteBackgroundColor #F2F2F2
-
   EOF
 
   def decorate(string)
