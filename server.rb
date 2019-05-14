@@ -1,4 +1,5 @@
-# encoding: utf-8
+#! /usr/bin/env jruby
+# frozen_string_literal: true
 
 require 'rubygems'
 require 'bundler/setup'
@@ -7,6 +8,7 @@ require 'dotenv'
 require 'sinatra'
 require 'haml'
 require 'sass/plugin/rack'
+# require 'rack/sassc'
 
 require 'base64'
 
@@ -17,13 +19,12 @@ require './lib/cache_helper'
 Dotenv.load(ENV['ENV'] || '.env')
 
 CONTENT_TYPE_MAPPING = {
-  'png'  => 'image/png',
-  'txt'  => 'text/plain',
-  'utxt' => 'text/plain',
-}
+  'png' => 'image/png',
+  'txt' => 'text/plain',
+  'utxt' => 'text/plain'
+}.freeze
 
-require "rack-timeout"
-
+require 'rack-timeout'
 use Rack::Timeout, service_timeout: 20
 use Sass::Plugin::Rack
 
@@ -32,8 +33,22 @@ Sass::Plugin.options.merge({
   :template_location => 'public/css',
   :style             => :compressed,
 })
+# use Rack::SassC, {
+#   check: ENV['RACK_ENV'] != 'production',
+#   public_location: 'publi/css',
+#   syntax: :scss,
+#   css_dirname: :css,
+#   scss_dirname: :scss,
+#   create_map_file: true,
+# }
 
-set :haml, :format => :html5, :escape_attrs => false
+# Sass::Plugin.options.merge({
+#   :css_location      => './public/css/',
+#   :template_location => 'public/css',
+#   :style             => :compressed,
+# })
+
+set :haml, format: :html5, escape_attrs: false
 
 helpers do
   def github
@@ -41,7 +56,7 @@ helpers do
   end
 
   def format
-    params["format"]
+    params['format']
   end
 
   def set_content_type(format)
@@ -53,17 +68,13 @@ end
 
 # ---------------------------------------------------
 before do
-  if request.host.include?('heroku')
-    redirect 'http://vizard.io'
-  end
+  redirect 'http://vizard.io' if request.host.include?('heroku')
 end
 
 # ---------------------------------------------------
 
 after do
-  if request.env["HTTP_ACCEPT"] =~ /base64/
-    body Base64.encode64(body.first)
-  end
+  body Base64.encode64(body.first) if request.env['HTTP_ACCEPT'] =~ /base64/
 end
 
 # ---------------------------------------------------
@@ -72,21 +83,21 @@ post '/render.:format' do
   set_content_type(format)
   cache_control :public
   # cache(request.env["QUERY_STRING"], format) do
-    PlantumlRenderer.render(request.body.string, format)
+  PlantumlRenderer.render(request.body.string, format)
   # end
 end
 
 # ---------------------------------------------------
 
 get '/login' do
-  if code = params["code"]
-    haml :login, :locals => { :access_token => github.get_access_token(code) }
+  if code = params['code']
+    haml :login, locals: { access_token: github.get_access_token(code) }
   else
     redirect github.auth_url
   end
 end
 
-get %r{(edit)?} do
+get /\/(edit)?/ do
   haml :index
 end
 
