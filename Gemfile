@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '2.3.1', :engine => 'jruby', :engine_version => '9.1.8.0'
+ruby '2.5.3', engine: 'jruby', engine_version: '9.2.7.0'
 
 gem 'haml'
 gem 'sass'
-gem 'sinatra'
+# gem 'sassc'
+# gem 'rack-sassc'
 gem 'dotenv'
 gem 'puma'
 gem 'rack-timeout'
-
-group :test, :development do
-  gem 'pry'
-end
+gem 'sinatra'
 
 group :test do
+  gem 'pry'
   gem 'rspec'
+  gem 'rubocop'
 end

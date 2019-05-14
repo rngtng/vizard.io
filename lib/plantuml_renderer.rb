@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 require File.join(File.dirname(__FILE__), 'plantuml.jar')
 
@@ -8,41 +8,42 @@ java_import 'net.sourceforge.plantuml.FileFormat'
 java_import 'java.io.ByteArrayOutputStream'
 java_import 'java.io.FileOutputStream'
 
-DEFAULTS = <<-EOF
+DEFAULTS = <<~EOF
 
-skinparam sequenceArrowColor #3ed715
-skinparam sequenceLifeLineBorderColor #3ed715
-skinparam sequenceLifeLineBackgroundColor #FF3300
+  skinparam sequenceArrowColor #3ed715
+  skinparam sequenceLifeLineBorderColor #3ed715
+  skinparam sequenceLifeLineBackgroundColor #FF3300
 
-skinparam sequenceParticipantBorderColor #CCCCCC
-skinparam sequenceParticipantBackgroundColor #CCCCCC
+  skinparam sequenceParticipantBorderColor #CCCCCC
+  skinparam sequenceParticipantBackgroundColor #CCCCCC
 
-skinparam sequenceActorBorderColor #CCCCCC
-skinparam sequenceActorBackgroundColor #CCCCCC
+  skinparam sequenceActorBorderColor #CCCCCC
+  skinparam sequenceActorBackgroundColor #CCCCCC
 
-skinparam sequenceBoxBorderColor #00AAFF
-skinparam sequenceBoxBackgroundColor #LightBlue
+  skinparam sequenceBoxBorderColor #00AAFF
+  skinparam sequenceBoxBackgroundColor #LightBlue
 
-skinparam noteBorderColor #F2F2F2
-skinparam noteBackgroundColor #F2F2F2
+  skinparam noteBorderColor #F2F2F2
+  skinparam noteBackgroundColor #F2F2F2
 
 EOF
 
 module PlantumlRenderer
-  extend self
+  module_function
 
   FORMAT_MAPPING = {
-    'svg'  => FileFormat::SVG,
-    'png'  => FileFormat::PNG,
-    'txt'  => FileFormat::ATXT,
+    'svg' => FileFormat::SVG,
+    'png' => FileFormat::PNG,
+    'txt' => FileFormat::ATXT,
     'utxt' => FileFormat::UTXT
     # error: PDF, HTML
     # wrong: HTML5
     # untested: EPS, EPS_TEXT, XMI_STANDARD, XMI_STAR, XMI_ARGO, MJPEG
-  }
+  }.freeze
 
   def decorate(string)
     return string if string =~ /@start/
+
     "@startuml\n #{DEFAULTS} #{string}\n @enduml"
   end
 

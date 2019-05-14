@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'net/http'
 
 class Github
   def initialize(id, secret)
-    @id, @secret = id, secret
+    @id = id
+    @secret = secret
   end
 
   def get_access_token(code)
-    response = post("https://github.com/login/oauth/access_token", {
-      'client_id'     => @id,
-      'client_secret' => @secret,
-      'code'          => code,
-    })
+    response = post('https://github.com/login/oauth/access_token',
+                    'client_id' => @id,
+                    'client_secret' => @secret,
+                    'code' => code)
     Rack::Utils.parse_nested_query(response.body)['access_token']
   end
 

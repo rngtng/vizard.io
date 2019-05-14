@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'server'
 require 'rspec'
 require 'rack/test'
@@ -13,7 +15,7 @@ describe 'Uml Generator App' do
     Sinatra::Application
   end
 
-  it "show index" do
+  it 'show index' do
     get '/'
     last_response.should be_ok
     last_response.body.should =~ '<h1>UML Generator</h1>'

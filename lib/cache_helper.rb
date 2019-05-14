@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'digest/sha1'
 
@@ -6,7 +8,7 @@ require 'digest/sha1'
 class CacheHelper
   module Sinatra
     module Helpers
-      def cache(cache_key, cache_format, options = {}, &block)
+      def cache(cache_key, _cache_format, options = {}, &block)
         if cache_key
           cache_file = './cache/' + cache_key + '.' + format
           read_fragment(cache_file, options) || write_fragment(cache_file, block.call)
@@ -31,7 +33,7 @@ class CacheHelper
 
       def write_fragment(cache_file, content)
         FileUtils.mkdir_p(File.dirname(cache_file))
-        File.open(cache_file, "w") { |f| f.write(content) }
+        File.open(cache_file, 'w') { |f| f.write(content) }
         # puts "Fragment written for '#{cache_file}'"
         content
       end
