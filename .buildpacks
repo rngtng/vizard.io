@@ -1,2 +1,2 @@
 https://github.com/heroku/heroku-buildpack-ruby.git
-https://github.com/rngtng/heroku-buildpack-graphviz-deb.git#f7957060a0cde90303d112f5d07ea3e93a0bafb4
+https://github.com/weibeld/heroku-buildpack-graphviz.git
