@@ -28,6 +28,46 @@ npm run build
 
 ## Development
 
+### Docker
+
+This repo comes with a Dockerfile to build the image with all dependencies. Just
+run:
+
+```
+make build
+```
+
+New developement can happen *inside* the container. To enter, run:
+
+```
+make dev
+```
+
+Which brings up a bash mounted to your local source directory. From here start
+the server:
+
+```
+bundle exec puma
+```
+
+Run Specs:
+
+```
+rspec
+```
+
+Or rubocop:
+
+```
+rubocop -a
+```
+
+
+
+
+
+### Native
+
 To build css & javascript run:
 
 ```shell
@@ -35,6 +75,8 @@ npm install
 npm run server
 npm run watch
 ```
+
+
 
 ## Install jruby in paralell to ruby homebrew
 
