@@ -8,26 +8,6 @@ java_import 'net.sourceforge.plantuml.FileFormat'
 java_import 'java.io.ByteArrayOutputStream'
 java_import 'java.io.FileOutputStream'
 
-DEFAULTS = <<~EOF
-
-  skinparam sequenceArrowColor #3ed715
-  skinparam sequenceLifeLineBorderColor #3ed715
-  skinparam sequenceLifeLineBackgroundColor #FF3300
-
-  skinparam sequenceParticipantBorderColor #CCCCCC
-  skinparam sequenceParticipantBackgroundColor #CCCCCC
-
-  skinparam sequenceActorBorderColor #CCCCCC
-  skinparam sequenceActorBackgroundColor #CCCCCC
-
-  skinparam sequenceBoxBorderColor #00AAFF
-  skinparam sequenceBoxBackgroundColor #LightBlue
-
-  skinparam noteBorderColor #F2F2F2
-  skinparam noteBackgroundColor #F2F2F2
-
-EOF
-
 module PlantumlRenderer
   module_function
 
@@ -40,6 +20,26 @@ module PlantumlRenderer
     # wrong: HTML5
     # untested: EPS, EPS_TEXT, XMI_STANDARD, XMI_STAR, XMI_ARGO, MJPEG
   }.freeze
+  
+  DEFAULTS = <<~EOF
+
+    skinparam sequenceArrowColor #3ed715
+    skinparam sequenceLifeLineBorderColor #3ed715
+    skinparam sequenceLifeLineBackgroundColor #FF3300
+
+    skinparam sequenceParticipantBorderColor #CCCCCC
+    skinparam sequenceParticipantBackgroundColor #CCCCCC
+
+    skinparam sequenceActorBorderColor #CCCCCC
+    skinparam sequenceActorBackgroundColor #CCCCCC
+
+    skinparam sequenceBoxBorderColor #00AAFF
+    skinparam sequenceBoxBackgroundColor #LightBlue
+
+    skinparam noteBorderColor #F2F2F2
+    skinparam noteBackgroundColor #F2F2F2
+
+  EOF
 
   def decorate(string)
     return string if string =~ /@start/

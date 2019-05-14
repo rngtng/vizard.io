@@ -97,7 +97,7 @@ get '/login' do
   end
 end
 
-get /(edit)?/ do
+get /\/(edit)?/ do
   haml :index
 end
 

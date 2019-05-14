@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'server'
+require './server'
 require 'rspec'
 require 'rack/test'
 
@@ -15,9 +15,9 @@ describe 'Uml Generator App' do
     Sinatra::Application
   end
 
-  it 'show index' do
+  it 'show index', :aggregate_failures do
     get '/'
-    last_response.should be_ok
-    last_response.body.should =~ '<h1>UML Generator</h1>'
+    expect(last_response).to be_ok
+    expect(last_response.body).to include('<h1>vizard.io</h1>')
   end
 end

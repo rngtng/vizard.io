@@ -16,5 +16,6 @@ gem 'sinatra'
 group :test do
   gem 'pry'
   gem 'rspec'
+  gem 'rack-test'
   gem 'rubocop'
 end
