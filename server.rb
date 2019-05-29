@@ -29,8 +29,8 @@ use Rack::Timeout, service_timeout: 20
 use Sass::Plugin::Rack
 
 Sass::Plugin.options.merge(
-  css_location: './public/css/',
-  template_location: 'public/css',
+  css_location: './docs/css/',
+  template_location: 'docs/css',
   style: :compressed
 )
 # use Rack::SassC, {
@@ -43,8 +43,8 @@ Sass::Plugin.options.merge(
 # }
 
 # Sass::Plugin.options.merge({
-#   :css_location      => './public/css/',
-#   :template_location => 'public/css',
+#   :css_location      => './docs/css/',
+#   :template_location => 'docs/css',
 #   :style             => :compressed,
 # })
 
