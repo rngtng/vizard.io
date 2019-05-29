@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta content='chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
+    <title>vizard.io - shiny UML Graphs on top of PlantUML</title>
+    <link href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css' media='screen' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/style.css?9' media='screen' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <header></header>
+    <section>
+        <div class='edit'>
+            <div class='editor-wrapper'></div>
+            <div class='view'></div>
+        </div>
+        <div class='browse'>
+            <div class='view'></div>
+        </div>
+    </section>
+    <footer>
+        graphs rendered with
+        <a href='http://plantuml.sourceforge.net' target='_blank'>PlantUml</a> &middot;
+        <a href='http://plantuml.sourceforge.net/PlantUML_Language_Reference_Guide.pdf' target='_blank'>Language Reference Guide</a> &middot;
+        <a href='https://github.com/rngtng/vizard' target='_blank'>Fork vizard.io on GitHub</a>
+    </footer>
+    <script id='headerTemplate' type='text/template'>
+        <div class='title'>
+            <h1>vizard.io</h1>
+        </div>
+        <div class='create'>
+            <form class='pure-form'>
+                <button class='pure-button' id='create'>Create a new diagram</button>
+            </form>
+        </div>
+    </script>
+    <script id='browserTemplate' type='text/template'>
+        <div class='start'>
+            <div class='title'>
+                <h1>vizard.io</h1>
+            </div>
+            <div class='create'>
+                <form class='pure-form'>
+                    <button class='pure-button' id='create'>Start with creating a new diagram!</button>
+                </form>
+            </div>
+        </div>
+    </script>
+    <script id='editHeaderTemplate' type='text/template'>
+        <div class='title'>
+            <h1>vizard.io</h1>
+            <div class='menu breadcrumb'>
+                <a href='/<%= itemPath %>' id='item' title='Click to rename'>
+                    <%= itemTitle %>
+                </a>
+            </div>
+            <form class='rename breadcrumb pure-form'>
+                <input id='modelId' type='text' value='<%= itemTitle %>'>
+                <button class='pure-button' id='rename'>Rename</button>
+                <button class='pure-button' id='cancelRename'>Cancel</button>
+            </form>
+        </div>
+        <div class='create'>
+            <form class='pure-form'>
+                <button class='pure-button' id='save'>Save</button>
+                <button class='pure-button' id='delete'>Delete</button>
+                <button class='pure-button' id='create'>Create a new diagram</button>
+            </form>
+        </div>
+    </script>
+    <script id='diagramTemplate' type='text/template'>
+        <div class='wrapper'>
+            <div class='menu'>
+                <a class='btnEdit' href='/edit/<%= itemPath %>' title='Edit'>Edit</a>
+                <a class='btnShow' href='/<%= itemPath %>' title='Show'>Show</a>
+                <a class='btnExtend' href='#extend' title='Zoom in'>+</a>
+                <a class='btnShrink' href='#shrink' title='Zoom out'>-</a>
+                <a class='btnDownload' download='<%= itemPath %>.png' href='data:image/png;base64,<%= image %>' title='Download'>Download</a>
+            </div>
+            <b><%= itemTitle %></b>
+            <div class='img'>
+                <img src='data:image/png;base64,<%= image %>' title='Click to <%= action %>'>
+            </div>
+        </div>
+    </script>
+    <script src='/bundle.js'></script>
+    <script type='text/javascript'>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-1074303-8', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>
