@@ -99,10 +99,10 @@ get '/login' do
   end
 end
 
-get %r{/(edit)?} do
-  haml :index
-end
-
 get '/ping' do
   'OK'
+end
+
+get %r{(/edit)?/.*} do
+  haml :index
 end

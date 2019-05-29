@@ -13159,7 +13159,7 @@ module.exports = Backbone.View.extend({
   createNew: function(event) {
     event.preventDefault();
 
-    var modelId =  'diagram' + Date.now() + '.pu';
+    var modelId =  'diagram' + Date.now() + '.puml';
 
     Backbone.history.navigate("/" + modelId, {trigger: true});
   },
@@ -13443,7 +13443,7 @@ module.exports = Backbone.View.extend({
 
   createNew: function(event) {
     event.preventDefault();
-    var modelId = 'diagram' + Date.now() + '.pu';
+    var modelId = 'diagram' + Date.now() + '.puml';
     Backbone.history.navigate("/" + modelId, {trigger: true});
   },
 
