@@ -50,6 +50,7 @@ Sass::Plugin.options.merge(
 
 set :haml, format: :html5, escape_attrs: false
 
+set :static, true
 set :public_folder, Proc.new { File.join(root, "docs") }
 
 helpers do
@@ -105,6 +106,6 @@ get '/ping' do
   'OK'
 end
 
-# get %r{(/edit)?/.*} do
-#   haml :index-old
-# end
+get %r{(/edit)?/.*} do
+  haml :'index-old'
+end

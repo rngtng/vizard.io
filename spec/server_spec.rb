@@ -26,6 +26,11 @@ describe 'Uml Generator App' do
     expect(last_response.body).to include('<h1>vizard.io</h1>')
   end
 
+  it 'show renders index', :aggregate_failures do
+    get '/bundle.js'
+    expect(last_response.body).to_not include('<h1>vizard.io</h1>')
+  end
+
   it 'edit renders index', :aggregate_failures do
     get '/edit/diagram1557870390342.pu'
     expect(last_response.body).to include('<h1>vizard.io</h1>')
