@@ -50,6 +50,8 @@ Sass::Plugin.options.merge(
 
 set :haml, format: :html5, escape_attrs: false
 
+set :public_folder, Proc.new { File.join(root, "docs") }
+
 helpers do
   def github
     @github ||= Github.new(ENV['GITHUB_ID'], ENV['GITHUB_SECRET'])
@@ -103,6 +105,6 @@ get '/ping' do
   'OK'
 end
 
-get %r{(/edit)?/.*} do
-  haml :index
-end
+# get %r{(/edit)?/.*} do
+#   haml :index-old
+# end
