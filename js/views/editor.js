@@ -14,9 +14,8 @@ module.exports = Backbone.View.extend({
   initialize: function(){
     _.bindAll(this, 'render', 'updateModel');
 
-    this.editor = this.initEditor();
-
-    this.listenTo(this.editor, 'change', this.updateModel);
+    this.editor = this.initEditor();    
+    this.editor.on('change', this.updateModel);
     this.listenTo(this.model, 'externalDataLoaded', this.updateEditor);
     this.render();
   },
