@@ -72,9 +72,9 @@ helpers do
 end
 
 # ---------------------------------------------------
-before do
-  redirect 'http://vizard.io' if request.host.include?('heroku')
-end
+# before do
+#   redirect 'http://vizard.io' if request.host.include?('heroku')
+# end
 
 # ---------------------------------------------------
 
