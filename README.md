@@ -10,10 +10,9 @@ npm run server
 
 ## Deploy
 
-When deploying to Heroku, make sure to set cfgs and enable multi-pack:
+When deploying to Heroku, make sure to set cfgs:
 
 ```shell  
-heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-multi.git
 heroku config:add RAKE_ENV=production
 ```
 
