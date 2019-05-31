@@ -28,7 +28,7 @@ module.exports = Backbone.Model.extend({
 
   updateImageDataWithoutDelay: function() {
     $.ajax({
-      url: '/render.png?' + this.cacheKey(),
+      url: 'http://api.vizard.io/render.png?' + this.cacheKey(),
       type: 'post',
       data: this.get('imageData'),
       headers: {
