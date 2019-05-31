@@ -438,6 +438,7 @@ module.exports = Backbone.Model.extend({
     $.ajax({
       url: 'http://api.vizard.io/render.png?' + this.cacheKey(),
       type: 'post',
+      crossDomain: true,
       data: this.get('imageData'),
       headers: {
         'Accept': 'image/png;base64'

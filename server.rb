@@ -87,6 +87,7 @@ end
 post '/render.:format' do
   set_content_type(format)
   cache_control :public
+  headers 'Access-Control-Allow-Origin' => '*'
   # cache(request.env["QUERY_STRING"], format) do
   PlantumlRenderer.render(request.body.string, format)
   # end
