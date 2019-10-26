@@ -2,7 +2,7 @@ var $ = require('jquery'),
   Backbone = require('backbone');
 
 require("./index.html");
-// require("./stylesheets/pure-min.css");
+require("./stylesheets/pure-min.css");
 
 Backbone.$ = $;
 window.$ = $;

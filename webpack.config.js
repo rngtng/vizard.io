@@ -1,6 +1,9 @@
 var webpack = require('webpack');
 var ExtractPlugin = require('extract-text-webpack-plugin');
 
+var extract_html = new ExtractPlugin('index.html')
+var extract_css = new ExtractPlugin('style.html')
+
 module.exports = {
     entry: "./main.js",
     output: {
@@ -8,7 +11,8 @@ module.exports = {
         filename: "bundle.js"
     },
     plugins: [
-        new ExtractPlugin('index.html')
+        extract_html,
+        extract_css
         // new webpack.optimize.CommonsChunkPlugin({
         //     name:      'main', // Move dependencies to our main file
         //     children:  true, // Look for common dependencies in all children,
@@ -19,13 +23,12 @@ module.exports = {
         loaders: [
           {
             test: /\.html$/,
-            loader: ExtractPlugin.extract('html', 'html')
+            loader: extract_html.extract('html', 'html?attrs=false')
+          },
+          {
+            test: /\.css$/,
+            loader: extract_css.extract('style', 'css')
           }
-          // ,
-          // {
-          //   test: /\.css$/,
-          //   loader: ExtractPlugin.extract('style', 'html')
-          // }
         ]
     }
 };

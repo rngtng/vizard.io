@@ -1,5 +1,4 @@
-var $ = require('jquery'),
-  Backbone     = require('backbone'),
+var Backbone     = require('backbone'),
   DiagramModel = require('./diagram'),
   Databackend  = require('../lib/databackend');
 

@@ -1,8 +1,8 @@
 var $ = require('jquery'),
   _  = require('underscore'),
   Backbone = require('backbone'),
-  ace      = require('brace'),
-  Firebase  = require('firebase');
+  ace      = require('brace');
+  // Firebase  = require('firebase');
   // Firepad = require('firepad');
 
 require('../lib/ace-mode-diagram');
@@ -25,7 +25,7 @@ module.exports = Backbone.View.extend({
 
   initEditor: function() {
     var model = this.model,
-    firepadRef = new Firebase('https://vizard.firebaseio.com/development'),
+    // firepadRef = new Firebase('https://vizard.firebaseio.com/development'),
     editor = ace.edit('editor-wrapper');
     // editor2 = Firepad.fromACE(firepadRef, editor, {
     //   defaultText: model.read()
