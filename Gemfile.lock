@@ -26,7 +26,7 @@ GEM
       spoon (~> 0.0)
     puma (3.12.6)
     puma (3.12.6-java)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-protection (2.0.5)
       rack
     rack-test (1.1.0)
